@@ -7,6 +7,7 @@ public class Business {
     private String id;
     private double latitude;
     private double longitude;
+    private String review;
 
     public Business(String name, String id, double latitude, double longitude) {
         this.name = name;
@@ -29,5 +30,13 @@ public class Business {
 
     public double getLongitude() {
         return longitude;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
     }
 }

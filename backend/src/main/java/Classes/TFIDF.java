@@ -40,37 +40,77 @@ public class TFIDF {
         }
         System.out.println("Business Class Created");
 
+        Set<String> uniqueBusiness = new HashSet<>();
         int index = 0;
         try {
             buffRead = new BufferedReader(new FileReader(reviewJSON));
             String line;
-            while (index < mapOfBusiness.size()) {
+            while (uniqueBusiness.size() != mapOfBusiness.size()) {
                 line = buffRead.readLine();
                 JsonObject reviewJson = gson.fromJson(line, JsonObject.class);
                 String id = String.valueOf(reviewJson.get("business_id")).substring(1, 23);
                 String businessReview = String.join(" ", String.valueOf(reviewJson.get("text")).split("[^a-zA-Z0-9'&]+"));
                 mapOfBusiness.get(id).setReview(businessReview);
+                uniqueBusiness.add(id);
                 index++;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         System.out.println("Business Reviews Added");
+        termFrequency();
+        inverseTermFrequency();
         return mapOfBusiness;
     }
+    /*
+    *  Finding Term Frequency: the number of times a word appears in a single review
+    *  TF = [term count] / [size of each document]
+    */
+    private static void termFrequency() {
 
-    private void tfidfCalculations() {
-        HashMap<String, Integer> frequencyTable = new HashMap<>();
         for (Business business : mapOfBusiness.values()) {
-            Set<String> uniqueWords = new HashSet<>(List.of(business.getReview().split("[^a-zA-Z0-9'&]+")));
-            for (String word : uniqueWords) {
-                if (frequencyTable.containsKey(word)) {
-                    frequencyTable.put(word, frequencyTable.get(word) + 1);
+            HashMap<String, Integer> termCount = new HashMap<>();
+            HashMap<String, Double> termFrequencyTF = new HashMap<>();
+            for (String word : business.getReview().split("[^a-zA-Z0-9'&]+")) {
+                if (termCount.containsKey(word)) {
+                    termCount.put(word, termCount.get(word) + 1);
                 } else {
-                    frequencyTable.put(word, 1);
+                    termCount.put(word, 1);
+                }
+            }
+            for (String word : termCount.keySet()) {
+                int term = termCount.get(word);
+                int size = termCount.size();
+                termFrequencyTF.put(word, (double) term / size);
+                business.setTermFrequency(termFrequencyTF);
+            }
+        }
+    }
+
+    /*
+    * Inverse Document Frequency: determine how rare or common a word is by seeing how many times it appears across the entire document
+    * IDF = log ( [total number of documents in corpus] / [number of documents that contain term] );
+     */
+    private static void inverseTermFrequency() {
+        HashMap<String, Integer> frequencyAcrossCorpus = new HashMap<>();
+        for (Business business : mapOfBusiness.values()) {
+            for (String term : ((List.of(business.getReview().split("[^a-zA-Z0-9'&]+"))))) {
+                if (frequencyAcrossCorpus.containsKey(term)) {
+                    frequencyAcrossCorpus.put(term, frequencyAcrossCorpus.get(term) + 1);
+                } else {
+                    frequencyAcrossCorpus.put(term, 1);
                 }
             }
         }
+
+        HashMap<String, Double> inverseTermFrequency = new HashMap<>();
+        for (String term : frequencyAcrossCorpus.keySet()) {
+            double count = frequencyAcrossCorpus.get(term);
+            double idf = Math.log10(mapOfBusiness.size()/count);
+            inverseTermFrequency.put(term, idf);
+        }
+
+        System.out.println(inverseTermFrequency);
 
     }
 

@@ -1,4 +1,7 @@
 package Classes;
+
+import java.util.HashMap;
+
 /*
 * This is the business helper class: It will store all the required information regarding each Business.
  */
@@ -8,6 +11,7 @@ public class Business {
     private double latitude;
     private double longitude;
     private String review;
+    private HashMap<String, Double> termFrequency;
 
     public Business(String name, String id, double latitude, double longitude) {
         this.name = name;
@@ -32,11 +36,9 @@ public class Business {
         return longitude;
     }
 
-    public String getReview() {
-        return review;
-    }
+    public String getReview() {return review; }
 
-    public void setReview(String review) {
-        this.review = review;
-    }
+    public void setReview(String review) { this.review = review; }
+
+    public void setTermFrequency(HashMap<String, Double> termFrequency) { this.termFrequency = termFrequency; }
 }

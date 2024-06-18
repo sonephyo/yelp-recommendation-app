@@ -11,6 +11,7 @@ public class TesterClass {
         File businessJSON = new File("../../yelp_dataset/yelp_academic_dataset_business.json");
         File reviewJSON = new File("../../yelp_dataset/yelp_academic_dataset_review.json");
         HashMap<String, Business> businessHashMap = TFIDF.tfidfCalculations(businessJSON, reviewJSON);
+        System.out.println(businessHashMap);
 
     }
 }

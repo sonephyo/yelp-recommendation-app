@@ -7,10 +7,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /*
 By taking two JSON Files, it converts each business to the Business class and combines the info from the two files into one class.
@@ -18,6 +15,9 @@ The things stored are ID, Name, Longitude, Latitude, and Reviews, which are in t
  */
 public class TFIDF {
     private static HashMap<String, Business> mapOfBusiness;
+    private static HashMap<String, Double> inverseTermFrequency = new HashMap<>();
+    private static HashMap<String, Integer> termFrequencyAcrossCorpus = new HashMap<>();
+
 
     public static HashMap<String, Business> tfidfCalculations(File businessJSON, File reviewJSON) {
         mapOfBusiness = new HashMap<>();
@@ -40,26 +40,31 @@ public class TFIDF {
         }
         System.out.println("Business Class Created");
 
-        Set<String> uniqueBusiness = new HashSet<>();
         int index = 0;
         try {
             buffRead = new BufferedReader(new FileReader(reviewJSON));
             String line;
-            while (uniqueBusiness.size() != mapOfBusiness.size()) {
+            while (index < mapOfBusiness.size()) {
                 line = buffRead.readLine();
                 JsonObject reviewJson = gson.fromJson(line, JsonObject.class);
                 String id = String.valueOf(reviewJson.get("business_id")).substring(1, 23);
                 String businessReview = String.join(" ", String.valueOf(reviewJson.get("text")).split("[^a-zA-Z0-9'&]+"));
                 mapOfBusiness.get(id).setReview(businessReview);
-                uniqueBusiness.add(id);
                 index++;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        /*
+        Removing business with null reviews
+         */
+        mapOfBusiness.values().removeIf(business -> business.getReview() == null);
         System.out.println("Business Reviews Added");
+
+
         termFrequency();
-        inverseTermFrequency();
+        inverseDocumentFrequency();
+        computeTFIDF();
         return mapOfBusiness;
     }
     /*
@@ -67,7 +72,6 @@ public class TFIDF {
     *  TF = [term count] / [size of each document]
     */
     private static void termFrequency() {
-
         for (Business business : mapOfBusiness.values()) {
             HashMap<String, Integer> termCount = new HashMap<>();
             HashMap<String, Double> termFrequencyTF = new HashMap<>();
@@ -90,29 +94,49 @@ public class TFIDF {
     /*
     * Inverse Document Frequency: determine how rare or common a word is by seeing how many times it appears across the entire document
     * IDF = log ( [total number of documents in corpus] / [number of documents that contain term] );
+    * The lower the number, the more common it is.
      */
-    private static void inverseTermFrequency() {
-        HashMap<String, Integer> frequencyAcrossCorpus = new HashMap<>();
+    private static void setFrequencyTableAcrossCorpus() {
         for (Business business : mapOfBusiness.values()) {
-            for (String term : ((List.of(business.getReview().split("[^a-zA-Z0-9'&]+"))))) {
-                if (frequencyAcrossCorpus.containsKey(term)) {
-                    frequencyAcrossCorpus.put(term, frequencyAcrossCorpus.get(term) + 1);
+            Set<String> uniqueWords = new HashSet<>(List.of(business.getReview().split("[^a-zA-Z0-9'&]+")));
+            for (String word : uniqueWords) {
+                if (termFrequencyAcrossCorpus.containsKey(word)) {
+                    termFrequencyAcrossCorpus.put(word, termFrequencyAcrossCorpus.get(word) + 1);
                 } else {
-                    frequencyAcrossCorpus.put(term, 1);
+                    termFrequencyAcrossCorpus.put(word, 1);
                 }
             }
         }
-
-        HashMap<String, Double> inverseTermFrequency = new HashMap<>();
-        for (String term : frequencyAcrossCorpus.keySet()) {
-            double count = frequencyAcrossCorpus.get(term);
-            double idf = Math.log10(mapOfBusiness.size()/count);
-            inverseTermFrequency.put(term, idf);
-        }
-
-        System.out.println(inverseTermFrequency);
-
     }
 
 
+    private static void inverseDocumentFrequency() {
+        setFrequencyTableAcrossCorpus();
+        int documentSize = termFrequencyAcrossCorpus.size();
+        for (Business business : mapOfBusiness.values()) {
+            HashMap<String, Double> idfTable = new HashMap<>();
+            for (String word : business.getReview().split("[^a-zA-Z0-9'&]+")) {
+                double idf = Math.log10(documentSize / (double) termFrequencyAcrossCorpus.get(word));
+                idfTable.put(word, idf);
+            }
+            business.setInverseDocumentFrequency(idfTable);
+        }
+    }
+
+    /*
+    TFIDF is the measure of how important a word is to a set of documents. This determines all the importance of the words found in reviews.
+    TFIDF = TF * IDF
+     */
+    private static void computeTFIDF() {
+        for (Business business : mapOfBusiness.values()) {
+            HashMap<String, Double> tfidf = new HashMap<>();
+            HashMap<String, Double> termFrequencyTF = business.getTermFrequency();
+            for (String term : termFrequencyTF.keySet()) {
+                double tf = termFrequencyTF.get(term);
+                double idf = inverseTermFrequency.getOrDefault(term, 0.0);
+                tfidf.put(term, tf * idf);
+            }
+            business.setTfidf(tfidf);
+        }
+    }
 }

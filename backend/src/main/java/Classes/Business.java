@@ -12,6 +12,8 @@ public class Business {
     private double longitude;
     private String review;
     private HashMap<String, Double> termFrequency;
+    private HashMap<String, Double> inverseDocumentFrequency;
+    private HashMap<String, Double> tfidf;
 
     public Business(String name, String id, double latitude, double longitude) {
         this.name = name;
@@ -41,4 +43,20 @@ public class Business {
     public void setReview(String review) { this.review = review; }
 
     public void setTermFrequency(HashMap<String, Double> termFrequency) { this.termFrequency = termFrequency; }
+
+    public HashMap<String, Double> getTermFrequency() {
+        return termFrequency;
+    }
+
+    public void setTfidf(HashMap<String, Double> tfidf) {
+        this.tfidf = tfidf;
+    }
+
+    public HashMap<String, Double> getInverseDocumentFrequency() {
+        return inverseDocumentFrequency;
+    }
+
+    public void setInverseDocumentFrequency(HashMap<String, Double> inverseDocumentFrequency) {
+        this.inverseDocumentFrequency = inverseDocumentFrequency;
+    }
 }

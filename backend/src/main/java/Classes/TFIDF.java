@@ -64,6 +64,8 @@ public class TFIDF {
         termFrequency();
         inverseDocumentFrequency();
         computeTFIDF();
+        System.out.println("TFIDF Computed");
+
         return mapOfBusiness;
     }
     /*
@@ -138,6 +140,8 @@ public class TFIDF {
             business.setTfidf(tfidf);
         }
     }
+
+
 
     /*
     Cosine Similarity

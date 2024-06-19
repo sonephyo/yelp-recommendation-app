@@ -15,6 +15,7 @@ public class Business {
     private HashMap<String, Double> inverseDocumentFrequency;
     private HashMap<String, Double> tfidf;
 
+
     public Business(String name, String id, double latitude, double longitude) {
         this.name = name;
         this.id = id;
@@ -55,8 +56,10 @@ public class Business {
     public HashMap<String, Double> getInverseDocumentFrequency() {
         return inverseDocumentFrequency;
     }
-
     public void setInverseDocumentFrequency(HashMap<String, Double> inverseDocumentFrequency) {
         this.inverseDocumentFrequency = inverseDocumentFrequency;
+    }
+    public HashMap<String, Double> getTfidf() {
+        return tfidf;
     }
 }

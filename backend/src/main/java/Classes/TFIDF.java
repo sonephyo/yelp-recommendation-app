@@ -15,7 +15,6 @@ The things stored are ID, Name, Longitude, Latitude, and Reviews, which are in t
  */
 public class TFIDF {
     private static HashMap<String, Business> mapOfBusiness;
-    private static HashMap<String, Double> inverseTermFrequency = new HashMap<>();
     private static HashMap<String, Integer> termFrequencyAcrossCorpus = new HashMap<>();
 
 
@@ -133,10 +132,15 @@ public class TFIDF {
             HashMap<String, Double> termFrequencyTF = business.getTermFrequency();
             for (String term : termFrequencyTF.keySet()) {
                 double tf = termFrequencyTF.get(term);
-                double idf = inverseTermFrequency.getOrDefault(term, 0.0);
+                double idf = termFrequencyAcrossCorpus.getOrDefault(term, 0);
                 tfidf.put(term, tf * idf);
             }
             business.setTfidf(tfidf);
         }
     }
+
+    /*
+    Cosine Similarity
+     */
+
 }

@@ -1,17 +1,15 @@
 package Classes;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 /*
 * Cosine similarity determines how similar two things are.
 * By using the TFIDF values, we determine how similar every other business is when compared to the main business.
-*
+* Cosine Similarity = (vector a * vector b) / (sqrt(vectorA^2) sqrt(vectorB^2))
  */
 public class CosineSimilarity {
         public static HashMap<String, Double> cosineSimilarity(HashMap<String, Business> mapOfBusiness, String sourceBusinessID) throws IOException {
-            // Cosine Similarity = (vector a * vector b) / (sqrt(vectorA^2) sqrt(vectorB^2))
             Business userInput = mapOfBusiness.get(sourceBusinessID);
             HashMap<String, Double> similarBusinessScore = new HashMap<>();
             // Calculate the dot product
@@ -32,6 +30,30 @@ public class CosineSimilarity {
                 similarBusinessScore.put(business.getId(), cosineSimilarity);
             }
             System.out.println("Cosine Similarity Complete");
+            System.out.println(similarBusinessScore.get(sourceBusinessID));
+
+            similarBusinessScore = sortByValue(similarBusinessScore);
             return similarBusinessScore;
         }
+
+        // Credits to GeeksforGeeks
+    public static HashMap<String, Double> sortByValue(HashMap<String, Double> hm)
+    {
+        List<Map.Entry<String, Double> > list = new LinkedList<Map.Entry<String, Double> >(hm.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<String, Double> >() {
+            public int compare(Map.Entry<String, Double> o1,
+                               Map.Entry<String, Double> o2)
+            {
+                return (o1.getValue()).compareTo(o2.getValue());
+            }
+        });
+
+        HashMap<String, Double> temp = new LinkedHashMap<String, Double>();
+        for (Map.Entry<String, Double> aa : list) {
+            temp.put(aa.getKey(), aa.getValue());
+        }
+        return temp;
+    }
+
+
 }

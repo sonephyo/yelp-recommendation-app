@@ -17,7 +17,6 @@ public class TFIDF {
     private static HashMap<String, Business> mapOfBusiness;
     private static HashMap<String, Integer> termFrequencyAcrossCorpus = new HashMap<>();
 
-
     public static HashMap<String, Business> tfidfCalculations(File businessJSON, File reviewJSON) {
         mapOfBusiness = new HashMap<>();
         Gson gson = new Gson();
@@ -54,6 +53,7 @@ public class TFIDF {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         /*
         Removing business with null reviews
          */
@@ -68,10 +68,11 @@ public class TFIDF {
 
         return mapOfBusiness;
     }
+
     /*
-    *  Finding Term Frequency: the number of times a word appears in a single review
-    *  TF = [term count] / [size of each document]
-    */
+     *  Finding Term Frequency: the number of times a word appears in a single review
+     *  TF = [term count] / [size of each document]
+     */
     private static void termFrequency() {
         for (Business business : mapOfBusiness.values()) {
             HashMap<String, Integer> termCount = new HashMap<>();
@@ -93,9 +94,9 @@ public class TFIDF {
     }
 
     /*
-    * Inverse Document Frequency: determine how rare or common a word is by seeing how many times it appears across the entire document
-    * IDF = log ( [total number of documents in corpus] / [number of documents that contain term] );
-    * The lower the number, the more common it is.
+     * Inverse Document Frequency: determine how rare or common a word is by seeing how many times it appears across the entire document
+     * IDF = log ( [total number of documents in corpus] / [number of documents that contain term] );
+     * The lower the number, the more common it is.
      */
     private static void setFrequencyTableAcrossCorpus() {
         for (Business business : mapOfBusiness.values()) {
@@ -140,11 +141,4 @@ public class TFIDF {
             business.setTfidf(tfidf);
         }
     }
-
-
-
-    /*
-    Cosine Similarity
-     */
-
 }

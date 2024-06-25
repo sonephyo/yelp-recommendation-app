@@ -3,10 +3,7 @@ package Classes;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 /*
@@ -65,6 +62,7 @@ public class TFIDF {
         inverseDocumentFrequency();
         computeTFIDF();
         System.out.println("TFIDF Computed");
+        convertToJson();
 
         return mapOfBusiness;
     }
@@ -141,4 +139,20 @@ public class TFIDF {
             business.setTfidf(tfidf);
         }
     }
+
+    /*
+    Store the data locally so that it can be accessed by the controllers.
+     */
+    private static void convertToJson() {
+        Gson gson = new Gson();
+        String fileName = "BusinessJSON";
+        try (FileWriter writer = new FileWriter(fileName)) {
+            gson.toJson(mapOfBusiness, writer);
+            System.out.println("HashMap saved as JSON file: " + fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

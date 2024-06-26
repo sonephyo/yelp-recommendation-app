@@ -2,18 +2,19 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react'
+import {motion, useCycle} from "framer-motion"
+import Cbutton from '../customComponents/Cbutton';
 
 const Navigation = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  //        ${isOpen ? "hidden" : "block"}
+  const [isOpen, toogleIsOpen] = useCycle(false, true)
 
   return (
     <>
-      <div className="flex flex-col justify-center mx-10 my-6 text-2xl font-semibold">
-        <div className="flex flex-col border-4 p-6 rounded-[3rem] border-cButtonStrokeBlue items-center gap-5 shadow-md shadow-cButtonShadowBlue">
+      <div className="absolute w-full flex flex-col justify-center items-center my-6 text-2xl font-semibold z-30">
+        <motion.div className="flex sm:container w-[20rem] min-[425px]:w-[25rem] sm:w-full flex-col border-4 p-6 md:py-3 rounded-[3rem] border-cButtonStrokeBlue items-center gap-5 shadow-md shadow-cButtonShadowBlue bg-white">
           {/* Mobile Device View */}
           <div
-            className={`flex flex-row w-full  justify-between items-center gap-6`}
+            className={`flex flex-row w-full justify-between items-center gap-6`}
           >
             <div className="w-[200px]">
               <Image
@@ -23,26 +24,39 @@ const Navigation = () => {
                 height={16}
               />
             </div>
-            <button className="w-[30px]">
+            <button className=" md:hidden w-[30px]">
               <Image
                 src={isOpen ? `logo/cross_nav.svg` : `logo/menu_nav.svg`}
                 alt="Menu"
                 width={30}
                 height={16}
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => toogleIsOpen()}
               />
             </button>
+            <div className="hidden md:flex md:flex-row text-lg gap-8 my-1 text-center overflow-hidden items-center">
+              <Link href="">Project Information</Link>
+              <Link href="">About Us</Link>
+              <Link href="">Support</Link>
+              <div className='hidden lg:block'>
+                <Cbutton text='Try It Out' classes='text-base'/>
+              </div>
+            </div>
           </div>
-          <div
+          <motion.div
             className={`${
               isOpen ? "flex flex-col" : "hidden"
-            } items-center gap-5 my-5 text-center`}
+            } items-center gap-5 my-5 text-center overflow-hidden`}
+            animate={{
+              opacity: isOpen ? 1 : 0,
+              height: isOpen ? "auto" : 0,
+            }}
+            transition={{ duration: 0.2 }}
           >
             <Link href="">Project Information</Link>
             <Link href="">About Us</Link>
             <Link href="">Support</Link>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </>
   );

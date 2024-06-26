@@ -14,7 +14,8 @@ const config: Config = {
         "cButtonStrokeBlue": "#E3F2FD",
         "cButtonShadowBlue": "#AFD6EF",
         "cYellow": "#FFD99A",
-        "cButtonBorderYellow": "#9E7736",
+        "cButtonBorderYellow": "#BA6A20",
+        "cButtonHoverYellow": "#FDBD51"
       },
     },
   },

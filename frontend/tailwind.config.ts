@@ -14,7 +14,7 @@ const config: Config = {
         "cButtonStrokeBlue": "#E3F2FD",
         "cButtonShadowBlue": "#AFD6EF",
         "cYellow": "#FFD99A",
-        "cButtonBorderYellow": "#d1b17d",
+        "cButtonBorderYellow": "#8a6529",
         "cButtonHoverYellow": "#FDBD51"
       },
       screens: {

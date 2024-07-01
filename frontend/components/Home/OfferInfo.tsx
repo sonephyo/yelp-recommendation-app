@@ -101,5 +101,3 @@ const PopUpBox = ({
 };
 
 export default OfferInfo;
-
-export default OfferInfo;

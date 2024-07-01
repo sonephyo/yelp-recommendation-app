@@ -11,7 +11,7 @@ const Cbutton = ({text, classes}:
     <motion.button
       whileHover={{scale: 1.1}}
       whileTap= {{scale: 0.9}}
-     className={` border-[3px] p-2 rounded-2xl border-black bg-cYellow hover:bg-cButtonHoverYellow hover:text-white ${classes}`}>
+     className={` border-[3px] p-2 rounded-2xl border-cButtonBorderYellow bg-cYellow hover:bg-cButtonHoverYellow hover:text-white ${classes}`}>
       {text}
     </motion.button>
   );

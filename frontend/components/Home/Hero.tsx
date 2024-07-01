@@ -25,29 +25,15 @@ const Hero = () => {
         <Box topPosition={"10vh"} leftPosition={"90vw"} />
       </div>
 
-      <div className=" flex flex-col lg:flex-row justify-center gap-9 md:gap-0 items-center">
+      <div className=" flex flex-col lg:flex-row justify-center gap-9 md:gap-0 items-center md:translate-y-40 lg:translate-y-0">
         <div className="relative h-[70vh] md:hidden">
           <p className="absolute w-full font-bold text-5xl italic flex flex-row justify-center items-center z-20 bottom-[20vh] ">
             Whereabouts
           </p>
         </div>
-        <motion.div
-          initial={{
-            translateY: -10,
-            rotate: 45
-          }}
-          animate={{
-            translateY: [10, -10, 10],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            delay: 0.5,
-          }}
-          className="hidden md:grid md:grid-rows-3 grid-flow-col h-full my-auto gap-2 md:translate-y-10 lg:translate-y-0"
-        >
+        <div className="hidden md:grid md:grid-rows-3 grid-flow-col h-full my-auto rotate-45 gap-2 ">
           {[1, 2, 3, 4, 5, 6].map((index) => (
-            <motion.div
+            <div
               key={index}
               className={`${
                 index == 1 || index == 6 ? " invisible" : ""
@@ -55,10 +41,10 @@ const Hero = () => {
               style={{
                 boxShadow: "14px 0px 45.9px 0px #74B8FF",
               }}
-            ></motion.div>
+            ></div>
           ))}
-        </motion.div>
-        <div className="w-[80vw] sm:w-[25rem] h-auto mx-auto md:mx-0 lg:-translate-x-32 flex flex-col gap-2 lg:h-screen justify-center lg:order-first">
+        </div>
+        <div className="w-[80vw] sm:w-[25rem] h-40 mx-auto md:mx-0 lg:-translate-x-32 flex flex-col gap-2 lg:h-screen justify-center lg:order-first">
           <h1 className="hidden md:block font-bold text-5xl -translate-x-2 italic">
             Whereabouts
           </h1>

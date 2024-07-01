@@ -23,7 +23,8 @@ public class BusinessController {
         Gson gson = new Gson();
         HashMap<String, Business> tempBusinessMap = new HashMap<>();
         try (FileReader reader = new FileReader(fileName)) {
-            Type type = new TypeToken<HashMap<String, Business>>(){}.getType();
+            Type type = new TypeToken<HashMap<String, Business>>() {
+            }.getType();
             tempBusinessMap = gson.fromJson(reader, type);
         } catch (IOException e) {
             e.printStackTrace();

@@ -17,6 +17,7 @@ public class Business {
     private HashMap<String, Double> termFrequency;
     private HashMap<String, Double> inverseDocumentFrequency;
     private HashMap<String, Double> tfidf;
+    private HashMap<String, Double> neighboringBusiness;
 
     public Business(String name, String id, double latitude, double longitude) {
         this.name = name;

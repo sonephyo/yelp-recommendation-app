@@ -14,11 +14,20 @@ const config: Config = {
         "cButtonStrokeBlue": "#E3F2FD",
         "cButtonShadowBlue": "#AFD6EF",
         "cYellow": "#FFD99A",
-        "cButtonBorderYellow": "#BA6A20",
+        "cButtonBorderYellow": "#d1b17d",
         "cButtonHoverYellow": "#FDBD51"
       },
+      screens: {
+        'landscape': {'raw': '(orientation: landscape)'},
+      }
     },
   },
-  plugins: [],
+  plugins: [
+    require('daisyui')
+  ],
+  daisyui: {
+    themes: ['light'],
+    darkTheme: 'dark',
+  }
 };
 export default config;

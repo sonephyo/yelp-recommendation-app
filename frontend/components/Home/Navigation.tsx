@@ -33,7 +33,7 @@ const Navigation = () => {
                 onClick={() => toogleIsOpen()}
               />
             </button>
-            <div className="hidden md:flex md:flex-row text-lg gap-8 my-1 text-center overflow-hidden items-center">
+            <div className="hidden md:flex md:flex-row text-lg gap-8 my-1 text-center items-center">
               <Link href="">Project Information</Link>
               <Link href="">About Us</Link>
               <Link href="">Support</Link>

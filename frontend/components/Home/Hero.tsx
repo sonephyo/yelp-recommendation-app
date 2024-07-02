@@ -40,7 +40,7 @@ const Hero = () => {
             translateY: [10, -10, 10],
           }}
           transition={{
-            duration: 4,
+            duration: 2,
             repeat: Infinity,
             delay: 0.5,
           }}

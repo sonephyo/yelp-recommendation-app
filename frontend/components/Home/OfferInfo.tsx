@@ -8,7 +8,7 @@ const OfferInfo = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   return (
-    <div className="flex flex-col items-center min-h-[50vh]">
+    <div className="flex flex-col items-center my-10">
       <h2 className=" text-4xl font-bold italic mb-3 md:mb-10 ">What we offer</h2>
       <div className="flex flex-col gap-16 md:flex-row">
         <div className="card bg-gradient-to-br from-blue-300 to-blue-200 w-[80vw] max-w-80 ">
@@ -76,7 +76,7 @@ const PopUpBox = ({
   return (
     <div className={`${isOpen ? "block" : "hidden"}`}>
       <button
-        className="w-10 fixed z-[60] top-[calc(50vh-31vh)] right-[10vw] bg-white p-3 rounded-full shadow-xl shadow-cButtonShadowBlue landscape:-translate-y-10 "
+        className="w-10 fixed z-[60] top-[calc(50vh-31vh)] lg:top-[10vh] right-[10vw] bg-white p-3 rounded-full shadow-xl shadow-cButtonShadowBlue landscape:-translate-y-10 "
         onClick={() => {
           setisOpen(false);
         }}
@@ -87,8 +87,9 @@ const PopUpBox = ({
         controls
         autoPlay
         muted
+        loop
         ref={videoRef}
-        className="fixed bg-slate-900 w-[80vw] h-[50vh] z-[60] top-[calc(50vh-25vh)] left-[10vw] rounded-[3rem] shadow-xl shadow-cButtonShadowBlue"
+        className="fixed bg-slate-900 w-[80vw] h-[50vh] lg:h-[70vh] z-[60] top-[calc(50vh-25vh)] lg:top-[15vh] left-[10vw] rounded-[3rem] shadow-xl shadow-cButtonShadowBlue"
       >
         <source src={"/video.mov"} type="video/mp4" />
       </video>

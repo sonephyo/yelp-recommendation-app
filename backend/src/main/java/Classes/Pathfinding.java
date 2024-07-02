@@ -13,6 +13,17 @@ public class Pathfinding {
         this.vertices = new ArrayList<>();
     }
 
+    public Pathfinding createGraph(String businessID, HashMap<String, Business> mapOfBusiness) {
+        HashMap<String, Double> listOfLocations = geographicFilter(businessID, mapOfBusiness);
+        Pathfinding path = new Pathfinding();
+        Vertex originVertex = path.addVertex(businessID);
+        for (String destinationBusinessID : listOfLocations.keySet()) {
+            Vertex destinationVertex = path.addVertex(destinationBusinessID);
+            path.addEdge(originVertex, destinationVertex, listOfLocations.get(destinationBusinessID));
+        }
+        return path;
+    }
+
     public Vertex addVertex(String businessID) {
         Vertex vertex = new Vertex(businessID);
         vertices.add(vertex);
@@ -20,8 +31,7 @@ public class Pathfinding {
     }
 
     // distance - found using haversine formula
-    public void addEdge(Vertex source, Vertex destination) {
-        int distance = 0; // TEMP: TODO: Make it so you use the haversine formula to determine distance
+    public void addEdge(Vertex source, Vertex destination, double distance) {
         source.addEdge(destination, distance);
         destination.addEdge(source, distance);
     }
@@ -40,7 +50,7 @@ public class Pathfinding {
     We collect 1000 random business that are connected to the root business.
     We find their distance from the root.
      */
-    public void geographicFilter(String businessID, HashMap<String, Business> mapOfBusiness) {
+    public HashMap<String, Double> geographicFilter(String businessID, HashMap<String, Business> mapOfBusiness) {
         HashMap<String, Double> closestBusiness = new HashMap<>();
         ArrayList<String> neighbors = new ArrayList<>(mapOfBusiness.keySet());
         Collections.shuffle(neighbors);
@@ -66,7 +76,7 @@ public class Pathfinding {
             double distance = c * rad;
             closestBusiness.put(neighbors.get(i), distance);
         }
-        mapOfBusiness.get(businessID).setNeighboringBusiness(closestBusiness);
+        return closestBusiness;
     }
 
     /*
@@ -81,7 +91,7 @@ public class Pathfinding {
             this.edges = new ArrayList<Edge>();
         }
 
-        public void addEdge(Vertex destination, Integer distance) {
+        public void addEdge(Vertex destination, double distance) {
             this.edges.add(new Edge(this, destination, distance));
         }
 
@@ -100,6 +110,9 @@ public class Pathfinding {
 
                 message += this.edges.get(i).getDestination().businessID;
 
+                message += " (" + this.edges.get(i).getDistance() + ")";
+
+
                 if (i != this.edges.size() - 1) {
                     message += ", ";
                 }
@@ -111,9 +124,9 @@ public class Pathfinding {
     static class Edge {
         private Vertex root;
         private Vertex destination;
-        private Integer distance;
+        private double distance;
 
-        public Edge(Vertex root, Vertex destination, Integer distance) {
+        public Edge(Vertex root, Vertex destination, double distance) {
             this.root = root;
             this.destination = destination;
             this.distance = distance;
@@ -127,6 +140,9 @@ public class Pathfinding {
             return destination;
         }
 
+        public double getDistance() {
+            return distance;
+        }
     }
 }
 

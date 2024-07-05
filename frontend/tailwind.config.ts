@@ -19,6 +19,9 @@ const config: Config = {
       },
       screens: {
         'landscape': {'raw': '(orientation: landscape)'},
+      },
+      boxShadow: {
+        'cMapButtonShadow': '0px 4px 7px 0px #8BBADC'
       }
     },
   },

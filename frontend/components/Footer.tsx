@@ -55,10 +55,10 @@ const Footer = () => {
               <p>sonephyo7777777@gmail.com</p>
             </div>
             <div className=" text-sm">
-              <p className=" font-semibold text-base">Saurav</p>
+              <p className=" font-semibold text-base">Saurav Lamichhane</p>
               <Link href="">Website Portfolio</Link>
               <div className="flex flex-row items-center">
-                <Link href="">
+                <Link href="https://github.com/s-Aura-v">
                   <Image
                     src="svgs/github.svg"
                     alt="github"
@@ -75,7 +75,7 @@ const Footer = () => {
                   />
                 </Link>
               </div>
-              <p>sonephyo7777777@gmail.com</p>
+              <p>sauravl2004@gmail.com</p>
             </div>
           </div>
         </div>

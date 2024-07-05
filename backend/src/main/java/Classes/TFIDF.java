@@ -57,7 +57,6 @@ public class TFIDF {
         mapOfBusiness.values().removeIf(business -> business.getReview() == null);
         System.out.println("Business Reviews Added");
 
-
         termFrequency();
         inverseDocumentFrequency();
         computeTFIDF();

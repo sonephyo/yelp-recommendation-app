@@ -15,10 +15,10 @@ public class TesterClass {
         File businessJSON = new File("../../yelp_dataset/yelp_academic_dataset_business.json");
         File reviewJSON = new File("../../yelp_dataset/yelp_academic_dataset_review.json");
         HashMap<String, Business> businessHashMap = TFIDF.tfidfCalculations(businessJSON, reviewJSON);
-        cosineSimilarity(businessHashMap, "smRQA9crZ6SwUrLATMSVPg");
+        HashMap<String, Double> similarityHashMap = cosineSimilarity(businessHashMap, "smRQA9crZ6SwUrLATMSVPg");
 
         Pathfinding businessPath = new Pathfinding();
-        Pathfinding path2 = businessPath.createGraph("smRQA9crZ6SwUrLATMSVPg", businessHashMap);
+        Pathfinding path2 = businessPath.createGraph("smRQA9crZ6SwUrLATMSVPg", businessHashMap, similarityHashMap);
         path2.print();
 
 

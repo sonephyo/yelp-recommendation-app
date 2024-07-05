@@ -13,8 +13,9 @@ public class Pathfinding {
         this.vertices = new ArrayList<>();
     }
 
-    public Pathfinding createGraph(String businessID, HashMap<String, Business> mapOfBusiness) {
-        HashMap<String, Double> listOfLocations = geographicFilter(businessID, mapOfBusiness);
+    public Pathfinding createGraph(String businessID, HashMap<String, Business> mapOfBusiness, HashMap<String, Double> similarBusinessHashMap) {
+        String[] neighbors = similarBusinessHashMap.keySet().toArray(new String[1000]);
+        HashMap<String, Double> listOfLocations = geographicFilter(businessID, mapOfBusiness, neighbors);
         Pathfinding path = new Pathfinding();
         Vertex originVertex = path.addVertex(businessID);
         for (String destinationBusinessID : listOfLocations.keySet()) {
@@ -22,6 +23,13 @@ public class Pathfinding {
             path.addEdge(originVertex, destinationVertex, listOfLocations.get(destinationBusinessID));
         }
         return path;
+    }
+
+    /*
+    For each of the 1000 business,find the four closest ones and connect it together.
+     */
+    private void createNeighboringPaths(String source, HashMap<String, Business> mapOfBusiness) {
+
     }
 
     public Vertex addVertex(String businessID) {
@@ -50,18 +58,16 @@ public class Pathfinding {
     We collect 1000 random business that are connected to the root business.
     We find their distance from the root.
      */
-    public HashMap<String, Double> geographicFilter(String businessID, HashMap<String, Business> mapOfBusiness) {
+    public HashMap<String, Double> geographicFilter(String businessID, HashMap<String, Business> mapOfBusiness, String[] neighbors) {
         HashMap<String, Double> closestBusiness = new HashMap<>();
-        ArrayList<String> neighbors = new ArrayList<>(mapOfBusiness.keySet());
-        Collections.shuffle(neighbors);
         Business sourceBusiness = mapOfBusiness.get(businessID);
         double latDistance = 0;
         double longDistance = 0;
         double sourceLat = sourceBusiness.getLatitude();
         double sourceLong = sourceBusiness.getLongitude();
         for (int i = 0; i < 1000; i++) {
-            double destinationLat = mapOfBusiness.get(neighbors.get(i)).getLatitude();
-            double destinationLong = mapOfBusiness.get(neighbors.get(i)).getLongitude();
+            double destinationLat = mapOfBusiness.get(neighbors[i]).getLatitude();
+            double destinationLong = mapOfBusiness.get(neighbors[i]).getLongitude();
 
             latDistance = (sourceLat - destinationLat) * (Math.PI / 180);
             longDistance = (sourceLong - destinationLong) * (Math.PI / 180);
@@ -71,13 +77,36 @@ public class Pathfinding {
             double a = Math.pow(Math.sin(latDistance / 2), 2) +
                     Math.pow(Math.sin(longDistance / 2), 2) *
                             Math.cos(sourceLat) * Math.cos(destinationLat);
-            double rad = 6371;
+            final double rad = 6371;
             double c = 2 * Math.asin(Math.sqrt(a));
             double distance = c * rad;
-            closestBusiness.put(neighbors.get(i), distance);
+            closestBusiness.put(neighbors[i], distance);
         }
         return closestBusiness;
     }
+
+    /*
+    Recursion for neighbors: Connect every business to each other
+     */
+
+    /*
+    Haversine distance between two business. Same concept as geographic filter, but more abstract.
+     */
+    public static double haversine(Business source, Business destination) {
+        double lon1 = source.getLongitude();
+        double lon2 = destination.getLongitude();
+        double lat1 = source.getLatitude();
+        double lat2 = destination.getLatitude();
+        final double R = 6371;
+        double dLon = Math.toRadians(lon2 - lon1);
+        double dLat = Math.toRadians(lat2 - lat1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+    }
+
 
     /*
     Helper Classes

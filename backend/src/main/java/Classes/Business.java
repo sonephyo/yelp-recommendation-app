@@ -25,4 +25,26 @@ public class Business {
         this.latitude = latitude;
         this.longitude = longitude;
     }
+
+    public void setNeighboringBusiness(HashMap<String, Double> neighboringBusiness) {
+        this.neighboringBusiness = new HashMap<>();
+        for (String businessID : neighboringBusiness.keySet()) {
+            this.neighboringBusiness.put(businessID, neighboringBusiness.get(businessID));
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Business{" +
+                "name='" + name + '\'' +
+                ", id='" + id + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+//                ", review='" + review + '\'' +
+//                ", termFrequency=" + termFrequency +
+//                ", inverseDocumentFrequency=" + inverseDocumentFrequency +
+//                ", tfidf=" + tfidf +
+                ", neighboringBusiness=" + neighboringBusiness +
+                '}';
+    }
 }

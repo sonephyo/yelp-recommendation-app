@@ -13,23 +13,88 @@ public class Pathfinding {
         this.vertices = new ArrayList<>();
     }
 
-    public Pathfinding createGraph(String businessID, HashMap<String, Business> mapOfBusiness, HashMap<String, Double> similarBusinessHashMap) {
-        String[] neighbors = similarBusinessHashMap.keySet().toArray(new String[1000]);
-        HashMap<String, Double> listOfLocations = geographicFilter(businessID, mapOfBusiness, neighbors);
-        Pathfinding path = new Pathfinding();
-        Vertex originVertex = path.addVertex(businessID);
-        for (String destinationBusinessID : listOfLocations.keySet()) {
-            Vertex destinationVertex = path.addVertex(destinationBusinessID);
-            path.addEdge(originVertex, destinationVertex, listOfLocations.get(destinationBusinessID));
+//    public Pathfinding createGraph(String businessID, HashMap<String, Business> mapOfBusiness, HashMap<String, Double> similarBusinessHashMap) {
+//        String[] neighbors = similarBusinessHashMap.keySet().toArray(new String[1000]);
+//
+//        double[] distanceParallelArray = createNeighboringPaths(businessID, neighbors, mapOfBusiness);
+//        HashMap<String, Double> listOfLocations = geographicFilter(businessID, mapOfBusiness, neighbors);
+//
+//
+//        Pathfinding path = new Pathfinding();
+//        Vertex originVertex = path.addVertex(businessID);
+//        for (String destinationBusinessID : listOfLocations.keySet()) {
+//            Vertex destinationVertex = path.addVertex(destinationBusinessID);
+//            path.addEdge(originVertex, destinationVertex, listOfLocations.get(destinationBusinessID));
+//        }
+//        return path;
+//    }
+
+    public void createGraph(String businessID, HashMap<String, Business> mapOfBusiness, HashMap<String, Double> similarBusinessHashMap) {
+        // NOTE TO SELF: Got the closest 1000 neighbors; index[0] = business itself
+        String[] neighbors = new String[1000];
+        int index = 0;
+        for (String business : similarBusinessHashMap.keySet()) {
+            neighbors[index] = business;
+            index++;
+            if (index >= 1000) {
+                break;
+            }
         }
-        return path;
+
+        // Part 2: Find the distance between each of the neighbors
+        HashMap<String, Double> neighborhoodMap = new HashMap<>();
+        for (int i = 0; i < 1000; i++) {
+            Business sourceBusiness = mapOfBusiness.get(neighbors[i]);
+            for (int j = 0; j < 1000; j++) {
+                if (j == i) {
+                    continue;
+                }
+                Business destinationBusiness = mapOfBusiness.get(neighbors[j]);
+                neighborhoodMap.put(destinationBusiness.getId(), haversine(sourceBusiness, destinationBusiness));
+            }
+            mapOfBusiness.get(neighbors[i]).setNeighboringBusiness(neighborhoodMap);
+            neighborhoodMap.clear();
+        }
+
+        // TODO: Part 3: Find the closest 4 business and set it as the neighbors
+
+
+        //Part 4: Debug
+        for (int i = 0; i < 1000; i++) {
+            System.out.println(mapOfBusiness.get(neighbors[i]));
+        }
+
+        }
+
+    /*
+ Haversine distance between two business. Same concept as geographic filter, but more abstract.
+  */
+    public static double haversine(Business source, Business destination) {
+        double lon1 = source.getLongitude();
+        double lon2 = destination.getLongitude();
+        double lat1 = source.getLatitude();
+        double lat2 = destination.getLatitude();
+        final double R = 6371;
+        double dLon = Math.toRadians(lon2 - lon1);
+        double dLat = Math.toRadians(lat2 - lat1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
     }
 
     /*
     For each of the 1000 business,find the four closest ones and connect it together.
      */
-    private void createNeighboringPaths(String source, HashMap<String, Business> mapOfBusiness) {
-
+    private double[] createNeighboringPaths(String source, String[] neighbors, HashMap<String, Business> mapOfBusiness) {
+        double[] distanceParallelArray = new double[1000];
+        Business sourceBusiness = mapOfBusiness.get(source);
+        for (int i = 0; i < 1000; i++) {
+            Business destinationBusiness = mapOfBusiness.get(neighbors[i]);
+            distanceParallelArray[i] = haversine(sourceBusiness, destinationBusiness);
+        }
+        return distanceParallelArray;
     }
 
     public Vertex addVertex(String businessID) {
@@ -89,23 +154,7 @@ public class Pathfinding {
     Recursion for neighbors: Connect every business to each other
      */
 
-    /*
-    Haversine distance between two business. Same concept as geographic filter, but more abstract.
-     */
-    public static double haversine(Business source, Business destination) {
-        double lon1 = source.getLongitude();
-        double lon2 = destination.getLongitude();
-        double lat1 = source.getLatitude();
-        double lat2 = destination.getLatitude();
-        final double R = 6371;
-        double dLon = Math.toRadians(lon2 - lon1);
-        double dLat = Math.toRadians(lat2 - lat1);
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
-                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
-                * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c;
-    }
+
 
 
     /*

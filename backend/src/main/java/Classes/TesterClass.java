@@ -18,9 +18,9 @@ public class TesterClass {
         HashMap<String, Double> similarityHashMap = cosineSimilarity(businessHashMap, "smRQA9crZ6SwUrLATMSVPg");
 
         Pathfinding businessPath = new Pathfinding();
-        Pathfinding path2 = businessPath.createGraph("smRQA9crZ6SwUrLATMSVPg", businessHashMap, similarityHashMap);
-        path2.print();
-
+//        Pathfinding path2 = businessPath.createGraph("smRQA9crZ6SwUrLATMSVPg", businessHashMap, similarityHashMap);
+//        path2.print();
+        businessPath.createGraph("smRQA9crZ6SwUrLATMSVPg", businessHashMap, similarityHashMap);
 
 //        Pathfinding pathfinder = new Pathfinding();
 //        Pathfinding.Vertex vertex1 = pathfinder.addVertex("womp");

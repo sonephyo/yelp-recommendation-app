@@ -1,8 +1,7 @@
 package Classes;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class Pathfinding {
     private ArrayList<Vertex> vertices;
@@ -10,22 +9,6 @@ public class Pathfinding {
     public Pathfinding() {
         this.vertices = new ArrayList<>();
     }
-
-//    public Pathfinding createGraph(String businessID, HashMap<String, Business> mapOfBusiness, HashMap<String, Double> similarBusinessHashMap) {
-//        String[] neighbors = similarBusinessHashMap.keySet().toArray(new String[1000]);
-//
-//        double[] distanceParallelArray = createNeighboringPaths(businessID, neighbors, mapOfBusiness);
-//        HashMap<String, Double> listOfLocations = geographicFilter(businessID, mapOfBusiness, neighbors);
-//
-//
-//        Pathfinding path = new Pathfinding();
-//        Vertex originVertex = path.addVertex(businessID);
-//        for (String destinationBusinessID : listOfLocations.keySet()) {
-//            Vertex destinationVertex = path.addVertex(destinationBusinessID);
-//            path.addEdge(originVertex, destinationVertex, listOfLocations.get(destinationBusinessID));
-//        }
-//        return path;
-//    }
 
     public void createGraph(String businessID, HashMap<String, Business> mapOfBusiness, HashMap<String, Double> similarBusinessHashMap) {
         // NOTE TO SELF: Got the closest 1000 neighbors; index[0] = business itself
@@ -77,18 +60,22 @@ public class Pathfinding {
             }
         }
 
-
         //Part 5: Debug
 //        for (int i = 0; i < 1000; i++) {
 //            System.out.println(mapOfBusiness.get(neighbors[i]));
 //        }
         path.print();
+        System.out.println(dijkstra("nGYXglmKHgUcovuTHIg6_A", "26P-A2QGP38Fevb0VtebNA"));
+    }
 
-        }
+    public List<String> dijkstra(String startID, String endID) {
+
+        return null;
+    }
 
     /*
- Haversine distance between two business. Same concept as geographic filter, but more abstract.
-  */
+    Haversine distance between two business. Same concept as geographic filter, but more abstract.
+    */
     public static double haversine(Business source, Business destination) {
         double lon1 = source.getLongitude();
         double lon2 = destination.getLongitude();
@@ -102,19 +89,6 @@ public class Pathfinding {
                 * Math.sin(dLon / 2) * Math.sin(dLon / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c;
-    }
-
-    /*
-    For each of the 1000 business,find the four closest ones and connect it together.
-     */
-    private double[] createNeighboringPaths(String source, String[] neighbors, HashMap<String, Business> mapOfBusiness) {
-        double[] distanceParallelArray = new double[1000];
-        Business sourceBusiness = mapOfBusiness.get(source);
-        for (int i = 0; i < 1000; i++) {
-            Business destinationBusiness = mapOfBusiness.get(neighbors[i]);
-            distanceParallelArray[i] = haversine(sourceBusiness, destinationBusiness);
-        }
-        return distanceParallelArray;
     }
 
     public Vertex addVertex(String businessID) {
@@ -140,44 +114,6 @@ public class Pathfinding {
     }
 
     /*
-    We collect 1000 random business that are connected to the root business.
-    We find their distance from the root.
-     */
-    public HashMap<String, Double> geographicFilter(String businessID, HashMap<String, Business> mapOfBusiness, String[] neighbors) {
-        HashMap<String, Double> closestBusiness = new HashMap<>();
-        Business sourceBusiness = mapOfBusiness.get(businessID);
-        double latDistance = 0;
-        double longDistance = 0;
-        double sourceLat = sourceBusiness.getLatitude();
-        double sourceLong = sourceBusiness.getLongitude();
-        for (int i = 0; i < 1000; i++) {
-            double destinationLat = mapOfBusiness.get(neighbors[i]).getLatitude();
-            double destinationLong = mapOfBusiness.get(neighbors[i]).getLongitude();
-
-            latDistance = (sourceLat - destinationLat) * (Math.PI / 180);
-            longDistance = (sourceLong - destinationLong) * (Math.PI / 180);
-            sourceLat = (sourceLat) * (Math.PI / 180);
-            destinationLat = (destinationLat) * (Math.PI / 180);
-
-            double a = Math.pow(Math.sin(latDistance / 2), 2) +
-                    Math.pow(Math.sin(longDistance / 2), 2) *
-                            Math.cos(sourceLat) * Math.cos(destinationLat);
-            final double rad = 6371;
-            double c = 2 * Math.asin(Math.sqrt(a));
-            double distance = c * rad;
-            closestBusiness.put(neighbors[i], distance);
-        }
-        return closestBusiness;
-    }
-
-    /*
-    Recursion for neighbors: Connect every business to each other
-     */
-
-
-
-
-    /*
     Helper Classes
      */
     static class Vertex {
@@ -201,7 +137,7 @@ public class Pathfinding {
                 return;
             }
 
-            for(int i = 0; i < this.edges.size(); i++) {
+            for (int i = 0; i < this.edges.size(); i++) {
                 if (i == 0) {
                     message += this.edges.get(i).getRoot().businessID + " -->  ";
                 }

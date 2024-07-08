@@ -1,9 +1,7 @@
 package Classes;
 
-import java.lang.reflect.Array;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 
 public class Pathfinding {
@@ -52,17 +50,39 @@ public class Pathfinding {
                 Business destinationBusiness = mapOfBusiness.get(neighbors[j]);
                 neighborhoodMap.put(destinationBusiness.getId(), haversine(sourceBusiness, destinationBusiness));
             }
-            mapOfBusiness.get(neighbors[i]).setNeighboringBusiness(neighborhoodMap);
+            mapOfBusiness.get(neighbors[i]).setUnlinkedNeighboringBusiness(neighborhoodMap);
             neighborhoodMap.clear();
         }
 
-        // TODO: Part 3: Find the closest 4 business and set it as the neighbors
-
-
-        //Part 4: Debug
-        for (int i = 0; i < 1000; i++) {
-            System.out.println(mapOfBusiness.get(neighbors[i]));
+        // Part 3: Find the closest 4 business and set it as the neighbors
+        // NOTE: This might be a bit much. Debating weather to convert this into a parallel array of size 4.
+        for (int i = 0; i < neighbors.length; i++) {
+            mapOfBusiness.get(neighbors[i]).setNeighboringBusiness(
+                    HashMapSorter.sortByValue(mapOfBusiness.get(neighbors[i]).getNeighboringBusiness())
+            );
         }
+
+        // Part 4: Create a graph
+        Pathfinding path = new Pathfinding();
+        for (int i = 0; i < neighbors.length; i++) {
+            index = 0;
+            Vertex origin = path.addVertex(neighbors[i]);
+            for (String destinationID : mapOfBusiness.get(neighbors[i]).getNeighboringBusiness().keySet()) {
+                Vertex destination = path.addVertex(destinationID);
+                path.addEdge(origin, destination, mapOfBusiness.get(neighbors[i]).getNeighboringBusiness().get(destinationID));
+                index++;
+                if (index == 4) {
+                    break;
+                }
+            }
+        }
+
+
+        //Part 5: Debug
+//        for (int i = 0; i < 1000; i++) {
+//            System.out.println(mapOfBusiness.get(neighbors[i]));
+//        }
+        path.print();
 
         }
 

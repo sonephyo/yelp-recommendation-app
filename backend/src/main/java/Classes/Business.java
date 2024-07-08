@@ -26,7 +26,7 @@ public class Business {
         this.longitude = longitude;
     }
 
-    public void setNeighboringBusiness(HashMap<String, Double> neighboringBusiness) {
+    public void setUnlinkedNeighboringBusiness(HashMap<String, Double> neighboringBusiness) {
         this.neighboringBusiness = new HashMap<>();
         for (String businessID : neighboringBusiness.keySet()) {
             this.neighboringBusiness.put(businessID, neighboringBusiness.get(businessID));

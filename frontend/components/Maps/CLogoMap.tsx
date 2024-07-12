@@ -15,7 +15,7 @@ const CLogoMap = ({ searchClicked }: { searchClicked: boolean }) => {
   return (
     <div
       className="py-3 px-4 border-4 flex w-auto justify-center rounded-full
-     shadow-cMapButtonShadow border-cButtonStrokeBlue mr-5"
+     shadow-cMapButtonShadow border-cButtonStrokeBlue mr-5 bg-white z-10"
     >
       <Link href="/" className="">
         <motion.div

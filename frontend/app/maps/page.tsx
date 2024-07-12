@@ -12,6 +12,8 @@ import { AnimatePresence } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 
 const Maps = () => {
+  const google_map_api_key = process.env
+    .NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string;
   const [searchClicked, setsearchClicked] = useState<boolean>(false);
   const [selectedStores, setselectedStores] = useState<string[]>([]);
   const [isResultPanelOpen, setIsResultPanelOpen] = useState<boolean>(false);
@@ -39,9 +41,15 @@ const Maps = () => {
     };
   }, []);
 
+  
+
   return (
     <div className="relative h-screen max-h-screen overflow-hidden">
-      <MapTest />
+      <div className="absolute top-0">
+        <APIProvider apiKey={google_map_api_key}>
+          <MapTest />
+        </APIProvider>
+      </div>
 
       <div ref={cLogoRef}>
         <div className=" mx-4 my-3 flex flex-row justify-between items-center bg-transparent">

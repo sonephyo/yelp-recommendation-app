@@ -4,11 +4,14 @@ import {
   InfoWindow,
   Map,
   Pin,
+  useAdvancedMarkerRef,
   useMap,
+  useMarkerRef,
 } from "@vis.gl/react-google-maps";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import type { Marker } from "@googlemaps/markerclusterer";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Store } from "@/public/testData/storesData";
 
 const MapTest = () => {
   const map = useMap("main-map");
@@ -43,11 +46,10 @@ const MapTest = () => {
     });
   };
 
-  const handleClick = useCallback(
+  const handleClickMarker = useCallback(
     (ev: google.maps.MapMouseEvent) => {
       if (!map) return;
       if (!ev.latLng) return;
-      console.log("marker clicked:", ev.latLng.toString());
       map.panTo(ev.latLng);
     },
     [map]
@@ -55,7 +57,7 @@ const MapTest = () => {
 
   return (
     <Map
-      style={{ width: "100vw", height: "100vh" }}
+      style={{ width: "100vw", height: "90vh" }}
       defaultCenter={{ lat: 40.758, lng: -73.9855 }}
       gestureHandling={"greedy"}
       disableDefaultUI={true}
@@ -72,11 +74,12 @@ const MapTest = () => {
                 lng: +item.long,
               }}
               key={item.id}
-              ref={(marker) => setMarkerRef(marker, item.id)}
+              ref={(marker) => {
+                setMarkerRef(marker, item.id);
+              }}
               clickable={true}
-              onClick={handleClick}
+              onClick={handleClickMarker}
             ></AdvancedMarker>
-            <InfoWindow position={}>Hello</InfoWindow>
           </>
         );
       })}

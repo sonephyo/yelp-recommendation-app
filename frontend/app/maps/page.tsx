@@ -7,9 +7,10 @@ import SelectConnectingStores from "@/components/Maps/SelectConnectingStores";
 import StoreInformation from "@/components/Maps/StoreInformation";
 import Cbutton from "@/components/customComponents/Cbutton";
 import MapTest from "@/components/googleMapsAPI/MapTest";
+import { Store, storesData } from "@/public/testData/storesData";
 import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import { AnimatePresence } from "framer-motion";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 const Maps = () => {
   const google_map_api_key = process.env
@@ -40,6 +41,7 @@ const Maps = () => {
       document.removeEventListener("mousedown", closingSearchButton);
     };
   }, []);
+
 
   
 

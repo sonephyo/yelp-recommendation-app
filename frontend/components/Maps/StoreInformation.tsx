@@ -35,9 +35,7 @@ const StoreInformation = ({
 
   useEffect(() => {
     if (searchResult) {
-      console.log("This is for recommending searched stores");
     } else {
-      console.log("This is for recommending explore stores");
       setStores(storesData);
     }
   }, [searchResult]);

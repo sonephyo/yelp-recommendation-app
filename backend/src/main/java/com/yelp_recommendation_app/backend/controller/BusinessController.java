@@ -3,9 +3,10 @@ package com.yelp_recommendation_app.backend.controller;
 import Classes.Business;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.yelp_recommendation_app.backend.dto.BusinessDto;
+import com.yelp_recommendation_app.backend.service.BusinessService;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -15,32 +16,24 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
+@AllArgsConstructor
 public class BusinessController {
-    private final HashMap<String, Business> mapOfBusiness;
 
-    public BusinessController() {
-        String fileName = "BusinessJSON";
-        Gson gson = new Gson();
-        HashMap<String, Business> tempBusinessMap = new HashMap<>();
-        try (FileReader reader = new FileReader(fileName)) {
-            Type type = new TypeToken<HashMap<String, Business>>() {
-            }.getType();
-            tempBusinessMap = gson.fromJson(reader, type);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        this.mapOfBusiness = tempBusinessMap;
-    }
+
+    private BusinessService businessService;
+
 
     @GetMapping("/getMap")
-    public HashMap<String, Business> getMap() {
-        return mapOfBusiness;
+    public HashMap<String, BusinessDto> getMap() {
+        return businessService.getAllBusinessesInfo();
     }
 
-    @GetMapping("/get")
-    public Business createProduct(final String businessID) {
-        return mapOfBusiness.get(businessID);
+    @PostMapping("/getBusiness")
+    public BusinessDto createProduct(@RequestBody HashMap<String, String> data) {
+        return businessService.getSpecificBusiness(data.get("businessId"));
     }
+    
+
 
 
     //DEBUG:

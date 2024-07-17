@@ -1,7 +1,4 @@
-import {
-  StoreLocation,
-  storesLocation,
-} from "@/public/testData/storesLocation";
+import { storesLocation } from "@/public/testData/storesLocation";
 import {
   AdvancedMarker,
   InfoWindow,
@@ -16,14 +13,12 @@ import type { Marker } from "@googlemaps/markerclusterer";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Store } from "@/public/testData/storesData";
 
-const MapTest = () => {
+const GoogleMap = () => {
   const map = useMap("main-map");
 
   const [markers, setMarkers] = useState<{ [key: string]: Marker }>({});
-  const [selectedStore, setselectedStore] = useState<StoreLocation | null>(
-    null
-  );
   const clusterer = useRef<MarkerClusterer | null>(null);
+  const [selectedTreeKey, setselectedTreeKey] = useState<string>("");
 
   useEffect(() => {
     if (!map) return;
@@ -53,13 +48,46 @@ const MapTest = () => {
   };
 
   const handleClickMarker = useCallback(
-    (ev: google.maps.MapMouseEvent, item: StoreLocation) => {
+    (ev: google.maps.MapMouseEvent) => {
       if (!map) return;
       if (!ev.latLng) return;
       map.panTo(ev.latLng);
-      setselectedStore(item);
     },
     [map]
+  );
+
+  // For Info Window
+  const [markerRef, marker] = useAdvancedMarkerRef();
+
+  const [infoWindowShown, setInfoWindowShown] = useState(false);
+
+  // clicking the marker will toggle the infowindow
+  const handleClickInfoWindow = useCallback(
+    (itemKey: string) => {
+      setInfoWindowShown((isShown) => !isShown);
+      setselectedTreeKey(itemKey);
+      console.log(selectedTreeKey);
+    },
+    [selectedTreeKey]
+  );
+
+  // if the maps api closes the infowindow, we have to synchronize our state
+  const handleClose = useCallback(() => setInfoWindowShown(false), []);
+
+  // const handleClickCombined = useCallback(
+  //   (ev: google.maps.MapMouseEvent) =>  {
+  //     handleClickMarker(ev);
+  //     handleClickInfoWindow("5");
+  //   },
+  //   [handleClickMarker, handleClickInfoWindow] // Dependencies
+  // );
+
+  const handleClickCombined = useCallback(
+    (id: string) => {
+      setInfoWindowShown((isShown) => !isShown);
+      setselectedTreeKey(id);
+    },
+    [] // Dependencies
   );
 
   return (
@@ -71,7 +99,6 @@ const MapTest = () => {
       defaultZoom={12}
       mapId={"main"}
       id="main-map"
-      clickableIcons={false}
     >
       {storesLocation.map((item) => {
         return (
@@ -82,30 +109,15 @@ const MapTest = () => {
                 lng: +item.long,
               }}
               key={item.id}
-              ref={(marker) => {
+              ref={(el) => {
                 setMarkerRef(marker, item.id);
+                markerRef(el);
               }}
               clickable={true}
-              onClick={(ev) => {
-                handleClickMarker(ev, item);
+              onClick={() => {
+                handleClickCombined(item.id);
               }}
             ></AdvancedMarker>
-            {selectedStore == item && (
-              <InfoWindow
-                position={{ lat: +item.lat, lng: +item.long }}
-                onClose={() => setselectedStore(null)}
-                className=" m-2 flex flex-col items-center "
-              >
-                <h2 className=" text-lg font-bold">Starbucks</h2>
-                <button
-                  className=" p-1 border-4 flex  rounded-full
-     border-cButtonStrokeBlue bg-white hover:border-blue-300 transition"
-    
-                >
-                  Explore Stores
-                </button>
-              </InfoWindow>
-            )}
           </>
         );
       })}
@@ -113,4 +125,4 @@ const MapTest = () => {
   );
 };
 
-export default MapTest;
+export default GoogleMap;

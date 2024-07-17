@@ -43,7 +43,7 @@ const StoreInformation = ({
   return (
     <motion.div
       className={`w-screen top-[80vh]
-     h-[90vh] absolute flex flex-col bg-white px-2 py-4 pt-3 border-4 rounded-[2rem] shadow-cMapButtonShadow  border-cButtonStrokeBlue `}
+     h-[90vh] absolute flex flex-col bg-white px-2 py-4 pt-3 border-4 rounded-[2rem] shadow-cMapButtonShadow  border-cButtonStrokeBlue z-10 `}
       variants={openAndClose}
       initial="false"
       animate={isOpen ? "open" : "closed"}

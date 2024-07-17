@@ -144,7 +144,7 @@ public class TFIDF {
      */
     private static void convertToJson() {
         Gson gson = new Gson();
-        String fileName = "BusinessJSON";
+        String fileName = "BusinessRawJSON";
         try (FileWriter writer = new FileWriter(fileName)) {
             gson.toJson(mapOfBusiness, writer);
             System.out.println("HashMap saved as JSON file: " + fileName);

@@ -26,8 +26,8 @@ const SelectConnectingStores = () => {
           initial="initial"
           animate="animate"
           exit="exit"
-          className="mx-auto my-10 max-w-[90vw] h-[12rem] rounded-[2rem] border-4
-  shadow-cMapButtonShadow border-cButtonStrokeBlue flex flex-col justify-center items-center gap-2"
+          className="relative mx-auto my-10 max-w-[90vw] h-[12rem] rounded-[2rem] border-4
+  shadow-cMapButtonShadow border-cButtonStrokeBlue flex flex-col justify-center items-center gap-2 z-10 bg-white"
         >
           <div className="flex flex-col gap-5 w-[15rem]">
             <motion.button
@@ -63,14 +63,14 @@ const SelectConnectingStores = () => {
         </motion.div>
       )}
       {isSelectingFirstStore && (
-        <>
+        <div className="relative z-10">
           <h1>Selecting First Store</h1>
-        </>
+        </div>
       )}
        {isSelectingSecondStore && (
-        <>
+        <div className="relative z-10">
           <h1>Selecting First Store</h1>
-        </>
+        </div>
       )}
     </>
   );

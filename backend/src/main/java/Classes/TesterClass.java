@@ -1,7 +1,36 @@
 package Classes;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.HashMap;
+
+import static Classes.CosineSimilarity.cosineSimilarity;
+
 public class TesterClass {
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws IOException {
+        File businessJSON = new File("../../yelp_dataset/yelp_academic_dataset_business.json");
+        File reviewJSON = new File("../../yelp_dataset/yelp_academic_dataset_review.json");
+        HashMap<String, Business> businessHashMap = TFIDF.tfidfCalculations(businessJSON, reviewJSON);
+        HashMap<String, Double> similarityHashMap = cosineSimilarity(businessHashMap, "smRQA9crZ6SwUrLATMSVPg");
+
+//        Pathfinding businessPath = new Pathfinding();
+//        Pathfinding path2 = businessPath.createGraph("smRQA9crZ6SwUrLATMSVPg", businessHashMap, similarityHashMap);
+//        path2.print();
+//        businessPath.createGraph("smRQA9crZ6SwUrLATMSVPg", businessHashMap, similarityHashMap);
+
+//        Pathfinding pathfinder = new Pathfinding();
+//        Pathfinding.Vertex vertex1 = pathfinder.addVertex("womp");
+//        Pathfinding.Vertex vertex2 = pathfinder.addVertex("pomw");
+//        Pathfinding.Vertex vertex3 = pathfinder.addVertex("pompwomp");
+//
+//        pathfinder.addEdge(vertex1, vertex2, 5.0);
+//        pathfinder.addEdge(vertex2, vertex3, 4.0);
+//        pathfinder.print();
+
         // Create nodes
         Node nodeA = new Node(1);
         Node nodeB = new Node(2);
@@ -9,6 +38,17 @@ public class TesterClass {
         Node nodeD = new Node(4);
         Node nodeE = new Node(5);
         Node nodeF = new Node(6);
+
+        // Add links between nodes (for path checking)
+        nodeA.addLink(nodeB);
+        nodeB.addLink(nodeC);
+        nodeC.addLink(nodeD);
+        nodeD.addLink(nodeE);
+        nodeE.addLink(nodeF);
+        nodeA.addLink(nodeC);
+        nodeB.addLink(nodeD);
+        nodeC.addLink(nodeE);
+        nodeD.addLink(nodeF);
 
         // Create edges with weights and add them to nodes
         Edge edgeAB = new Edge(nodeA, nodeB, 1.0);
@@ -33,17 +73,6 @@ public class TesterClass {
 
         // Create graph and add nodes
         Graph graph = new Graph();
-        graph.addNode(nodeA);
-        graph.addNode(nodeB);
-        graph.addNode(nodeC);
-        graph.addNode(nodeD);
-        graph.addNode(nodeE);
-        graph.addNode(nodeF);
 
-        // Run Dijkstra's algorithm from nodeA
-        graph.dijkstra(nodeA);
-
-        // Display the shortest path from nodeA to nodeF
-        graph.displayShortestPath(nodeF);
     }
 }

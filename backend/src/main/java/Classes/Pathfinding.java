@@ -65,7 +65,7 @@ public class Pathfinding {
 //            System.out.println(mapOfBusiness.get(neighbors[i]));
 //        }
         path.print();
-        System.out.println(dijkstra("nGYXglmKHgUcovuTHIg6_A", "26P-A2QGP38Fevb0VtebNA"));
+        System.out.println(dijkstra("rRPqeIfbthjR1VAP-eiu9A", "26P-CQEriE-BOvuiafpH1lOFKA"));
     }
 
     public List<String> dijkstra(String startID, String endID) {

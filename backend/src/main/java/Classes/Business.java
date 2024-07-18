@@ -17,7 +17,10 @@ public class Business {
     private HashMap<String, Double> termFrequency;
     private HashMap<String, Double> inverseDocumentFrequency;
     private HashMap<String, Double> tfidf;
+    // Neighboring business is the 1000 most similar business.
     private HashMap<String, Double> neighboringBusiness;
+    // Path stores the four-closest business
+
 
     public Business(String name, String id, double latitude, double longitude) {
         this.name = name;

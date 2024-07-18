@@ -39,7 +39,6 @@ public class TesterClass {
         Node nodeE = new Node(5);
         Node nodeF = new Node(6);
 
-        // Add links between nodes (for path checking)
         nodeA.addLink(nodeB);
         nodeB.addLink(nodeC);
         nodeC.addLink(nodeD);
@@ -50,7 +49,6 @@ public class TesterClass {
         nodeC.addLink(nodeE);
         nodeD.addLink(nodeF);
 
-        // Create edges with weights and add them to nodes
         Edge edgeAB = new Edge(nodeA, nodeB, 1.0);
         Edge edgeBC = new Edge(nodeB, nodeC, 2.0);
         Edge edgeCD = new Edge(nodeC, nodeD, 3.0);

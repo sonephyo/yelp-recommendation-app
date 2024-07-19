@@ -10,20 +10,19 @@ import GoogleMap from "@/components/googleMapsAPI/GoogleMap";
 import { Store, storesData } from "@/public/testData/storesData";
 import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import { AnimatePresence } from "framer-motion";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 const Maps = () => {
   const google_map_api_key = process.env
     .NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string;
   const [searchClicked, setsearchClicked] = useState<boolean>(false);
-  const [selectedStores, setselectedStores] = useState<string[]>([]);
   const [isResultPanelOpen, setIsResultPanelOpen] = useState<boolean>(false);
   const [searchResult, setSearchResult] = useState<string>();
 
   const cLogoRef = useRef<HTMLDivElement>(null);
   const cStoresRef = useRef<HTMLDivElement>(null);
 
-  const closingSearchButton = (event: MouseEvent) => {
+  const closingSearchButton = useCallback( (event: MouseEvent) => {
     if (cLogoRef.current && !(cLogoRef.current as any).contains(event.target)) {
       setsearchClicked(false);
     }
@@ -33,14 +32,14 @@ const Maps = () => {
     ) {
       setIsResultPanelOpen(false);
     }
-  };
+  }, [])
 
   useEffect(() => {
     document.addEventListener("mousedown", closingSearchButton);
     return () => {
       document.removeEventListener("mousedown", closingSearchButton);
     };
-  }, []);
+  }, [closingSearchButton]);
 
 
   

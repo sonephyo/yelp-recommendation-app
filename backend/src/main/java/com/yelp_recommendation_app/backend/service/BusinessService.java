@@ -29,12 +29,12 @@ public class BusinessService {
             tempBusinessMap = gson.fromJson(reader, type);
 
             //Returning all the hash data
-            //return tempBusinessMap;
+//            return tempBusinessMap;
 
             HashMap<String, BusinessDto> testBusinessMap = new HashMap<>();
             int i = 0;
             for (String key : tempBusinessMap.keySet()) {
-                if (i < 2000){
+                if (i < 1000 && !testBusinessMap.containsKey(key)){
                     testBusinessMap.put(key, tempBusinessMap.get(key));
                 }
                 i++;

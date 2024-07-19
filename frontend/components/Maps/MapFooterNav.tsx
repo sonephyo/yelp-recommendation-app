@@ -17,4 +17,4 @@ const MapFooterNav = () => {
   )
 }
 
-export default MapFooterNav
+export default React.memo(MapFooterNav);

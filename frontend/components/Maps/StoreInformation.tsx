@@ -6,7 +6,7 @@ import { storesData } from "@/public/testData/storesData";
 import StoreContainer from "../customComponents/StoreContainer";
 
 type Store = {
-  id:string;
+  id: string;
   name: string;
   address: string;
   rating: number;
@@ -71,20 +71,20 @@ const StoreInformation = ({
         )}
       </motion.button>
       {isOpen && (
-          <div className=" overflow-x-hidden overflow-y-auto">
-            {stores ? (
-              <div className="flex flex-col gap-10 overflow-hidden">
-                {storesData.map((store) => (
-                  <StoreContainer store={store} key={store.id} />
-                ))}
-              </div>
-            ) : (
-              <div>There is no recommended stores</div>
-            )}
-          </div>
-        )}
+        <div className=" overflow-x-hidden overflow-y-auto">
+          {stores ? (
+            <div className="flex flex-col gap-10 overflow-hidden">
+              {storesData.map((store) => (
+                <StoreContainer store={store} key={store.id} />
+              ))}
+            </div>
+          ) : (
+            <div>There is no recommended stores</div>
+          )}
+        </div>
+      )}
     </motion.div>
   );
 };
 
-export default StoreInformation;
+export default React.memo(StoreInformation);

@@ -62,11 +62,12 @@ public class GraphHelper {
     /*
     A path is made up of Nodes (business), edges (connection between business), and a graph which puts the whole thing together.
      */
-    public static void createGraph(String businessID, HashMap<String, Business> mapOfBusiness, HashMap<String, Double> similarBusinessHashMap) {
+    public static Graph createGraph(String businessID, HashMap<String, Business> mapOfBusiness, HashMap<String, Double> similarBusinessHashMap) {
         HashMap<String, Node> nodeDataset = new HashMap<>();
         int index = 0;
         for (String business : similarBusinessHashMap.keySet()) {
             nodeDataset.put(business, new Node(business));
+            System.out.println(business);
             index++;
             if (index >= 1000) break;
         }
@@ -111,12 +112,21 @@ public class GraphHelper {
             }
         }
 
+        Graph graph = new Graph();
         for (Node node : nodeDataset.values()) {
             Business business = mapOfBusiness.get(node.attribute);
             for (int i = 0; i < 4; i++) {
                 node.addEdge(business.getEdges()[i]);
             }
+            graph.addNode(node);
         }
+
+        System.out.println(mapOfBusiness.get("syg688pMerg0bTXcQThkaA").getNeighboringBusiness());
+        graph.dijkstra(nodeDataset.get("syg688pMerg0bTXcQThkaA"));
+        graph.displayShortestPath(nodeDataset.get("fI8kWao4ejLDDGgWNxKiHw"));
+
+
+        return graph;
 
 
 //

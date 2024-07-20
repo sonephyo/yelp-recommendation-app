@@ -77,6 +77,6 @@ public class TesterClass {
 //        // Display the shortest path from nodeA to nodeF
 //        graph.displayShortestPath(nodeF);
 
-        GraphHelper.createGraph(testBusinessID, businessHashMap, similarityHashMap);
+        Graph graph = GraphHelper.createGraph(testBusinessID, businessHashMap, similarityHashMap);
 }
 }

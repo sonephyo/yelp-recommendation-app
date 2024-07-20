@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class Node {
-    int attribute;
+    String attribute;
     Collection<Node> links;
     Collection<Edge> edges;
 
@@ -12,7 +12,7 @@ public class Node {
     double distance; // distance from source in Dijkstra's algorithm
 
     // Constructor
-    Node(int attribute) {
+    Node(String attribute) {
         this.attribute = attribute;
         links = new ArrayList<>();
         edges = new ArrayList<>();

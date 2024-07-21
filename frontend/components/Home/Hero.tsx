@@ -3,6 +3,7 @@
 import React from "react";
 import Cbutton from "../customComponents/Cbutton";
 import { motion, stagger } from "framer-motion";
+import Link from "next/link";
 
 const Hero = () => {
   const animations = {
@@ -34,7 +35,7 @@ const Hero = () => {
         <motion.div
           initial={{
             translateY: -10,
-            rotate: 45
+            rotate: 45,
           }}
           animate={{
             translateY: [10, -10, 10],
@@ -67,7 +68,9 @@ const Hero = () => {
             A system that recommends user stores to explore while keeping
             experience similar to what they connect
           </p>
-          <Cbutton text="Try it out" classes="w-[8rem]" />
+          <Link href={"/maps"}>
+            <Cbutton text="Try it out" classes="w-[8rem]" />
+          </Link>
         </div>
       </div>
     </div>

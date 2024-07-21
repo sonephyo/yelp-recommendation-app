@@ -1,49 +1,44 @@
 package com.yelp_recommendation_app.backend.service;
 
 
-import Classes.Business;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yelp_recommendation_app.backend.dto.BusinessDto;
+import com.yelp_recommendation_app.backend.repository.BusinessRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class BusinessService {
-    HashMap<String, BusinessDto> tempBusinessMap = new HashMap<>();
+
+    private final BusinessRepository  businessRepository;
+
+    /**
+     * @return all BusinessInfo Data (id, Location, Lat, Long)
+     */
+    public List<BusinessDto> getAllBusinessesInfo() {
+        return businessRepository.findAll();
+    }
 
 
     /**
-     * Get All the business Data
+     * For displaying the stores on the Google Map
+     * @return 1000 random businessInfo
      */
-    public HashMap<String, BusinessDto> getAllBusinessesInfo() {
-        String fileName = "src/main/java/data/BusinessNameLocationJSON";
-        Gson gson = new Gson();
-        try (FileReader reader = new FileReader(fileName)) {
-            Type type = new TypeToken<HashMap<String, BusinessDto>>() {
-            }.getType();
-            tempBusinessMap = gson.fromJson(reader, type);
+    public List<BusinessDto> get1000BusinessInfo() {
+        List<BusinessDto> businessInfoList = businessRepository.findAll();
+        Collections.shuffle(businessInfoList);
 
-            //Returning all the hash data
-//            return tempBusinessMap;
-
-            HashMap<String, BusinessDto> testBusinessMap = new HashMap<>();
-            int i = 0;
-            for (String key : tempBusinessMap.keySet()) {
-                if (i < 1000 && !testBusinessMap.containsKey(key)){
-                    testBusinessMap.put(key, tempBusinessMap.get(key));
-                }
-                i++;
-            }
-            return testBusinessMap;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return tempBusinessMap;
+        return businessInfoList.subList(0, 1000);
     }
 
 
@@ -52,7 +47,7 @@ public class BusinessService {
      * @return businessDto - the business that is related to the businessId
      * Note: the getAllBusinessesInfo need to be run before using the following method
      */
-    public BusinessDto getSpecificBusiness(String businessId) {
-        return tempBusinessMap.get(businessId);
+    public Optional<BusinessDto> getSpecificBusiness(String businessId) {
+        return businessRepository.findById(businessId);
     }
 }

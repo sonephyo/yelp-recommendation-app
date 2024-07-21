@@ -110,6 +110,7 @@ const StoreInformation = ({
             <div className="flex flex-col gap-10 overflow-hidden">
               {storesData.map((store) => (
                 <StoreContainer store={store} key={store.id} />
+                
               ))}
             </div>
           ) : (

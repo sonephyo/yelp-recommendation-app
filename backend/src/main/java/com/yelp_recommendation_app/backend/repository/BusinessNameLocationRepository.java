@@ -7,9 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface BusinessRepository extends MongoRepository<BusinessDto, String> {
+public interface BusinessNameLocationRepository extends MongoRepository<BusinessDto, String> {
 
     Optional<BusinessDto> findById(String id);
-
 
 }

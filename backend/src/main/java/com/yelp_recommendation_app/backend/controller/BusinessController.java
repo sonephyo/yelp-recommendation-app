@@ -1,5 +1,6 @@
 package com.yelp_recommendation_app.backend.controller;
 
+import com.yelp_recommendation_app.backend.Models.BusinessRawInfo;
 import com.yelp_recommendation_app.backend.dto.BusinessDto;
 import com.yelp_recommendation_app.backend.service.BusinessService;
 import lombok.AllArgsConstructor;
@@ -18,16 +19,13 @@ public class BusinessController {
 
 
     @GetMapping("/get-all-businesses")
-    public List<BusinessDto> getAllBusiness() {
+    public List<BusinessDto> getAllBusinessNameLocation() {
         return businessService.get1000BusinessInfo();
     }
 
     @GetMapping("/get-business")
-    public ResponseEntity<Optional<BusinessDto>> getBusiness(@RequestParam String id) {
-
-        return ResponseEntity.ok(businessService.getSpecificBusiness(id));
+    public ResponseEntity<Optional<BusinessRawInfo>> getRawBusiness(@RequestParam String businessId) {
+        return ResponseEntity.ok(businessService.getSpecificBusiness(businessId));
     }
-    
-
 
 }

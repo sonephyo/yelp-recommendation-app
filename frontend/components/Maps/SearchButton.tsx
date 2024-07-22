@@ -1,4 +1,11 @@
-import React, { createContext, memo, useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  createContext,
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
@@ -32,7 +39,15 @@ const SearchButton = ({
 
   const userClickedSearch = useCallback(() => {
     setsearchClicked(true);
-  }, [setsearchClicked])
+  }, [setsearchClicked]);
+
+  const clickingEnterForSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key == "Enter") {
+      setsearchClicked(false);
+      setIsResultPanelOpen(true);
+      setSearchResult(name);
+    }
+  };
 
   useEffect(() => {
     if (searchInputRef != null) {
@@ -58,6 +73,9 @@ const SearchButton = ({
             ref={searchInputRef}
             placeholder="Search a store"
             className="w-full outline-none px-2"
+            onKeyDown={(e) => {
+              clickingEnterForSearch(e);
+            }}
           />
           <motion.button
             onClick={() => {

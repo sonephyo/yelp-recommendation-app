@@ -25,7 +25,7 @@ import { DisplayType } from "@/public/enum/DisplayType";
 
 type BusinessDataType = {
   name: string;
-  id: string;
+  businessId: string;
   latitude: string;
   longitude: string;
 };
@@ -52,24 +52,6 @@ const GoogleMap = ({
     null
   );
   const clusterer = useRef<MarkerClusterer | null>(null);
-
-  const fetchIndBusiness = async (businessId: string) => {
-    const singleBusinessInfo = await axios
-      .get(`${backend_url}/get-business`, {
-        params: { id: businessId },
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log(res.data)
-        return res.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    setindStoreId(singleBusinessInfo.id)
-    settypeOfStoreInformation(DisplayType.DISPLAY_STORE)
-  };
 
   useEffect(() => {
     console.log("1 rerenders");
@@ -127,28 +109,31 @@ const GoogleMap = ({
         (businessId, index) => {
           let business = businessData[businessId];
           return (
-            <div key={business.id}>
+            <div key={business.businessId}>
               <AdvancedMarker
                 position={{
                   lat: +business.latitude,
                   lng: +business.longitude,
                 }}
-                key={business.id}
+                key={business.businessId}
                 ref={(marker) => {
-                  setMarkerRef(marker, business.id);
+                  setMarkerRef(marker, business.businessId);
                 }}
                 clickable={true}
                 onClick={(ev) => {
                   handleClickMarker(ev, business);
                 }}
               ></AdvancedMarker>
-              {selectedStore && selectedStore.id === business.id && (
+              {selectedStore && selectedStore.businessId === business.businessId && (
                 <InfoWindow
                   position={{
                     lat: +business.latitude,
                     lng: +business.longitude,
                   }}
-                  onClose={() => setselectedStore(null)}
+                  onClose={() => {
+                    setselectedStore(null)
+                    settypeOfStoreInformation(DisplayType.EXPLORE_STORE)
+                  }}
                   className=" m-2 flex flex-col items-center "
                 >
                   <h2 className=" text-lg font-bold">{business.name}</h2>
@@ -156,7 +141,8 @@ const GoogleMap = ({
                     className=" p-1 border-4 flex  rounded-full
  border-cButtonStrokeBlue bg-white hover:border-blue-300 transition"
                     onClick={() => {
-                      fetchIndBusiness(business.id);
+                      setindStoreId(business.businessId)
+                      settypeOfStoreInformation(DisplayType.DISPLAY_STORE)
                     }}
                   >
                     Explore Store

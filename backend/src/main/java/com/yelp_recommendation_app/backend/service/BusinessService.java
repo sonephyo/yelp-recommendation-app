@@ -1,18 +1,14 @@
 package com.yelp_recommendation_app.backend.service;
 
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.yelp_recommendation_app.backend.Models.BusinessRawInfo;
 import com.yelp_recommendation_app.backend.dto.BusinessDto;
-import com.yelp_recommendation_app.backend.repository.BusinessRepository;
+import com.yelp_recommendation_app.backend.repository.BusinessNameLocationRepository;
+import com.yelp_recommendation_app.backend.repository.BusinessRawRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,13 +16,14 @@ import java.util.Optional;
 @AllArgsConstructor
 public class BusinessService {
 
-    private final BusinessRepository  businessRepository;
+    private final BusinessNameLocationRepository businessNameLocationRepository;
+    private final BusinessRawRepository businessRawRepository;
 
     /**
      * @return all BusinessInfo Data (id, Location, Lat, Long)
      */
     public List<BusinessDto> getAllBusinessesInfo() {
-        return businessRepository.findAll();
+        return businessNameLocationRepository.findAll();
     }
 
 
@@ -35,7 +32,7 @@ public class BusinessService {
      * @return 1000 random businessInfo
      */
     public List<BusinessDto> get1000BusinessInfo() {
-        List<BusinessDto> businessInfoList = businessRepository.findAll();
+        List<BusinessDto> businessInfoList = businessNameLocationRepository.findAll();
         Collections.shuffle(businessInfoList);
 
         return businessInfoList.subList(0, 1000);
@@ -47,7 +44,8 @@ public class BusinessService {
      * @return businessDto - the business that is related to the businessId
      * Note: the getAllBusinessesInfo need to be run before using the following method
      */
-    public Optional<BusinessDto> getSpecificBusiness(String businessId) {
-        return businessRepository.findById(businessId);
+    public Optional<BusinessRawInfo> getSpecificBusiness(String businessId) {
+        return businessRawRepository.findByBusinessId(businessId);
     }
+
 }

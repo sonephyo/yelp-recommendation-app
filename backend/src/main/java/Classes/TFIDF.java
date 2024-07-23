@@ -58,7 +58,7 @@ public class TFIDF {
         inverseDocumentFrequency();
         computeTFIDF();
         System.out.println("TFIDF Computed");
-        convertToJson();
+//        convertToJson();
 
         return mapOfBusiness;
     }
@@ -136,19 +136,17 @@ public class TFIDF {
         }
     }
 
-    /*
-     * Store the data locally so that it can be accessed by the controllers.
-     */
-    private static void convertToJson() {
-        Gson gson = new Gson();
-        String fileName = "BusinessRawJSON";
-        try (FileWriter writer = new FileWriter(fileName)) {
-            gson.toJson(mapOfBusiness, writer);
-            System.out.println("HashMap saved as JSON file: " + fileName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
+//    /*
+//     * Store the data locally so that it can be accessed by the controllers.
+//     */
+//    private static void convertToJson() {
+//        Gson gson = new Gson();
+//        String fileName = "BusinessRawJSON";
+//        try (FileWriter writer = new FileWriter(fileName)) {
+//            gson.toJson(mapOfBusiness, writer);
+//            System.out.println("HashMap saved as JSON file: " + fileName);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

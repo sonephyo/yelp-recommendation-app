@@ -10,7 +10,7 @@ public class GraphHelper {
     /*
      * A path is made up of Nodes (business), edges (connection between business), and a graph which puts the whole thing together.
      */
-    public static Graph createGraph(String businessID, HashMap<String, Business> mapOfBusiness, HashMap<String, Double> similarBusinessHashMap) {
+    public static Graph createGraph(String sourceBusinessID, String destinationBusinessID, HashMap<String, Business> mapOfBusiness, HashMap<String, Double> similarBusinessHashMap) {
         HashMap<String, Node> nodeDataset = new HashMap<>();
         int index = 0;
         for (String business : similarBusinessHashMap.keySet()) {
@@ -66,19 +66,20 @@ public class GraphHelper {
             graph.addNode(node);
         }
 
-        graph.dijkstra(nodeDataset.get("mLJJa9r2h1yoh1dWUqekKQ"));
+        graph.dijkstra(nodeDataset.get("-eBDRVn1mPwHFCF_hry20Q"));
         graph.displayShortestPath(nodeDataset.get("VZfc50XVwgdCecH4YbGNFg"));
 
         // DEBUG:
-        for (String id : nodeDataset.keySet()) {
-            String[] businessNeighbors = mapOfBusiness.get(id).getNeighboringBusiness().keySet().toArray(new String[4]);
-            String output = id + " --> ";
-            for (int i = 0; i < 4; i++) {
-                output += businessNeighbors[i] + "    ";
-            }
-            System.out.println(output);
-        }
+//        for (String id : nodeDataset.keySet()) {
+//            String[] businessNeighbors = mapOfBusiness.get(id).getNeighboringBusiness().keySet().toArray(new String[4]);
+//            String output = id + " --> ";
+//            for (int i = 0; i < 4; i++) {
+//                output += businessNeighbors[i] + "    ";
+//            }
+//            System.out.println(output);
+//        }
 
+        JSONHelper.convertToJson(mapOfBusiness);
         return graph;
     }
 

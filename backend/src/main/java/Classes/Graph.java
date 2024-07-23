@@ -8,20 +8,17 @@ public class Graph {
         nodes = new ArrayList<>();
     }
 
-    // Clear parent references and distances of all nodes
     void clearParentsAndDistances() {
         nodes.forEach(s -> {
             s.parent = null;
             s.distance = Double.POSITIVE_INFINITY;
         });
     }
-
-    // Add a node to the graph
     void addNode(Node node) {
         nodes.add(node);
     }
 
-    // Dijkstra's algorithm for shortest paths from a source node
+    // Dijkstra's algorithm for shortest paths from a source node: Credit to Doug Lea for the skeleton.
     void dijkstra(Node source) {
         clearParentsAndDistances();
         source.distance = 0;
@@ -46,8 +43,6 @@ public class Graph {
             }
         }
     }
-
-    // Display the shortest path from the source to a given node
     void displayShortestPath(Node destination) {
         List<Node> path = new ArrayList<>();
         double totalWeight = destination.distance;

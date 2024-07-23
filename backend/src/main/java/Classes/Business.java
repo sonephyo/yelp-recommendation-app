@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.HashMap;
 
 /*
-* This is the business helper class: It will store all the required information regarding each Business.
+ * This is the business helper class: It will store all the required information regarding each Business.
  */
 @Data
 public class Business {

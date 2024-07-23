@@ -7,8 +7,8 @@ import java.io.*;
 import java.util.*;
 
 /*
-By taking two JSON Files, it converts each business to the Business class and combines the info from the two files into one class.
-The things stored are ID, Name, Longitude, Latitude, and Reviews, which are in two separate JSON files.
+ * By taking two JSON Files, it converts each business to the Business class and combines the info from the two files into one class.
+ * The things stored are ID, Name, Longitude, Latitude, and Reviews, which are in two separate JSON files.
  */
 public class TFIDF {
     private static HashMap<String, Business> mapOfBusiness;
@@ -50,10 +50,7 @@ public class TFIDF {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        /*
-        Removing business with null reviews
-         */
+        // Remove Business that have Null Reviews
         mapOfBusiness.values().removeIf(business -> business.getReview() == null);
         System.out.println("Business Reviews Added");
 
@@ -123,8 +120,8 @@ public class TFIDF {
     }
 
     /*
-    TFIDF is the measure of how important a word is to a set of documents. This determines all the importance of the words found in reviews.
-    TFIDF = TF * IDF
+     * TFIDF is the measure of how important a word is to a set of documents. This determines all the importance of the words found in reviews.
+     * TFIDF = TF * IDF
      */
     private static void computeTFIDF() {
         for (Business business : mapOfBusiness.values()) {
@@ -140,7 +137,7 @@ public class TFIDF {
     }
 
     /*
-    Store the data locally so that it can be accessed by the controllers.
+     * Store the data locally so that it can be accessed by the controllers.
      */
     private static void convertToJson() {
         Gson gson = new Gson();

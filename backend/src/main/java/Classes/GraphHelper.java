@@ -3,23 +3,21 @@ package Classes;
 import java.util.HashMap;
 
 /*
-* This class works with Graph.
-* Its purpose is to filter through the dataset and create a graph where all the nodes are connected to each other.
+ * This class works with Graph.
+ * Its purpose is to filter through the dataset and create a graph where all the nodes are connected to each other.
  */
 public class GraphHelper {
     /*
-    A path is made up of Nodes (business), edges (connection between business), and a graph which puts the whole thing together.
+     * A path is made up of Nodes (business), edges (connection between business), and a graph which puts the whole thing together.
      */
     public static Graph createGraph(String businessID, HashMap<String, Business> mapOfBusiness, HashMap<String, Double> similarBusinessHashMap) {
         HashMap<String, Node> nodeDataset = new HashMap<>();
         int index = 0;
         for (String business : similarBusinessHashMap.keySet()) {
             nodeDataset.put(business, new Node(business));
-//            System.out.println(business);
             index++;
             if (index >= 1000) break;
         }
-
        /*
        BUSINESS.setNeighboringBusiness = every business sorted by distance
        Finding the closest four business to each of the business.
@@ -68,11 +66,6 @@ public class GraphHelper {
             graph.addNode(node);
         }
 
-//        System.out.println(mapOfBusiness.get("syg688pMerg0bTXcQThkaA").getNeighboringBusiness());
-        // Test Cases:
-        // T1c8TnTri2wEmb7C62l4dA to VZfc50XVwgdCecH4YbGNFg
-        // PBqj5MffQMKEIST0xrUmWQ to JeF4ZDoV3T90YLIRPDOdzg
-        //
         graph.dijkstra(nodeDataset.get("mLJJa9r2h1yoh1dWUqekKQ"));
         graph.displayShortestPath(nodeDataset.get("VZfc50XVwgdCecH4YbGNFg"));
 
@@ -81,19 +74,18 @@ public class GraphHelper {
             String[] businessNeighbors = mapOfBusiness.get(id).getNeighboringBusiness().keySet().toArray(new String[4]);
             String output = id + " --> ";
             for (int i = 0; i < 4; i++) {
-                output+= businessNeighbors[i] + "    ";
+                output += businessNeighbors[i] + "    ";
             }
             System.out.println(output);
         }
 
         return graph;
-
     }
 
 
     /*
-    * Haversine formula is used to calculate the distance between each two geographical logications with the curve of the earth in mind.
-    * This serves as the weight between the edge for two nodes.
+     * Haversine formula is used to calculate the distance between each two geographical logications with the curve of the earth in mind.
+     * This serves as the weight between the edge for two nodes.
      */
     public static double haversine(Business source, Business destination) {
         double lon1 = source.getLongitude();

@@ -7,58 +7,6 @@ import java.util.HashMap;
 * Its purpose is to filter through the dataset and create a graph where all the nodes are connected to each other.
  */
 public class GraphHelper {
-
-
-//    public static void createGraph(String businessID, HashMap<String, Business> mapOfBusiness, HashMap<String, Double> similarBusinessHashMap) {
-//        // These are the 1000 business that should be lead back to each other.
-//        String[] neighbors = new String[1000];
-//        int index = 0;
-//        for (String business : similarBusinessHashMap.keySet()) {
-//            neighbors[index] = business;
-//            index++;
-//            if (index >= 1000) {
-//                break;
-//            }
-//        }
-//
-//        // Find the distance between each of the neighbors.
-//        HashMap<String, Double> neighborhoodMap = new HashMap<>();
-//        for (int i = 0; i < 1000; i++) {
-//            Business sourceBusiness = mapOfBusiness.get(neighbors[i]);
-//            for (int j = 0; j < 1000; j++) {
-//                if (j == i) {
-//                    continue;
-//                }
-//                Business destinationBusiness = mapOfBusiness.get(neighbors[j]);
-//                neighborhoodMap.put(destinationBusiness.getId(), haversine(sourceBusiness, destinationBusiness));
-//            }
-//            mapOfBusiness.get(neighbors[i]).setUnlinkedNeighboringBusiness(neighborhoodMap);
-//            neighborhoodMap.clear();
-//        }
-//
-//        createPaths(businessID, mapOfBusiness, neighbors);
-//
-//    }
-
-    /*
-    A path is made up of Nodes (business), edges (connection between business), and a graph which puts the whole thing together.
-     */
-    private static void createPaths(String businessID, HashMap<String, Business> mapOfBusiness, String[] neighbors) {
-        // Create nodes using business
-        HashMap<String, Node> nodesList = new HashMap<>();
-        for (int i = 0; i < neighbors.length ; i++) {
-            nodesList.put(neighbors[i], new Node(neighbors[i]));
-        }
-
-        // Create the edges
-        for (String nodeID : nodesList.keySet()) {
-            Business business = mapOfBusiness.get(nodeID);
-
-        }
-
-
-    }
-
     /*
     A path is made up of Nodes (business), edges (connection between business), and a graph which puts the whole thing together.
      */
@@ -67,14 +15,13 @@ public class GraphHelper {
         int index = 0;
         for (String business : similarBusinessHashMap.keySet()) {
             nodeDataset.put(business, new Node(business));
-            System.out.println(business);
+//            System.out.println(business);
             index++;
             if (index >= 1000) break;
         }
 
        /*
        BUSINESS.setNeighboringBusiness = every business sorted by distance
-
        Finding the closest four business to each of the business.
        First you find the distance between every business, then you sort it.
        This sorts all 1000 business to each other by how close they are. 999 since we exclude the business itself.
@@ -121,42 +68,25 @@ public class GraphHelper {
             graph.addNode(node);
         }
 
-        System.out.println(mapOfBusiness.get("syg688pMerg0bTXcQThkaA").getNeighboringBusiness());
-        graph.dijkstra(nodeDataset.get("syg688pMerg0bTXcQThkaA"));
-        graph.displayShortestPath(nodeDataset.get("fI8kWao4ejLDDGgWNxKiHw"));
+//        System.out.println(mapOfBusiness.get("syg688pMerg0bTXcQThkaA").getNeighboringBusiness());
+        // Test Cases:
+        // T1c8TnTri2wEmb7C62l4dA to VZfc50XVwgdCecH4YbGNFg
+        // PBqj5MffQMKEIST0xrUmWQ to JeF4ZDoV3T90YLIRPDOdzg
+        //
+        graph.dijkstra(nodeDataset.get("mLJJa9r2h1yoh1dWUqekKQ"));
+        graph.displayShortestPath(nodeDataset.get("VZfc50XVwgdCecH4YbGNFg"));
 
+        // DEBUG:
+        for (String id : nodeDataset.keySet()) {
+            String[] businessNeighbors = mapOfBusiness.get(id).getNeighboringBusiness().keySet().toArray(new String[4]);
+            String output = id + " --> ";
+            for (int i = 0; i < 4; i++) {
+                output+= businessNeighbors[i] + "    ";
+            }
+            System.out.println(output);
+        }
 
         return graph;
-
-
-//
-//        // These are the 1000 business that should be lead back to each other.
-//        String[] neighbors = new String[1000];
-//        int index = 0;
-//        for (String business : similarBusinessHashMap.keySet()) {
-//            neighbors[index] = business;
-//            index++;
-//            if (index >= 1000) {
-//                break;
-//            }
-//        }
-//
-//        // Find the distance between each of the neighbors.
-//        HashMap<String, Double> neighborhoodMap = new HashMap<>();
-//        for (int i = 0; i < 1000; i++) {
-//            Business sourceBusiness = mapOfBusiness.get(neighbors[i]);
-//            for (int j = 0; j < 1000; j++) {
-//                if (j == i) {
-//                    continue;
-//                }
-//                Business destinationBusiness = mapOfBusiness.get(neighbors[j]);
-//                neighborhoodMap.put(destinationBusiness.getId(), haversine(sourceBusiness, destinationBusiness));
-//            }
-//            mapOfBusiness.get(neighbors[i]).setUnlinkedNeighboringBusiness(neighborhoodMap);
-//            neighborhoodMap.clear();
-//        }
-//
-//        createPaths(businessID, mapOfBusiness, neighbors);
 
     }
 

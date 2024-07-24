@@ -1,0 +1,20 @@
+Destination Node:
+Node VZfc50XVwgdCecH4YbGNFg has edges vnVq3M5FuCu_vl2e12JWPQ    ILK67sPbd-MF_921BZgUIg    inJ9E35w_B_parvNpAM2CQ    T1c8TnTri2wEmb7C62l4dA
+
+
+Test Cases:
+Node T1c8TnTri2wEmb7C62l4dA has edges inJ9E35w_B_parvNpAM2CQ    RkUksgD_sCZ3hWIcggOIXw    ILK67sPbd-MF_921BZgUIg    vnVq3M5FuCu_vl2e12JWPQ
+Their path is Path: T1c8TnTri2wEmb7C62l4dA -> ILK67sPbd-MF_921BZgUIg -> VZfc50XVwgdCecH4YbGNFg
+Total Weight: 0.6412159557972907
+
+Node PBqj5MffQMKEIST0xrUmWQ has edges T3muepcwD45gHLWcpaNNDQ    h2z8V4L63QUSjacduwV82w    -eBDRVn1mPwHFCF_hry20Q    RkUksgD_sCZ3hWIcggOIXw
+Path: PBqj5MffQMKEIST0xrUmWQ -> RkUksgD_sCZ3hWIcggOIXw -> ILK67sPbd-MF_921BZgUIg -> VZfc50XVwgdCecH4YbGNFg
+Total Weight: 0.9678890314046606
+
+-eBDRVn1mPwHFCF_hry20Q --> T3muepcwD45gHLWcpaNNDQ    7o1UMjxlm3m_Z04JmzS5hA    vUCtnBRPV8KeR2T6MnFJ5w    PBqj5MffQMKEIST0xrUmWQ
+Path: -eBDRVn1mPwHFCF_hry20Q -> PBqj5MffQMKEIST0xrUmWQ -> RkUksgD_sCZ3hWIcggOIXw -> ILK67sPbd-MF_921BZgUIg -> VZfc50XVwgdCecH4YbGNFg
+Total Weight: 1.2328465367069565
+
+mLJJa9r2h1yoh1dWUqekKQ --> Knt2mnsG15akKb9cjSiuxw    GNnDvJwtA9C1XFf-yv4KVA    RbXUQx_aW5WVWgl4HCwnsA    h0Gy4HEgeZvN9kb3_rB5JA
+Path: VZfc50XVwgdCecH4YbGNFg
+Total Weight: Infinity

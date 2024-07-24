@@ -3,15 +3,13 @@ package Classes;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
+// TODO: Remove whitespace
 /*
-By taking two JSON Files, it converts each business to the Business class and combines the info from the two files into one class.
-The things stored are ID, Name, Longitude, Latitude, and Reviews, which are in two separate JSON files.
+ * By taking two JSON Files, it converts each business to the Business class and combines the info from the two files into one class.
+ * The things stored are ID, Name, Longitude, Latitude, and Reviews, which are in two separate JSON files.
  */
 public class TFIDF {
     private static HashMap<String, Business> mapOfBusiness;
@@ -53,18 +51,15 @@ public class TFIDF {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        /*
-        Removing business with null reviews
-         */
+        // Remove Business that have Null Reviews
         mapOfBusiness.values().removeIf(business -> business.getReview() == null);
         System.out.println("Business Reviews Added");
-
 
         termFrequency();
         inverseDocumentFrequency();
         computeTFIDF();
         System.out.println("TFIDF Computed");
+//        convertToJson();
 
         return mapOfBusiness;
     }
@@ -111,7 +106,6 @@ public class TFIDF {
         }
     }
 
-
     private static void inverseDocumentFrequency() {
         setFrequencyTableAcrossCorpus();
         int documentSize = termFrequencyAcrossCorpus.size();
@@ -121,13 +115,13 @@ public class TFIDF {
                 double idf = Math.log10(documentSize / (double) termFrequencyAcrossCorpus.get(word));
                 idfTable.put(word, idf);
             }
-            business.setInverseDocumentFrequency(idfTable);
+//            business.setInverseDocumentFrequency(idfTable);
         }
     }
 
     /*
-    TFIDF is the measure of how important a word is to a set of documents. This determines all the importance of the words found in reviews.
-    TFIDF = TF * IDF
+     * TFIDF is the measure of how important a word is to a set of documents. This determines all the importance of the words found in reviews.
+     * TFIDF = TF * IDF
      */
     private static void computeTFIDF() {
         for (Business business : mapOfBusiness.values()) {
@@ -141,4 +135,18 @@ public class TFIDF {
             business.setTfidf(tfidf);
         }
     }
+
+//    /*
+//     * Store the data locally so that it can be accessed by the controllers.
+//     */
+//    private static void convertToJson() {
+//        Gson gson = new Gson();
+//        String fileName = "BusinessRawJSON";
+//        try (FileWriter writer = new FileWriter(fileName)) {
+//            gson.toJson(mapOfBusiness, writer);
+//            System.out.println("HashMap saved as JSON file: " + fileName);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

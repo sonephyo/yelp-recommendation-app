@@ -1,11 +1,11 @@
-export type Store = {
+type Store = {
   id: string;
   name: string;
   address: string;
   rating: number;
 };
 
-export const storesData: Store[] = [
+const storesData: Store[] = [
   {
     id: "1",
     name: "State University of New York",

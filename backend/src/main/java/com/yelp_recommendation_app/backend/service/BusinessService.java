@@ -48,4 +48,16 @@ public class BusinessService {
         return businessRawRepository.findByBusinessId(businessId);
     }
 
+    public List<BusinessRawInfo> getBusinessesStartingWith(String keyword) {
+        Optional<List<BusinessRawInfo>> searchResult =  businessRawRepository.findAllByNameStartingWith(keyword);
+        if (searchResult.isPresent()) {
+            List<BusinessRawInfo> searchResultList = searchResult.get();
+            if (searchResultList.size() >20 ) {
+                return searchResultList.subList(0, 20);
+            } else {
+                return searchResultList;
+            }
+        } return null;
+    }
+
 }

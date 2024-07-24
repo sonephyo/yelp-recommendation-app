@@ -89,6 +89,7 @@ const Maps = () => {
           settypeOfStoreInformation={settypeOfStoreInformation}
           typeOfStoreInformation={typeOfStoreInformation}
           indStoreId = {indStoreId}
+          setindStoreId={setindStoreId}
         />
       </div>
 

@@ -19,7 +19,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Store } from "@/public/testData/storesData";
 import axios from "axios";
 import { DisplayType } from "@/public/enum/DisplayType";
 
@@ -136,7 +135,7 @@ const GoogleMap = ({
                   }}
                   className=" m-2 flex flex-col items-center "
                 >
-                  <h2 className=" text-lg font-bold">{business.name}</h2>
+                  <h2 className=" text-lg font-bold text-center">{business.name}</h2>
                   <button
                     className=" p-1 border-4 flex  rounded-full
  border-cButtonStrokeBlue bg-white hover:border-blue-300 transition"

@@ -2,12 +2,11 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { motion, useDragControls } from "framer-motion";
-import { storesData } from "@/public/testData/storesData";
-import StoreContainer from "../customComponents/StoreContainer";
 import axios from "axios";
 import { DisplayType } from "@/public/enum/DisplayType";
 import { indStoreInformationDataType } from "@/public/dataType/StoreInformationDataType";
-import DisplayStoreInformation from "../storeMapDisplay/DisplayStoreInformation";
+import DisplayStore from "../StoreInformationDisplays/DisplayStore/DisplayStore";
+import SearchStore from "../StoreInformationDisplays/SearchStore/SearchStore";
 
 type Store = {
   id: string;
@@ -23,6 +22,7 @@ const StoreInformation = ({
   settypeOfStoreInformation,
   typeOfStoreInformation,
   indStoreId,
+  setindStoreId,
 }: {
   isResultPaneOpen: boolean;
   setIsResultPaneOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -30,6 +30,7 @@ const StoreInformation = ({
   settypeOfStoreInformation: React.Dispatch<React.SetStateAction<DisplayType>>;
   typeOfStoreInformation: DisplayType;
   indStoreId: string;
+  setindStoreId: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const backend_url = process.env.NEXT_PUBLIC_BACKEND_URL as string;
 
@@ -50,13 +51,11 @@ const StoreInformation = ({
     if (searchResult) {
       settypeOfStoreInformation(DisplayType.SEARCH_STORE);
     } else {
-      setStores(storesData);
     }
-  }, [searchResult]);
+  }, [searchResult, settypeOfStoreInformation]);
 
   useEffect(() => {
     const fetchIndBusiness = async (businessId: string) => {
-      console.log(businessId)
       const singleBusinessInfo = await axios
         .get(`${backend_url}/get-business`, {
           params: { businessId: businessId },
@@ -80,6 +79,7 @@ const StoreInformation = ({
         setindStoreDisplayObject(res);
       });
     }
+    setindStoreId("");
   }, [backend_url, indStoreId]);
 
   useEffect(() => {
@@ -113,7 +113,11 @@ const StoreInformation = ({
           <p className="-translate-y-1">Explore Store</p>
         )}
         {typeOfStoreInformation == DisplayType.DISPLAY_STORE && (
-          <p className="-translate-y-1">{(indStoreDisplayObject && !isResultPaneOpen )? indStoreDisplayObject.name : ""}</p>
+          <p className="-translate-y-1">
+            {indStoreDisplayObject && !isResultPaneOpen
+              ? indStoreDisplayObject.name
+              : ""}
+          </p>
         )}
         {searchResult && typeOfStoreInformation == DisplayType.SEARCH_STORE && (
           <p className="-translate-y-1">
@@ -134,8 +138,7 @@ const StoreInformation = ({
       {isResultPaneOpen &&
         indStoreDisplayObject &&
         typeOfStoreInformation == DisplayType.DISPLAY_STORE && (
-            <DisplayStoreInformation storeData={indStoreDisplayObject}/>
-         
+          <DisplayStore storeData={indStoreDisplayObject} />
         )}
 
       {/* Store information - result from the search box */}
@@ -143,7 +146,7 @@ const StoreInformation = ({
         isResultPaneOpen &&
         typeOfStoreInformation == DisplayType.SEARCH_STORE && (
           <div className=" overflow-x-hidden overflow-y-auto">
-            Testing searchStore
+            <SearchStore searchResult={searchResult}/>
           </div>
         )}
     </motion.div>

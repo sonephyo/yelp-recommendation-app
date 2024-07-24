@@ -28,4 +28,8 @@ public class BusinessController {
         return ResponseEntity.ok(businessService.getSpecificBusiness(businessId));
     }
 
+    @GetMapping("/search-business")
+    public ResponseEntity<List<BusinessRawInfo>> searchBusiness(@RequestParam String keyword) {
+        return ResponseEntity.ok(businessService.getBusinessesStartingWith(keyword));
+    }
 }

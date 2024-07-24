@@ -7,23 +7,37 @@ import SelectConnectingStores from "@/components/Maps/SelectConnectingStores";
 import StoreInformation from "@/components/Maps/StoreInformation";
 import Cbutton from "@/components/customComponents/Cbutton";
 import GoogleMap from "@/components/googleMapsAPI/GoogleMap";
+import { DisplayType } from "@/public/enum/DisplayType";
 import { Store, storesData } from "@/public/testData/storesData";
 import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import { AnimatePresence } from "framer-motion";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+
+
 
 const Maps = () => {
   const google_map_api_key = process.env
     .NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string;
   const [searchClicked, setsearchClicked] = useState<boolean>(false);
-  const [selectedStores, setselectedStores] = useState<string[]>([]);
   const [isResultPanelOpen, setIsResultPanelOpen] = useState<boolean>(false);
   const [searchResult, setSearchResult] = useState<string>();
+  const [indStoreId, setindStoreId] = useState<string>("");
+
+  // Type of displaying on the store information
+  const [typeOfStoreInformation, settypeOfStoreInformation] = useState<DisplayType>(
+    DisplayType.EXPLORE_STORE
+  );
 
   const cLogoRef = useRef<HTMLDivElement>(null);
   const cStoresRef = useRef<HTMLDivElement>(null);
 
-  const closingSearchButton = (event: MouseEvent) => {
+  const closingSearchButton = useCallback((event: MouseEvent) => {
     if (cLogoRef.current && !(cLogoRef.current as any).contains(event.target)) {
       setsearchClicked(false);
     }
@@ -33,23 +47,21 @@ const Maps = () => {
     ) {
       setIsResultPanelOpen(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     document.addEventListener("mousedown", closingSearchButton);
     return () => {
       document.removeEventListener("mousedown", closingSearchButton);
     };
-  }, []);
+  }, [closingSearchButton]);
 
-
-  
 
   return (
     <div className="relative h-screen max-h-screen overflow-hidden">
       <div className="absolute top-0 z-[1]">
         <APIProvider apiKey={google_map_api_key}>
-          <GoogleMap/>
+          <GoogleMap setindStoreId={setindStoreId} settypeOfStoreInformation={settypeOfStoreInformation}/>
         </APIProvider>
       </div>
 
@@ -64,16 +76,20 @@ const Maps = () => {
             setSearchResult={setSearchResult}
           />
         </div>
-          <AnimatePresence>
-            {searchClicked && <SelectConnectingStores />}
-          </AnimatePresence>
+        <AnimatePresence>
+          {searchClicked && <SelectConnectingStores />}
+        </AnimatePresence>
       </div>
 
       <div ref={cStoresRef}>
         <StoreInformation
-          isOpen={isResultPanelOpen}
-          setIsOpen={setIsResultPanelOpen}
+          isResultPaneOpen={isResultPanelOpen}
+          setIsResultPaneOpen={setIsResultPanelOpen}
           searchResult={searchResult}
+          settypeOfStoreInformation={settypeOfStoreInformation}
+          typeOfStoreInformation={typeOfStoreInformation}
+          indStoreId = {indStoreId}
+          setindStoreId={setindStoreId}
         />
       </div>
 

@@ -1,4 +1,11 @@
-import React, { createContext, useEffect, useRef, useState } from "react";
+import React, {
+  createContext,
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
@@ -9,7 +16,7 @@ const SearchButton = ({
   setsearchClicked,
   isResultPanelOpen,
   setIsResultPanelOpen,
-  setSearchResult
+  setSearchResult,
 }: {
   searchClicked: boolean;
   setsearchClicked: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,8 +35,19 @@ const SearchButton = ({
 
   const [name, setname] = useState<string>("");
 
-
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const userClickedSearch = useCallback(() => {
+    setsearchClicked(true);
+  }, [setsearchClicked]);
+
+  const clickingEnterForSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key == "Enter") {
+      setsearchClicked(false);
+      setIsResultPanelOpen(true);
+      setSearchResult(name);
+    }
+  };
 
   useEffect(() => {
     if (searchInputRef != null) {
@@ -55,13 +73,16 @@ const SearchButton = ({
             ref={searchInputRef}
             placeholder="Search a store"
             className="w-full outline-none px-2"
+            onKeyDown={(e) => {
+              clickingEnterForSearch(e);
+            }}
           />
           <motion.button
             onClick={() => {
               // Send a request to the backend do some async awiat
-              setsearchClicked(false)
-              setIsResultPanelOpen(true)
-              setSearchResult(name)
+              setsearchClicked(false);
+              setIsResultPanelOpen(true);
+              setSearchResult(name);
             }}
             whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.9 }}
@@ -78,9 +99,7 @@ const SearchButton = ({
         </>
       ) : (
         <motion.button
-          onClick={() => {
-            setsearchClicked(true);
-          }}
+          onClick={userClickedSearch}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -98,5 +117,4 @@ const SearchButton = ({
   );
 };
 
-export default SearchButton;
-
+export default memo(SearchButton);

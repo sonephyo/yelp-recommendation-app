@@ -16,7 +16,7 @@ public class GraphHelper {
         for (String business : similarBusinessHashMap.keySet()) {
             nodeDataset.put(business, new Node(business));
             index++;
-            if (index >= 1000) break;
+            if (index >= 5000) break;
         }
        /*
        BUSINESS.setNeighboringBusiness = every business sorted by distance
@@ -66,20 +66,20 @@ public class GraphHelper {
             graph.addNode(node);
         }
 
-        graph.dijkstra(nodeDataset.get("-eBDRVn1mPwHFCF_hry20Q"));
-        graph.displayShortestPath(nodeDataset.get("VZfc50XVwgdCecH4YbGNFg"));
+        graph.dijkstra(nodeDataset.get("EPDRXctqbR9fJRW881zSDA"));
+        graph.displayShortestPath(nodeDataset.get("RkUksgD_sCZ3hWIcggOIXw"));
 
         // DEBUG:
-//        for (String id : nodeDataset.keySet()) {
-//            String[] businessNeighbors = mapOfBusiness.get(id).getNeighboringBusiness().keySet().toArray(new String[4]);
-//            String output = id + " --> ";
-//            for (int i = 0; i < 4; i++) {
-//                output += businessNeighbors[i] + "    ";
-//            }
-//            System.out.println(output);
-//        }
+        for (String id : nodeDataset.keySet()) {
+            String[] businessNeighbors = mapOfBusiness.get(id).getNeighboringBusiness().keySet().toArray(new String[20]);
+            String output = id + " --> ";
+            for (int i = 0; i < 4; i++) {
+                output += businessNeighbors[i] + "    ";
+            }
+            System.out.println(output);
+        }
 
-        JSONHelper.convertToJson(mapOfBusiness);
+//        JSONHelper.convertToJson(mapOfBusiness);
         return graph;
     }
 

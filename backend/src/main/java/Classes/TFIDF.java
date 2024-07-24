@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import java.io.*;
 import java.util.*;
 
+// TODO: Remove whitespace
 /*
  * By taking two JSON Files, it converts each business to the Business class and combines the info from the two files into one class.
  * The things stored are ID, Name, Longitude, Latitude, and Reviews, which are in two separate JSON files.
@@ -105,7 +106,6 @@ public class TFIDF {
         }
     }
 
-
     private static void inverseDocumentFrequency() {
         setFrequencyTableAcrossCorpus();
         int documentSize = termFrequencyAcrossCorpus.size();
@@ -115,7 +115,7 @@ public class TFIDF {
                 double idf = Math.log10(documentSize / (double) termFrequencyAcrossCorpus.get(word));
                 idfTable.put(word, idf);
             }
-            business.setInverseDocumentFrequency(idfTable);
+//            business.setInverseDocumentFrequency(idfTable);
         }
     }
 

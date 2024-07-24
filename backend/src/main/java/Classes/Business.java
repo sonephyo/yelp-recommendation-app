@@ -15,9 +15,10 @@ public class Business {
     private double longitude;
     private String review;
     private HashMap<String, Double> termFrequency;
-    private HashMap<String, Double> inverseDocumentFrequency;
+//    private HashMap<String, Double> inverseDocumentFrequency;
     private HashMap<String, Double> tfidf;
     // Neighboring business is the 1000 most similar business SORTED.
+    // TODO: Save the most similar 20
     private HashMap<String, Double> neighboringBusiness;
     // Stores the edge
     private Edge[] edges;

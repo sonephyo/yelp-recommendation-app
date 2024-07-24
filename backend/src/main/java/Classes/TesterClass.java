@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 
 import static Classes.CosineSimilarity.cosineSimilarity;
-
+// TODO: Make a method that does this in Business Service 
 public class TesterClass {
 
     public static void main(String[] args) throws IOException {

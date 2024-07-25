@@ -1,12 +1,15 @@
 package Classes;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /*
  * This class works with Graph.
  * Its purpose is to filter through the dataset and create a graph where all the nodes are connected to each other.
  */
 public class GraphHelper {
+    static int THRESHOLD = 20;
+
     /*
      * A path is made up of Nodes (business), edges (connection between business), and a graph which puts the whole thing together.
      */
@@ -16,7 +19,7 @@ public class GraphHelper {
         for (String business : similarBusinessHashMap.keySet()) {
             nodeDataset.put(business, new Node(business));
             index++;
-            if (index >= 5000) break;
+            if (index >= 1500) break;
         }
        /*
        BUSINESS.setNeighboringBusiness = every business sorted by distance
@@ -41,6 +44,10 @@ public class GraphHelper {
             mapOfBusiness.get(business).setNeighboringBusiness(
                     HashMapSorter.sortByValue(mapOfBusiness.get(business).getNeighboringBusiness())
             );
+            mapOfBusiness.get(business).setNeighboringBusiness(
+                    limitDataSet(mapOfBusiness.get(business).getNeighboringBusiness())
+            );
+
         }
 
         for (String businessSTR : nodeDataset.keySet()) {
@@ -69,17 +76,17 @@ public class GraphHelper {
         graph.dijkstra(nodeDataset.get("EPDRXctqbR9fJRW881zSDA"));
         graph.displayShortestPath(nodeDataset.get("RkUksgD_sCZ3hWIcggOIXw"));
 
-        // DEBUG:
-        for (String id : nodeDataset.keySet()) {
-            String[] businessNeighbors = mapOfBusiness.get(id).getNeighboringBusiness().keySet().toArray(new String[20]);
-            String output = id + " --> ";
-            for (int i = 0; i < 4; i++) {
-                output += businessNeighbors[i] + "    ";
-            }
-            System.out.println(output);
-        }
-
-//        JSONHelper.convertToJson(mapOfBusiness);
+//        // DEBUG:
+//        for (String id : nodeDataset.keySet()) {
+//            String[] businessNeighbors = mapOfBusiness.get(id).getNeighboringBusiness().keySet().toArray(new String[0]);
+//            String output = id + " --> ";
+//            for (int i = 0; i < 20; i++) {
+//                output += businessNeighbors[i] + "    ";
+//            }
+//            System.out.println(output);
+//        }
+//
+        JSONHelper.convertToJson(mapOfBusiness);
         return graph;
     }
 
@@ -102,5 +109,23 @@ public class GraphHelper {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c;
     }
+
+    /**
+     * Sets the amount of neighboring business to threshold
+     *
+     * @param neighboringBusiness: Given a map of x values, sets it equal to threshold
+     * @return temp: Edits the original parameter so that it only stores 20 values
+     */
+    private static HashMap<String, Double> limitDataSet(HashMap<String, Double> neighboringBusiness) {
+        HashMap<String, Double> temp = new HashMap<>();
+        int index = 0;
+        for (Map.Entry<String, Double> entry : neighboringBusiness.entrySet()) {
+            if (index >= THRESHOLD) break;
+            temp.put(entry.getKey(), entry.getValue());
+            index++;
+        }
+        return HashMapSorter.sortByValue(temp);
+    }
+
 
 }

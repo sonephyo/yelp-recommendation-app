@@ -14,14 +14,13 @@ public class Business {
     private double latitude;
     private double longitude;
     private String review;
-    private HashMap<String, Double> termFrequency;
+    private transient HashMap<String, Double> termFrequency;
 //    private HashMap<String, Double> inverseDocumentFrequency;
-    private HashMap<String, Double> tfidf;
-    // Neighboring business is the 1000 most similar business SORTED.
-    // TODO: Save the most similar 20
+    private transient HashMap<String, Double> tfidf;
+    // Neighboring business is the 20 most similar business SORTED.
     private HashMap<String, Double> neighboringBusiness;
     // Stores the edge
-    private Edge[] edges;
+    private transient Edge[] edges;
 
 
     public Business(String name, String id, double latitude, double longitude) {

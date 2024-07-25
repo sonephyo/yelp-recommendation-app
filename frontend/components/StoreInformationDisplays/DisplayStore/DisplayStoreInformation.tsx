@@ -8,7 +8,6 @@ const DisplayStoreInformation = ({
 }: {
   storeData: indStoreInformationDataType;
 }) => {
-    console.log(storeData)
   return (
     <div className=" text-sm flex flex-row gap-2 my-5">
       <div className="flex flex-col">
@@ -20,6 +19,9 @@ const DisplayStoreInformation = ({
       <div className="flex flex-col justify-center">
         <ConnectStoreButton />
         <button className="text-[0.5rem] text-gray-500 hover:underline">What is connect store?</button>
+        <button onClick={() => {
+
+        }}>Show on map</button>
       </div>
     </div>
   );

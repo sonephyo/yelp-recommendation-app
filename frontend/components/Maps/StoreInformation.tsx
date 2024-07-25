@@ -33,8 +33,6 @@ const StoreInformation = ({
   setindStoreId: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const backend_url = process.env.NEXT_PUBLIC_BACKEND_URL as string;
-
-  const [stores, setStores] = useState<Store[] | null>(null);
   const [indStoreDisplayObject, setindStoreDisplayObject] =
     useState<indStoreInformationDataType | null>(null);
 
@@ -145,8 +143,12 @@ const StoreInformation = ({
       {searchResult &&
         isResultPaneOpen &&
         typeOfStoreInformation == DisplayType.SEARCH_STORE && (
-          <div className=" overflow-x-hidden overflow-y-auto">
-            <SearchStore searchResult={searchResult}/>
+          <div className="overflow-x-hidden overflow-y-auto">
+            <SearchStore
+              searchResult={searchResult}
+              setindStoreId={setindStoreId}
+              settypeOfStoreInformation={settypeOfStoreInformation}
+            />
           </div>
         )}
     </motion.div>

@@ -8,7 +8,6 @@ import StoreInformation from "@/components/Maps/StoreInformation";
 import Cbutton from "@/components/customComponents/Cbutton";
 import GoogleMap from "@/components/googleMapsAPI/GoogleMap";
 import { DisplayType } from "@/public/enum/DisplayType";
-import { Store, storesData } from "@/public/testData/storesData";
 import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import { AnimatePresence } from "framer-motion";
 import React, {
@@ -19,8 +18,6 @@ import React, {
   useState,
 } from "react";
 
-
-
 const Maps = () => {
   const google_map_api_key = process.env
     .NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string;
@@ -30,9 +27,8 @@ const Maps = () => {
   const [indStoreId, setindStoreId] = useState<string>("");
 
   // Type of displaying on the store information
-  const [typeOfStoreInformation, settypeOfStoreInformation] = useState<DisplayType>(
-    DisplayType.EXPLORE_STORE
-  );
+  const [typeOfStoreInformation, settypeOfStoreInformation] =
+    useState<DisplayType>(DisplayType.EXPLORE_STORE);
 
   const cLogoRef = useRef<HTMLDivElement>(null);
   const cStoresRef = useRef<HTMLDivElement>(null);
@@ -56,12 +52,16 @@ const Maps = () => {
     };
   }, [closingSearchButton]);
 
-
   return (
     <div className="relative h-screen max-h-screen overflow-hidden">
       <div className="absolute top-0 z-[1]">
         <APIProvider apiKey={google_map_api_key}>
-          <GoogleMap setindStoreId={setindStoreId} settypeOfStoreInformation={settypeOfStoreInformation}/>
+          <GoogleMap
+            setindStoreId={setindStoreId}
+            settypeOfStoreInformation={settypeOfStoreInformation}
+            typeOfStoreInformation={typeOfStoreInformation}
+            indStoreId={indStoreId}
+          />
         </APIProvider>
       </div>
 
@@ -88,7 +88,7 @@ const Maps = () => {
           searchResult={searchResult}
           settypeOfStoreInformation={settypeOfStoreInformation}
           typeOfStoreInformation={typeOfStoreInformation}
-          indStoreId = {indStoreId}
+          indStoreId={indStoreId}
           setindStoreId={setindStoreId}
         />
       </div>

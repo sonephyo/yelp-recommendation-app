@@ -35,16 +35,21 @@ type BusinessDataState = {
 
 const GoogleMap = ({
   setindStoreId,
-  settypeOfStoreInformation
+  settypeOfStoreInformation,
+  typeOfStoreInformation,
+  indStoreId,
 }: {
   setindStoreId: React.Dispatch<React.SetStateAction<string>>;
   settypeOfStoreInformation: React.Dispatch<React.SetStateAction<DisplayType>>;
+  typeOfStoreInformation: DisplayType;
+  indStoreId: string;
 }) => {
   const map = useMap("main-map");
   const backend_url = process.env.NEXT_PUBLIC_BACKEND_URL as string;
   const [businessData, setbusinessData] = useState<null | BusinessDataState>(
     null
   );
+  const [isNonVisibleMarker, setisNonVisibleMarker] = useState<boolean>(false);
 
   const [markers, setMarkers] = useState<{ [key: string]: Marker }>({});
   const [selectedStore, setselectedStore] = useState<BusinessDataType | null>(
@@ -53,8 +58,6 @@ const GoogleMap = ({
   const clusterer = useRef<MarkerClusterer | null>(null);
 
   useEffect(() => {
-    console.log("1 rerenders");
-
     if (!map) return;
     if (!clusterer.current) {
       clusterer.current = new MarkerClusterer({ map });
@@ -67,14 +70,32 @@ const GoogleMap = ({
   }, [map, backend_url]);
 
   useEffect(() => {
-    console.log("2 rerenders");
 
     clusterer.current?.clearMarkers();
     clusterer.current?.addMarkers(Object.values(markers));
   }, [markers]);
 
+  useEffect(() => {
+    const ans = businessData
+      ? (Object.keys(businessData) as (keyof typeof businessData)[]).filter(
+          (businessId) => {
+            // console.log(
+            //   `${businessData[businessId]} and ${indStoreId} compare => ${
+            //     businessId == indStoreId
+            //   }`
+            // );
+
+            return businessData[businessId].businessId == indStoreId;
+          }
+        )
+      : "";
+
+    ans.length == 0 && indStoreId.length != 0
+      ? setisNonVisibleMarker(true)
+      : setisNonVisibleMarker(false);
+  }, [indStoreId, businessData]);
+
   const setMarkerRef = useCallback((marker: Marker | null, key: string) => {
-    console.log("3 rerenders");
 
     if (marker && markers[key]) return;
     if (!marker && !markers[key]) return;
@@ -105,7 +126,7 @@ const GoogleMap = ({
     return (
       businessData &&
       (Object.keys(businessData) as (keyof typeof businessData)[]).map(
-        (businessId, index) => {
+        (businessId) => {
           let business = businessData[businessId];
           return (
             <div key={business.businessId}>
@@ -123,37 +144,50 @@ const GoogleMap = ({
                   handleClickMarker(ev, business);
                 }}
               ></AdvancedMarker>
-              {selectedStore && selectedStore.businessId === business.businessId && (
-                <InfoWindow
-                  position={{
-                    lat: +business.latitude,
-                    lng: +business.longitude,
-                  }}
-                  onClose={() => {
-                    setselectedStore(null)
-                    settypeOfStoreInformation(DisplayType.EXPLORE_STORE)
-                  }}
-                  className=" m-2 flex flex-col items-center "
-                >
-                  <h2 className=" text-lg font-bold text-center">{business.name}</h2>
-                  <button
-                    className=" p-1 border-4 flex  rounded-full
- border-cButtonStrokeBlue bg-white hover:border-blue-300 transition"
-                    onClick={() => {
-                      setindStoreId(business.businessId)
-                      settypeOfStoreInformation(DisplayType.DISPLAY_STORE)
+              {selectedStore &&
+                selectedStore.businessId === business.businessId && (
+                  <InfoWindow
+                    position={{
+                      lat: +business.latitude,
+                      lng: +business.longitude,
                     }}
+                    onClose={() => {
+                      setselectedStore(null);
+                      settypeOfStoreInformation(DisplayType.EXPLORE_STORE);
+                    }}
+                    className=" m-2 flex flex-col items-center "
                   >
-                    Explore Store
-                  </button>
-                </InfoWindow>
-              )}
+                    <h2 className=" text-lg font-bold text-center">
+                      {business.name}
+                    </h2>
+                    <button
+                      className=" p-1 border-4 flex  rounded-full
+ border-cButtonStrokeBlue bg-white hover:border-blue-300 transition"
+                      onClick={() => {
+                        setindStoreId(business.businessId);
+                        settypeOfStoreInformation(DisplayType.DISPLAY_STORE);
+                      }}
+                    >
+                      Explore Store
+                    </button>
+                  </InfoWindow>
+                )}
             </div>
           );
         }
       )
     );
   }, [businessData, handleClickMarker, selectedStore, setMarkerRef]);
+
+  const NonVisibleMarker = ({ indStoreId }: { indStoreId: string }) => {
+    console.log(indStoreId)
+    if (!indStoreId) {
+      return;
+    } else {
+      
+      return <p>{indStoreId}</p>;
+    }
+  };
 
   return (
     <Map
@@ -167,6 +201,7 @@ const GoogleMap = ({
       clickableIcons={false}
     >
       {memorizedMarkers}
+      <NonVisibleMarker indStoreId={indStoreId} />
     </Map>
   );
 };

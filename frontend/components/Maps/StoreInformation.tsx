@@ -77,7 +77,7 @@ const StoreInformation = ({
         setindStoreDisplayObject(res);
       });
     }
-    setindStoreId("");
+    // setindStoreId("");
   }, [backend_url, indStoreId]);
 
   useEffect(() => {

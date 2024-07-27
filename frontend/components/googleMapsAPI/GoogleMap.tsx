@@ -21,6 +21,7 @@ import React, {
 } from "react";
 import axios from "axios";
 import { DisplayType } from "@/public/enum/DisplayType";
+import { indStoreInformationDataType } from "@/public/dataType/StoreInformationDataType";
 
 type BusinessDataType = {
   name: string;
@@ -70,33 +71,30 @@ const GoogleMap = ({
   }, [map, backend_url]);
 
   useEffect(() => {
-
     clusterer.current?.clearMarkers();
     clusterer.current?.addMarkers(Object.values(markers));
   }, [markers]);
 
   useEffect(() => {
-    const ans = businessData
-      ? (Object.keys(businessData) as (keyof typeof businessData)[]).filter(
-          (businessId) => {
-            // console.log(
-            //   `${businessData[businessId]} and ${indStoreId} compare => ${
-            //     businessId == indStoreId
-            //   }`
-            // );
+    console.log(indStoreId);
+    if (indStoreId.length != 0) {
+      const ans = businessData
+        ? (Object.keys(businessData) as (keyof typeof businessData)[]).filter(
+            (businessId) => {
+              return businessData[businessId].businessId == indStoreId;
+            }
+          )
+        : "";
 
-            return businessData[businessId].businessId == indStoreId;
-          }
-        )
-      : "";
+      console.log(ans);
 
-    ans.length == 0 && indStoreId.length != 0
-      ? setisNonVisibleMarker(true)
-      : setisNonVisibleMarker(false);
+      ans.length == 0
+        ? setisNonVisibleMarker(true)
+        : setisNonVisibleMarker(false);
+    }
   }, [indStoreId, businessData]);
 
   const setMarkerRef = useCallback((marker: Marker | null, key: string) => {
-
     if (marker && markers[key]) return;
     if (!marker && !markers[key]) return;
 
@@ -180,13 +178,75 @@ const GoogleMap = ({
   }, [businessData, handleClickMarker, selectedStore, setMarkerRef]);
 
   const NonVisibleMarker = ({ indStoreId }: { indStoreId: string }) => {
-    console.log(indStoreId)
-    if (!indStoreId) {
-      return;
-    } else {
-      
-      return <p>{indStoreId}</p>;
-    }
+    const [business, setbusiness] = useState<BusinessDataType | null>(null);
+    axios
+      .get(`${backend_url}/get-business`, {
+        params: {
+          businessId: indStoreId,
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        const businessRaw: indStoreInformationDataType = res.data;
+        const business: BusinessDataType = {
+          name: businessRaw.name,
+          businessId: businessRaw.businessId,
+          latitude: businessRaw.latitude.toString(),
+          longitude: businessRaw.longitude.toString(),
+        };
+        setbusiness(business);
+      });
+    console.log("business");
+    return <h1>Hi</h1>
+
+//     return (
+//       business && (
+//         <div key={business.businessId}>
+//           <AdvancedMarker
+//             position={{
+//               lat: +business.latitude,
+//               lng: +business.longitude,
+//             }}
+//             key={business.businessId}
+//             ref={(marker) => {
+//               setMarkerRef(marker, business.businessId);
+//             }}
+//             clickable={true}
+//             onClick={(ev) => {
+//               handleClickMarker(ev, business);
+//             }}
+//           ></AdvancedMarker>
+//           {selectedStore &&
+//             selectedStore.businessId === business.businessId && (
+//               <InfoWindow
+//                 position={{
+//                   lat: +business.latitude,
+//                   lng: +business.longitude,
+//                 }}
+//                 onClose={() => {
+//                   setselectedStore(null);
+//                   settypeOfStoreInformation(DisplayType.EXPLORE_STORE);
+//                 }}
+//                 className=" m-2 flex flex-col items-center "
+//               >
+//                 <h2 className=" text-lg font-bold text-center">
+//                   {business.name}
+//                 </h2>
+//                 <button
+//                   className=" p-1 border-4 flex  rounded-full
+// border-cButtonStrokeBlue bg-white hover:border-blue-300 transition"
+//                   onClick={() => {
+//                     setindStoreId(business.businessId);
+//                     settypeOfStoreInformation(DisplayType.DISPLAY_STORE);
+//                   }}
+//                 >
+//                   Explore Store
+//                 </button>
+//               </InfoWindow>
+//             )}
+//         </div>
+//       )
+//     );
   };
 
   return (
@@ -201,7 +261,11 @@ const GoogleMap = ({
       clickableIcons={false}
     >
       {memorizedMarkers}
-      <NonVisibleMarker indStoreId={indStoreId} />
+      {isNonVisibleMarker ? (
+        <NonVisibleMarker indStoreId={indStoreId} />
+      ) : (
+        <></>
+      )}
     </Map>
   );
 };

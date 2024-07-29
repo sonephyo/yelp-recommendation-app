@@ -32,7 +32,7 @@ public class CosineSimilarity {
         System.out.println("Cosine Similarity Complete");
         System.out.println(similarBusinessScore.get(sourceBusinessID));
 
-        similarBusinessScore = HashMapSorter.sortByValue(similarBusinessScore);
+        similarBusinessScore = HashMapSorter.sortLargestToSmallest(similarBusinessScore);
         return similarBusinessScore;
     }
 }

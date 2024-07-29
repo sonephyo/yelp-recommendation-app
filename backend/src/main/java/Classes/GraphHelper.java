@@ -13,7 +13,7 @@ public class GraphHelper {
     /*
      * A path is made up of Nodes (business), edges (connection between business), and a graph which puts the whole thing together.
      */
-    public static Graph createGraph(String sourceBusinessID, String destinationBusinessID, HashMap<String, Business> mapOfBusiness, HashMap<String, Double> similarBusinessHashMap) {
+    public static String createGraph(String sourceBusinessID, String destinationBusinessID, HashMap<String, Business> mapOfBusiness, HashMap<String, Double> similarBusinessHashMap) {
         HashMap<String, Node> nodeDataset = new HashMap<>();
         int index = 0;
         for (String business : similarBusinessHashMap.keySet()) {
@@ -31,9 +31,9 @@ public class GraphHelper {
         for (String hostBusiness : nodeDataset.keySet()) {
             Business sourceBusiness = mapOfBusiness.get(hostBusiness);
             for (String neighboringBusiness : nodeDataset.keySet()) {
-                if (neighboringBusiness.equals(hostBusiness)) {
-                    continue;
-                }
+//                if (neighboringBusiness.equals(hostBusiness)) {
+//                    continue;
+//                }
                 Business destinationBusiness = mapOfBusiness.get(neighboringBusiness);
                 neighborhoodMap.put(destinationBusiness.getId(), haversine(sourceBusiness, destinationBusiness));
             }
@@ -42,12 +42,11 @@ public class GraphHelper {
         }
         for (String business : nodeDataset.keySet()) {
             mapOfBusiness.get(business).setNeighboringBusiness(
-                    HashMapSorter.sortByValue(mapOfBusiness.get(business).getNeighboringBusiness())
+                    HashMapSorter.sortSmallestToLargest(mapOfBusiness.get(business).getNeighboringBusiness())
             );
             mapOfBusiness.get(business).setNeighboringBusiness(
                     limitDataSet(mapOfBusiness.get(business).getNeighboringBusiness())
             );
-
         }
 
         for (String businessSTR : nodeDataset.keySet()) {
@@ -73,21 +72,20 @@ public class GraphHelper {
             graph.addNode(node);
         }
 
-        graph.dijkstra(nodeDataset.get("EPDRXctqbR9fJRW881zSDA"));
-        graph.displayShortestPath(nodeDataset.get("RkUksgD_sCZ3hWIcggOIXw"));
-
-//        // DEBUG:
+////        // DEBUG:
 //        for (String id : nodeDataset.keySet()) {
 //            String[] businessNeighbors = mapOfBusiness.get(id).getNeighboringBusiness().keySet().toArray(new String[0]);
 //            String output = id + " --> ";
-//            for (int i = 0; i < 20; i++) {
+//            for (int i = 0; i < 5; i++) {
 //                output += businessNeighbors[i] + "    ";
 //            }
 //            System.out.println(output);
 //        }
-//
+        graph.dijkstra(nodeDataset.get(destinationBusinessID));
+        mapOfBusiness.get(sourceBusinessID).setPath(graph.displayShortestPath(nodeDataset.get(sourceBusinessID)));
+
         JSONHelper.convertToJson(mapOfBusiness);
-        return graph;
+        return "test";
     }
 
 
@@ -124,8 +122,6 @@ public class GraphHelper {
             temp.put(entry.getKey(), entry.getValue());
             index++;
         }
-        return HashMapSorter.sortByValue(temp);
+        return HashMapSorter.sortSmallestToLargest(temp);
     }
-
-
 }

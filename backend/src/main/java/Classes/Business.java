@@ -3,6 +3,7 @@ package Classes;
 import lombok.Data;
 
 import java.util.HashMap;
+import java.util.List;
 
 /*
  * This is the business helper class: It will store all the required information regarding each Business.
@@ -14,6 +15,7 @@ public class Business {
     private double latitude;
     private double longitude;
     private String review;
+    private int clusterIndex;
     private transient HashMap<String, Double> termFrequency;
 //    private HashMap<String, Double> inverseDocumentFrequency;
     private transient HashMap<String, Double> tfidf;
@@ -21,6 +23,8 @@ public class Business {
     private HashMap<String, Double> neighboringBusiness;
     // Stores the edge
     private transient Edge[] edges;
+    // String contains the destinationID
+    private String path;
 
 
     public Business(String name, String id, double latitude, double longitude) {
@@ -51,4 +55,6 @@ public class Business {
                 ", neighboringBusiness=" + neighboringBusiness +
                 '}';
     }
+
+
 }

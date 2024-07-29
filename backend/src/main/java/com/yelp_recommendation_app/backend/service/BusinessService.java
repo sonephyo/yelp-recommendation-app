@@ -2,15 +2,21 @@ package com.yelp_recommendation_app.backend.service;
 
 
 import Classes.Business;
+import Classes.Graph;
+import Classes.GraphHelper;
+import Classes.TFIDF;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yelp_recommendation_app.backend.dto.BusinessDto;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
+
+import static Classes.CosineSimilarity.cosineSimilarity;
 
 @Service
 public class BusinessService {
@@ -54,5 +60,20 @@ public class BusinessService {
      */
     public BusinessDto getSpecificBusiness(String businessId) {
         return tempBusinessMap.get(businessId);
+    }
+
+    /**
+     * Creates mapOfBusiness that contains business class and the path between them.
+     * @param sourceID
+     * @param destinationID
+     * @return output
+     */
+    public String runProgram(String sourceID, String destinationID) throws IOException {
+        File businessJSON = new File("../../yelp_dataset/yelp_academic_dataset_business.json");
+        File reviewJSON = new File("../../yelp_dataset/yelp_academic_dataset_review.json");
+        HashMap<String, Business> businessHashMap = TFIDF.tfidfCalculations(businessJSON, reviewJSON);
+        HashMap<String, Double> similarityHashMap = cosineSimilarity(businessHashMap, sourceID);
+        String output = GraphHelper.createGraph(sourceID, destinationID, businessHashMap, similarityHashMap);
+        return output;
     }
 }

@@ -55,11 +55,12 @@ public class Graph {
         for (int i = 0; i < path.size(); i++) {
             output += (path.get(i).attribute);
             if (i < path.size() - 1) {
-                System.out.print(" -> ");
+                output += " -> ";
             }
         }
         System.out.println(output);
         System.out.println("Total Weight: " + totalWeight);
         return output;
     }
+
 }

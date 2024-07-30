@@ -15,7 +15,6 @@ public class Business {
     private double latitude;
     private double longitude;
     private String review;
-    private int clusterIndex;
     private transient HashMap<String, Double> termFrequency;
 //    private HashMap<String, Double> inverseDocumentFrequency;
     private transient HashMap<String, Double> tfidf;
@@ -55,6 +54,4 @@ public class Business {
                 ", neighboringBusiness=" + neighboringBusiness +
                 '}';
     }
-
-
 }

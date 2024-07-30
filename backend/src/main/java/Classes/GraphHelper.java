@@ -9,6 +9,7 @@ import java.util.Map;
  */
 public class GraphHelper {
     static int THRESHOLD = 20;
+    static int EDGES_COUNT = 5;
 
     /*
      * A path is made up of Nodes (business), edges (connection between business), and a graph which puts the whole thing together.
@@ -51,10 +52,10 @@ public class GraphHelper {
 
         for (String businessSTR : nodeDataset.keySet()) {
             Business sourceBusiness = mapOfBusiness.get(businessSTR);
-            Edge[] edges = new Edge[4];
+            Edge[] edges = new Edge[EDGES_COUNT];
             int i = 0;
             for (String destinationBusiness : sourceBusiness.getNeighboringBusiness().keySet()) {
-                if (i == 4) {
+                if (i == EDGES_COUNT) {
                     mapOfBusiness.get(businessSTR).setEdges(edges);
                     break;
                 }
@@ -66,21 +67,21 @@ public class GraphHelper {
         Graph graph = new Graph();
         for (Node node : nodeDataset.values()) {
             Business business = mapOfBusiness.get(node.attribute);
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < EDGES_COUNT; i++) {
                 node.addEdge(business.getEdges()[i]);
             }
             graph.addNode(node);
         }
 
 ////        // DEBUG:
-//        for (String id : nodeDataset.keySet()) {
-//            String[] businessNeighbors = mapOfBusiness.get(id).getNeighboringBusiness().keySet().toArray(new String[0]);
-//            String output = id + " --> ";
-//            for (int i = 0; i < 5; i++) {
-//                output += businessNeighbors[i] + "    ";
-//            }
-//            System.out.println(output);
-//        }
+        for (String id : nodeDataset.keySet()) {
+            String[] businessNeighbors = mapOfBusiness.get(id).getNeighboringBusiness().keySet().toArray(new String[0]);
+            String output = id + " --> ";
+            for (int i = 0; i < EDGES_COUNT; i++) {
+                output += businessNeighbors[i] + "    ";
+            }
+            System.out.println(output);
+        }
         graph.dijkstra(nodeDataset.get(destinationBusinessID));
         mapOfBusiness.get(sourceBusinessID).setPath(graph.displayShortestPath(nodeDataset.get(sourceBusinessID)));
 

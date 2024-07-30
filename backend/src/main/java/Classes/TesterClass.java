@@ -13,7 +13,7 @@ public class TesterClass {
 
     public static void main(String[] args) throws IOException {
         String focus = "npuApKHyC6FbL8nGVxSQtg";
-        String source = "FJlYldo1NcoyKMG2YKWywA";
+        String source = "ulwns2OavT81v6zG-Sk6ng";
         String destination = "JaHuWM3Tp1aG7NW66mhutw";
         File businessJSON = new File("../../yelp_dataset/yelp_academic_dataset_business.json");
         File reviewJSON = new File("../../yelp_dataset/yelp_academic_dataset_review.json");

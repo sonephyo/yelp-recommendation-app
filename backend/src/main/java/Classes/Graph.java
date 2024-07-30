@@ -43,7 +43,7 @@ public class Graph {
             }
         }
     }
-    void displayShortestPath(Node destination) {
+    String displayShortestPath(Node destination) {
         List<Node> path = new ArrayList<>();
         double totalWeight = destination.distance;
         for (Node at = destination; at != null; at = at.parent) {
@@ -51,13 +51,15 @@ public class Graph {
         }
         Collections.reverse(path);
 
-        System.out.print("Path: ");
+        String output = "Path: ";
         for (int i = 0; i < path.size(); i++) {
-            System.out.print(path.get(i).attribute);
+            output += (path.get(i).attribute);
             if (i < path.size() - 1) {
                 System.out.print(" -> ");
             }
         }
-        System.out.println("\nTotal Weight: " + totalWeight);
+        System.out.println(output);
+        System.out.println("Total Weight: " + totalWeight);
+        return output;
     }
 }

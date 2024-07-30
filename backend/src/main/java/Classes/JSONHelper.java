@@ -10,9 +10,10 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class JSONHelper {
-    // Stack Overflow Error - size too big.
-    /*
-     * Store the data locally so that it can be accessed by the controllers.
+    /**
+     * Serialize file
+     * @param mapOfBusiness: HashMap containing all the values created in this project
+     * @return BusinessRawJSON: Returns a text file that is written onto the local device
      */
     public static void convertToJson(HashMap<String, Business> mapOfBusiness) {
         Gson gson = new Gson();
@@ -24,7 +25,4 @@ public class JSONHelper {
             e.printStackTrace();
         }
     }
-
-
-
 }

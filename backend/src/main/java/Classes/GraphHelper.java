@@ -14,7 +14,86 @@ public class GraphHelper {
     /*
      * A path is made up of Nodes (business), edges (connection between business), and a graph which puts the whole thing together.
      */
-    public static String createGraph(String sourceBusinessID, String destinationBusinessID, HashMap<String, Business> mapOfBusiness, HashMap<String, Double> similarBusinessHashMap) {
+//    public static String createGraph(String sourceBusinessID, String destinationBusinessID, HashMap<String, Business> mapOfBusiness, HashMap<String, Double> similarBusinessHashMap) {
+//        HashMap<String, Node> nodeDataset = new HashMap<>();
+//        assignNeighbors(mapOfBusiness);
+//        int index = 0;
+//        for (String business : similarBusinessHashMap.keySet()) {
+//            nodeDataset.put(business, new Node(business));
+//            index++;
+//            if (index >= 1500) break;
+//        }
+//       /*
+//       BUSINESS.setNeighboringBusiness = every business sorted by distance
+//       Finding the closest four business to each of the business.
+//       First you find the distance between every business, then you sort it.
+//       This sorts all 1000 business to each other by how close they are. 999 since we exclude the business itself.
+//        */
+//        HashMap<String, Double> neighborhoodMap = new HashMap<>();
+//        for (String hostBusiness : nodeDataset.keySet()) {
+//            Business sourceBusiness = mapOfBusiness.get(hostBusiness);
+//            for (String neighboringBusiness : nodeDataset.keySet()) {
+////                if (neighboringBusiness.equals(hostBusiness)) {
+////                    continue;
+////                }
+//                Business destinationBusiness = mapOfBusiness.get(neighboringBusiness);
+//                neighborhoodMap.put(destinationBusiness.getId(), haversine(sourceBusiness, destinationBusiness));
+//            }
+//            mapOfBusiness.get(hostBusiness).setUnlinkedNeighboringBusiness(neighborhoodMap);
+//            neighborhoodMap.clear();
+//        }
+//        for (String business : nodeDataset.keySet()) {
+//            mapOfBusiness.get(business).setNeighboringBusiness(
+//                    HashMapSorter.sortSmallestToLargest(mapOfBusiness.get(business).getNeighboringBusiness())
+//            );
+//            mapOfBusiness.get(business).setNeighboringBusiness(
+//                    limitDataSet(mapOfBusiness.get(business).getNeighboringBusiness())
+//            );
+//        }
+//
+//        for (String businessSTR : nodeDataset.keySet()) {
+//            Business sourceBusiness = mapOfBusiness.get(businessSTR);
+//            Edge[] edges = new Edge[EDGES_COUNT];
+//            int i = 0;
+//            for (String destinationBusiness : sourceBusiness.getNeighboringBusiness().keySet()) {
+//                if (i == EDGES_COUNT) {
+//                    mapOfBusiness.get(businessSTR).setEdges(edges);
+//                    break;
+//                }
+//                edges[i] = new Edge(nodeDataset.get(businessSTR), nodeDataset.get(destinationBusiness), similarBusinessHashMap.get(destinationBusiness));
+//                i++;
+//            }
+//        }
+//
+//        Graph graph = new Graph();
+//        for (Node node : nodeDataset.values()) {
+//            Business business = mapOfBusiness.get(node.attribute);
+//            for (int i = 0; i < EDGES_COUNT; i++) {
+//                node.addEdge(business.getEdges()[i]);
+//            }
+//            graph.addNode(node);
+//        }
+//
+//////        // DEBUG:
+//        for (String id : nodeDataset.keySet()) {
+//            String[] businessNeighbors = mapOfBusiness.get(id).getNeighboringBusiness().keySet().toArray(new String[0]);
+//            String output = id + " --> ";
+//            for (int i = 0; i < EDGES_COUNT; i++) {
+//                output += businessNeighbors[i] + "    ";
+//            }
+//            System.out.println(output);
+//        }
+//        graph.dijkstra(nodeDataset.get(destinationBusinessID));
+//        mapOfBusiness.get(sourceBusinessID).setPath(graph.displayShortestPath(nodeDataset.get(sourceBusinessID)));
+//
+//        JSONHelper.convertToJson(mapOfBusiness);
+//        return "test";
+//    }
+
+    public static String createGraph(String sourceBusinessID, String destinationBusinessID,
+                                     HashMap<String, Business> mapOfBusiness, HashMap<String, Double> similarBusinessHashMap) {
+        // Adjusting Neighbors - Creating them, choosing a cluster to work with.
+        assignNeighbors(mapOfBusiness);
         HashMap<String, Node> nodeDataset = new HashMap<>();
         int index = 0;
         for (String business : similarBusinessHashMap.keySet()) {
@@ -22,34 +101,13 @@ public class GraphHelper {
             index++;
             if (index >= 1500) break;
         }
-       /*
-       BUSINESS.setNeighboringBusiness = every business sorted by distance
-       Finding the closest four business to each of the business.
-       First you find the distance between every business, then you sort it.
-       This sorts all 1000 business to each other by how close they are. 999 since we exclude the business itself.
-        */
-        HashMap<String, Double> neighborhoodMap = new HashMap<>();
-        for (String hostBusiness : nodeDataset.keySet()) {
-            Business sourceBusiness = mapOfBusiness.get(hostBusiness);
-            for (String neighboringBusiness : nodeDataset.keySet()) {
-//                if (neighboringBusiness.equals(hostBusiness)) {
-//                    continue;
-//                }
-                Business destinationBusiness = mapOfBusiness.get(neighboringBusiness);
-                neighborhoodMap.put(destinationBusiness.getId(), haversine(sourceBusiness, destinationBusiness));
-            }
-            mapOfBusiness.get(hostBusiness).setUnlinkedNeighboringBusiness(neighborhoodMap);
-            neighborhoodMap.clear();
-        }
         for (String business : nodeDataset.keySet()) {
-            mapOfBusiness.get(business).setNeighboringBusiness(
-                    HashMapSorter.sortSmallestToLargest(mapOfBusiness.get(business).getNeighboringBusiness())
-            );
             mapOfBusiness.get(business).setNeighboringBusiness(
                     limitDataSet(mapOfBusiness.get(business).getNeighboringBusiness())
             );
         }
 
+        // Creating the graph itself
         for (String businessSTR : nodeDataset.keySet()) {
             Business sourceBusiness = mapOfBusiness.get(businessSTR);
             Edge[] edges = new Edge[EDGES_COUNT];
@@ -73,7 +131,7 @@ public class GraphHelper {
             graph.addNode(node);
         }
 
-////        // DEBUG:
+        // DEBUG:
         for (String id : nodeDataset.keySet()) {
             String[] businessNeighbors = mapOfBusiness.get(id).getNeighboringBusiness().keySet().toArray(new String[0]);
             String output = id + " --> ";
@@ -82,11 +140,10 @@ public class GraphHelper {
             }
             System.out.println(output);
         }
-        graph.dijkstra(nodeDataset.get(destinationBusinessID));
-        mapOfBusiness.get(sourceBusinessID).setPath(graph.displayShortestPath(nodeDataset.get(sourceBusinessID)));
 
-        JSONHelper.convertToJson(mapOfBusiness);
-        return "test";
+
+
+        return "no";
     }
 
 
@@ -124,5 +181,28 @@ public class GraphHelper {
             index++;
         }
         return HashMapSorter.sortSmallestToLargest(temp);
+    }
+
+    /**
+     * Assigns neighbors to all of the business.
+     *
+     * @param mapOfBusiness: the hashmap containing all business info
+     * @return void: updates mapOfBusiness so that it contains neighbor data
+     */
+    private static void assignNeighbors(HashMap<String, Business> mapOfBusiness) {
+        String[] businessList = mapOfBusiness.keySet().toArray(new String[0]);
+        HashMap<String, Double> neighbors = new HashMap<>();
+        int i = 0;
+        while (i < businessList.length) {
+            int neighborCount = THRESHOLD;
+            for (String s : businessList) {
+                neighbors.put(businessList[i], haversine(mapOfBusiness.get(businessList[i]), mapOfBusiness.get(s)));
+                neighborCount--;
+                if (neighborCount == 0) break;
+            }
+            mapOfBusiness.get(businessList[i]).setNeighboringBusiness(HashMapSorter.sortSmallestToLargest(neighbors));
+            i++;
+        }
+        System.out.println("Neighbors Assigned.");
     }
 }

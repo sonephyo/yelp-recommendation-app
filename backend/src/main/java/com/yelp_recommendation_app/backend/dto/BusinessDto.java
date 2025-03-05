@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @Document(collection = "businessInfo")
 public class BusinessDto {
-    private String businessId;
+    private String id;
     private String name;
     private String latitude;
     private String longitude;

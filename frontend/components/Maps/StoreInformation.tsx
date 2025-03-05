@@ -54,6 +54,7 @@ const StoreInformation = ({
 
   useEffect(() => {
     const fetchIndBusiness = async (businessId: string) => {
+      console.log(businessId)
       const singleBusinessInfo = await axios
         .get(`${backend_url}/get-business`, {
           params: { businessId: businessId },
@@ -82,7 +83,9 @@ const StoreInformation = ({
 
   useEffect(() => {
     console.log(typeOfStoreInformation);
-  }, [typeOfStoreInformation]);
+    console.log("isresultpane open "+ isResultPaneOpen)
+    console.log(indStoreDisplayObject)
+  }, [isResultPaneOpen, typeOfStoreInformation]);
   return (
     <motion.div
       className={`w-screen top-[80vh]
@@ -133,11 +136,11 @@ const StoreInformation = ({
         )}
 
       {/* Search information - selecting from google map */}
+
       {isResultPaneOpen &&
         indStoreDisplayObject &&
-        typeOfStoreInformation == DisplayType.DISPLAY_STORE && (
-          <DisplayStore storeData={indStoreDisplayObject} />
-        )}
+        typeOfStoreInformation === DisplayType.DISPLAY_STORE &&
+        (<DisplayStore storeData={indStoreDisplayObject} />)}
 
       {/* Store information - result from the search box */}
       {searchResult &&

@@ -25,7 +25,7 @@ import { indStoreInformationDataType } from "@/public/dataType/StoreInformationD
 
 type BusinessDataType = {
   name: string;
-  businessId: string;
+  id: string;
   latitude: string;
   longitude: string;
 };
@@ -81,12 +81,13 @@ const GoogleMap = ({
       const ans = businessData
         ? (Object.keys(businessData) as (keyof typeof businessData)[]).filter(
             (businessId) => {
-              return businessData[businessId].businessId == indStoreId;
+              return businessData[businessId].id == indStoreId;
             }
           )
         : "";
 
       console.log(ans);
+      setisNonVisibleMarker(true)
 
       ans.length == 0
         ? setisNonVisibleMarker(true)
@@ -107,12 +108,11 @@ const GoogleMap = ({
         return newMarkers;
       }
     });
-  }, []);
+  }, [markers]);
 
   const handleClickMarker = useCallback(
     (ev: google.maps.MapMouseEvent, item: BusinessDataType) => {
       console.log("4 rerenders");
-
       if (!map || !ev.latLng) return;
       map.panTo(ev.latLng);
       map.setZoom(12);
@@ -121,12 +121,13 @@ const GoogleMap = ({
     [map]
   );
 
-  const memorizedMarkers = useMemo(() => {
+  const memorizedMarkers = () => {
     return (
       businessData &&
       (Object.keys(businessData) as (keyof typeof businessData)[]).map(
         (businessId) => {
           let business = businessData[businessId];
+        
           return (
             <div key={businessId}>
               <AdvancedMarker
@@ -134,9 +135,9 @@ const GoogleMap = ({
                   lat: +business.latitude,
                   lng: +business.longitude,
                 }}
-                key={business.businessId}
+                key={business.id}
                 ref={(marker) => {
-                  setMarkerRef(marker, business.businessId);
+                  setMarkerRef(marker, business.id);
                 }}
                 clickable={true}
                 onClick={(ev) => {
@@ -145,7 +146,7 @@ const GoogleMap = ({
                 }}
               ></AdvancedMarker>
               {selectedStore &&
-                selectedStore.businessId === business.businessId && (
+                selectedStore.id === business.id && (
                   <InfoWindow
                     position={{
                       lat: +business.latitude,
@@ -164,7 +165,7 @@ const GoogleMap = ({
                       className=" p-1 border-4 flex  rounded-full
  border-cButtonStrokeBlue bg-white hover:border-blue-300 transition"
                       onClick={() => {
-                        setindStoreId(business.businessId);
+                        setindStoreId(business.id);
                         settypeOfStoreInformation(DisplayType.DISPLAY_STORE);
                       }}
                     >
@@ -177,30 +178,30 @@ const GoogleMap = ({
         }
       )
     );
-  }, [businessData, handleClickMarker, selectedStore]);
+  };
 
-  // const NonVisibleMarker = ({ indStoreId }: { indStoreId: string }) => {
-  //   const [business, setbusiness] = useState<BusinessDataType | null>(null);
-  //   axios
-  //     .get(`${backend_url}/get-business`, {
-  //       params: {
-  //         businessId: indStoreId,
-  //       },
-  //       withCredentials: true,
-  //     })
-  //     .then((res) => {
-  //       const businessRaw: indStoreInformationDataType = res.data;
-  //       const business: BusinessDataType = {
-  //         name: businessRaw.name,
-  //         businessId: businessRaw.businessId,
-  //         latitude: businessRaw.latitude.toString(),
-  //         longitude: businessRaw.longitude.toString(),
-  //       };
-  //       setbusiness(business);
-  //     });
-  //   console.log("business");
-  //   return <h1>Hi</h1>
-  // };
+  const NonVisibleMarker = ({ indStoreId }: { indStoreId: string }) => {
+    const [business, setbusiness] = useState<BusinessDataType | null>(null);
+    axios
+      .get(`${backend_url}/get-business`, {
+        params: {
+          businessId: indStoreId,
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        const businessRaw: indStoreInformationDataType = res.data;
+        console.log(businessRaw)
+        const business: BusinessDataType = {
+          name: businessRaw.name,
+          id: businessRaw.businessId,
+          latitude: businessRaw.latitude.toString(),
+          longitude: businessRaw.longitude.toString(),
+        };
+        setbusiness(business);
+      });
+    return <h1>Hi</h1>
+  };
 
   return (
     <Map
@@ -213,12 +214,12 @@ const GoogleMap = ({
       id="main-map"
       clickableIcons={false}
     >
-      {memorizedMarkers}
-      {/* {isNonVisibleMarker ? (
+      {memorizedMarkers()}
+      {isNonVisibleMarker ? (
         <NonVisibleMarker indStoreId={indStoreId} />
       ) : (
         <></>
-      )} */}
+      )}
     </Map>
   );
 };

@@ -1,0 +1,48 @@
+MIT License
+
+Copyright (c) [Year] [Your Full Name]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+1. **Inclusion of License**: The above copyright notice and this permission notice
+   shall be included in all copies or substantial portions of the Software.
+
+2. **Attribution**: The Software's original authorship and copyright holder(s) must be clearly
+   stated in all copies or substantial portions of the Software. For example:
+   - If you are modifying the Software, include a reference to the original project or author.
+   - Example: "Modified from [Original Project Name] by [Your Full Name]."
+
+3. **Modifications**: If you modify this software, the modified versions must carry the same license
+   under which the original software was distributed.
+
+4. **Usage Limitations**: You may not use the Software in a way that violates any laws or regulations
+   (such as using it to create malicious software or engage in illegal activities).
+
+5. **No Warranty**: THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+   INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+   AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+   DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+---
+
+**Example Project (Replace with Your Details)**
+
+- Project Name: Recommendation Store App
+- Author: Phone Pyae Sone Phyo
+- Year: 2025
+- GitHub Repository: [Link]https://github.com/sonephyo/yelp-recommendation-app
+
+---
+
+**Additional Context for Specific Projects (Optional)**
+
+You may want to include any special instructions, such as:
+- How others should contribute to the project (e.g., "Please fork the repo and submit pull requests for any changes").
+- How to install or use the software (e.g., "Run `npm install` to install dependencies").
+- Any other relevant disclaimers (e.g., "The project uses [third-party libraries] under their respective licenses").

@@ -7,7 +7,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -25,6 +27,10 @@ public class BusinessController {
 
     @GetMapping("/get-business")
     public ResponseEntity<Optional<BusinessRawInfo>> getRawBusiness(@RequestParam String businessId) {
+        System.out.println("businessId issssssss s" + businessId);
+        ResponseEntity<Optional<BusinessRawInfo>> data = ResponseEntity.ok(businessService.getSpecificBusiness(businessId));
+        BusinessRawInfo test = Objects.requireNonNull(data.getBody()).get();
+        System.out.println(test);
         return ResponseEntity.ok(businessService.getSpecificBusiness(businessId));
     }
 

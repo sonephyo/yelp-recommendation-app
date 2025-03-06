@@ -10,6 +10,7 @@ const DisplayStore = ({
 }: {
   storeData: indStoreInformationDataType;
 }) => {
+  console.log("hi this is display store")
   return (
     <div className=" overflow-x-hidden overflow-y-auto flex flex-col items-center">
       <h2 className=" font-semibold text-lg mb-3 text-center">{storeData.name}</h2>

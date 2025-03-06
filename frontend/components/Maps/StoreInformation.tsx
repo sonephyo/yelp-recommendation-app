@@ -86,6 +86,7 @@ const StoreInformation = ({
     console.log("isresultpane open "+ isResultPaneOpen)
     console.log(indStoreDisplayObject)
   }, [isResultPaneOpen, typeOfStoreInformation]);
+  
   return (
     <motion.div
       className={`w-screen top-[80vh]

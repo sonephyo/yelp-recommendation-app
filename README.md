@@ -1,5 +1,7 @@
 # Recommendation Store App
 
+Note: The program will be online asap when funding is recieved for Google Maps API.
+
 ## Overview
 The Recommendation Store App is a full stack application, designed with the idea of how users can explore and experience business stores (restaurants, utilites, etc). Unlike Google Maps, where it focuses on getting to destination, this app will allow users to select a store they want, and the system recommend a store that users will want to experience, based on the review. By categorizing based on different customer reviews, the app is able to provide more customer focused recommendation. We leverage the information provided generously by Yelp Company here, integraitng with Google Maps API to provide a value to the people who use the app.
 
@@ -50,25 +52,35 @@ Please make sure that the following technologies are installed on your machine o
    Your database should be all set to be used
 
 3. **Start the Backend** (Spring Boot)
+   In the resource folder (path - backend/src/main/resources), please add application properties with following information.
+  ```
+  spring.application.name=backend
+
+spring.data.mongodb.database = YelpBusinessData
+spring.data.mongodb.uri= <mongodb-uri> # Based on your database configuration, the uri can be different. Note - Do not share this information public.
+  ```
    ```sh
    # make sure that you are in the backend folder
    ./mvnw spring-boot:run # will default to localhost:8080
    ```
 
-4. **Start the Frontend** (Next.js)
+
+1. **Start the Frontend** (Next.js)
+   Inside ./frontend, create .env
+   ```
+   NEXT_PUBLIC_GOOGLE_MAP_API_KEY = <api-key>
+   NEXT_PUBLIC_BACKEND_URL = http://localhost:8080 # Config needed if you are using different port or ip address
+   ``` 
+   Note: To secure Google Map API key, please refer to the following documentation  - [Use API Keys](https://developers.google.com/maps/documentation/embed/get-api-key)
    ```sh
    # make sure that you are in the frontend folder
    npm install  # or yarn install
    npm run dev  # or yarn dev
    ```
-5. **Access the Application**
+2. **Access the Application**
    Open `http://localhost:3000` in your browser.
 
-## API Endpoints
-| Method | Endpoint | Description |
-|--------|---------|-------------|
-| `GET` | `/api/stores` | Fetches all available stores |
-| `GET` | `/api/recommendations?storeId=XYZ` | Fetches recommended stores based on a selected store |
+Congrats!! You can now start accessing the web page.
 
 ## Usage
 1. Search for a store using the Google Maps interface.
@@ -76,9 +88,9 @@ Please make sure that the following technologies are installed on your machine o
 3. Navigate through different store suggestions based on customer reviews.
 
 ## Future Improvements
-- Implementing user authentication for personalized recommendations.
-- Enhancing recommendation logic for better accuracy.
-- Adding filters for refining search results based on customer preferences.
+- Implementing user authentication for limitation on usage
+- Enhancing recommendation logic for further accuracy
+- Adding filtering and categorizing based on the business
 
 ## License
 This project is licensed under the **MIT License**.

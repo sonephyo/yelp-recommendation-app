@@ -93,8 +93,17 @@ Congrats!! You can now start accessing the web page.
 - Adding filtering and categorizing based on the business
 
 ## License
-This project is licensed under the **MIT License**.
+This project is licensed under the **MIT License**
+
+## Reference
+
+- [Google Map Platform](https://developers.google.com/maps)
+- [Creating Clusters on Google Maps](https://www.youtube.com/watch?v=ZvoMak9yApU)
+- [NextJS Documentation](https://nextjs.org/docs)
+- [MongoDB Compass](https://www.mongodb.com/products/tools/compass)
+- [Docker](https://www.docker.com/)
 
 ---
+<i>From Developers</i>
+This is an open source project where you are able to contribute as you would like to give suggestions. Feel free to open issues or pull request if there is anything you want to point out or say.
 
-Feel free to customize any part of this README to better match your project’s needs!

@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:4.0.4 # use the docker image that you pulled - version can be different
+    command: mongod --auth --port 27777
+    container_name: soney-mongodb-yelp
+    ports:
+      - "27777:27777"
+    volumes:
+      - mongodata:/data/db
+
+volumes:
+  mongodata:
+    driver: local

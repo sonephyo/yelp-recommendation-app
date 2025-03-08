@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) [Year] [Your Full Name]
+Copyright (c) 2025 - Phone Pyae Sone Phyo
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,20 +29,7 @@ furnished to do so, subject to the following conditions:
    DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
----
-
-**Example Project (Replace with Your Details)**
-
 - Project Name: Recommendation Store App
 - Author: Phone Pyae Sone Phyo
 - Year: 2025
 - GitHub Repository: [Link]https://github.com/sonephyo/yelp-recommendation-app
-
----
-
-**Additional Context for Specific Projects (Optional)**
-
-You may want to include any special instructions, such as:
-- How others should contribute to the project (e.g., "Please fork the repo and submit pull requests for any changes").
-- How to install or use the software (e.g., "Run `npm install` to install dependencies").
-- Any other relevant disclaimers (e.g., "The project uses [third-party libraries] under their respective licenses").

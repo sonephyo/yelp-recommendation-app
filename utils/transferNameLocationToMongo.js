@@ -18,11 +18,10 @@ async function run() {
 
     // Optional: If you want to use the 'id' field as MongoDB's _id,
     // map over the array and assign _id for each document.
-    const documents = data.map(doc => {
-      // Uncomment the following line to use the id as the _id:
-      // doc._id = doc.id;
-      return doc;
-    });
+    const documents = data.map(({ id, ...rest }) => ({
+      ...rest, 
+      businessId: id // Rename id to businessId
+    })); 
 
     // Insert the array of documents into the collection
     const result = await coll.insertMany(documents);

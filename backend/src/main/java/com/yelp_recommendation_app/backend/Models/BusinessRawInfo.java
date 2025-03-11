@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Map;
 
@@ -16,6 +17,7 @@ public class BusinessRawInfo {
 
     @Id
     private String _id;
+    @Field("business_id")
     private String businessId;
     private String name;
     private String address;

@@ -34,7 +34,6 @@ public class BusinessService {
     public List<BusinessDto> get1000BusinessInfo() {
         List<BusinessDto> businessInfoList = businessNameLocationRepository.findAll();
         Collections.shuffle(businessInfoList);
-
         return businessInfoList.subList(0, 1000);
     }
 
@@ -45,6 +44,7 @@ public class BusinessService {
      * Note: the getAllBusinessesInfo need to be run before using the following method
      */
     public Optional<BusinessRawInfo> getSpecificBusiness(String businessId) {
+        System.out.println("Getting specific id: " + businessId);
         return businessRawRepository.findByBusinessId(businessId);
     }
 

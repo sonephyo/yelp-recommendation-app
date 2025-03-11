@@ -54,7 +54,7 @@ const StoreInformation = ({
 
   useEffect(() => {
     const fetchIndBusiness = async (businessId: string) => {
-      
+      console.log("businessId: " + businessId)
       const singleBusinessInfo = await axios
         .get(`${backend_url}/get-business`, {
           params: { businessId: businessId },
@@ -78,7 +78,6 @@ const StoreInformation = ({
         setindStoreDisplayObject(res);
       });
     }
-    // setindStoreId("");
   }, [backend_url, indStoreId]);
   
   return (
@@ -121,6 +120,8 @@ const StoreInformation = ({
           </p>
         )}
       </motion.button>
+
+
 
       {/* Stores information - Random */}
       {isResultPaneOpen &&

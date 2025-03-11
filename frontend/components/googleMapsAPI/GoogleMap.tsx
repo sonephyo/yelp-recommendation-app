@@ -25,7 +25,7 @@ import { indStoreInformationDataType } from "@/public/dataType/StoreInformationD
 
 type BusinessDataType = {
   name: string;
-  id: string;
+  businessId: string;
   latitude: string;
   longitude: string;
 };
@@ -58,11 +58,13 @@ const GoogleMap = ({
   );
   const clusterer = useRef<MarkerClusterer | null>(null);
 
+  // Getting all the businesses
   useEffect(() => {
     if (!map) return;
     if (!clusterer.current) {
       clusterer.current = new MarkerClusterer({ map });
     }
+    console.log("1. Getting all businesses");
     axios
       .get(`${backend_url}/get-all-businesses`, { withCredentials: true })
       .then((res) => {
@@ -75,44 +77,47 @@ const GoogleMap = ({
     clusterer.current?.addMarkers(Object.values(markers));
   }, [markers]);
 
+  // SetIsNonVisibleMarker
   useEffect(() => {
-    console.log(indStoreId);
+    console.log("2. Checking indStoreId and making it true or false");
     if (indStoreId.length != 0) {
       const ans = businessData
         ? (Object.keys(businessData) as (keyof typeof businessData)[]).filter(
             (businessId) => {
-              return businessData[businessId].id == indStoreId;
+              return businessData[businessId].businessId == indStoreId;
             }
           )
         : "";
-
-      console.log(ans);
-      setisNonVisibleMarker(true)
+      setisNonVisibleMarker(true);
 
       ans.length == 0
         ? setisNonVisibleMarker(true)
         : setisNonVisibleMarker(false);
     }
-  }, [indStoreId, businessData]);
+  }, [indStoreId]);
 
-  const setMarkerRef = useCallback((marker: Marker | null, key: string) => {
-    if (marker && markers[key]) return;
-    if (!marker && !markers[key]) return;
+  const setMarkerRef = useCallback(
+    (marker: Marker | null, key: string) => {
+      console.log("3.setting markers");
+      if (marker && markers[key]) return;
+      if (!marker && !markers[key]) return;
 
-    setMarkers((prev) => {
-      if (marker) {
-        return { ...prev, [key]: marker };
-      } else {
-        const newMarkers = { ...prev };
-        delete newMarkers[key];
-        return newMarkers;
-      }
-    });
-  }, [markers]);
+      setMarkers((prev) => {
+        if (marker) {
+          return { ...prev, [key]: marker };
+        } else {
+          const newMarkers = { ...prev };
+          delete newMarkers[key];
+          return newMarkers;
+        }
+      });
+    },
+    [markers]
+  );
 
   const handleClickMarker = useCallback(
     (ev: google.maps.MapMouseEvent, item: BusinessDataType) => {
-      console.log("4 rerenders");
+      console.log("4. Handling Clicks");
       if (!map || !ev.latLng) return;
       map.panTo(ev.latLng);
       map.setZoom(12);
@@ -121,13 +126,12 @@ const GoogleMap = ({
     [map]
   );
 
-  const memorizedMarkers = () => {
+  const memorizedMarkers = useMemo(() => {
     return (
       businessData &&
       (Object.keys(businessData) as (keyof typeof businessData)[]).map(
         (businessId) => {
           let business = businessData[businessId];
-        
           return (
             <div key={businessId}>
               <AdvancedMarker
@@ -135,50 +139,21 @@ const GoogleMap = ({
                   lat: +business.latitude,
                   lng: +business.longitude,
                 }}
-                key={business.id}
+                key={business.businessId}
                 ref={(marker) => {
-                  setMarkerRef(marker, business.id);
+                  setMarkerRef(marker, business.businessId);
                 }}
                 clickable={true}
                 onClick={(ev) => {
                   handleClickMarker(ev, business);
-                  // console.log(business)
                 }}
               ></AdvancedMarker>
-              {selectedStore &&
-                selectedStore.id === business.id && (
-                  <InfoWindow
-                    position={{
-                      lat: +business.latitude,
-                      lng: +business.longitude,
-                    }}
-                    onCloseClick={() => {
-                      setselectedStore(null);
-                      settypeOfStoreInformation(DisplayType.EXPLORE_STORE);
-                    }}
-                    className=" m-2 flex flex-col items-center "
-                  >
-                    <h2 className=" text-lg font-bold text-center">
-                      {business.name}
-                    </h2>
-                    <button
-                      className=" p-1 border-4 flex  rounded-full
- border-cButtonStrokeBlue bg-white hover:border-blue-300 transition"
-                      onClick={() => {
-                        setindStoreId(business.id);
-                        settypeOfStoreInformation(DisplayType.DISPLAY_STORE);
-                      }}
-                    >
-                      Explore Store
-                    </button>
-                  </InfoWindow>
-                )}
             </div>
           );
         }
       )
     );
-  };
+  }, [businessData, handleClickMarker, setMarkerRef]);
 
   const NonVisibleMarker = ({ indStoreId }: { indStoreId: string }) => {
     const [business, setbusiness] = useState<BusinessDataType | null>(null);
@@ -191,16 +166,15 @@ const GoogleMap = ({
       })
       .then((res) => {
         const businessRaw: indStoreInformationDataType = res.data;
-        console.log(businessRaw)
         const business: BusinessDataType = {
           name: businessRaw.name,
-          id: businessRaw.businessId,
+          businessId: businessRaw.businessId,
           latitude: businessRaw.latitude.toString(),
           longitude: businessRaw.longitude.toString(),
         };
         setbusiness(business);
       });
-    return <h1>Hi</h1>
+    return <h1>Hi</h1>;
   };
 
   return (
@@ -214,7 +188,32 @@ const GoogleMap = ({
       id="main-map"
       clickableIcons={false}
     >
-      {memorizedMarkers()}
+      {memorizedMarkers}
+      {selectedStore && (
+        <InfoWindow
+          position={{
+            lat: +selectedStore.latitude,
+            lng: +selectedStore.longitude,
+          }}
+          onCloseClick={() => {
+            setselectedStore(null);
+            settypeOfStoreInformation(DisplayType.EXPLORE_STORE);
+          }}
+          className=" m-2 flex flex-col items-center "
+        >
+          <h2 className=" text-lg font-bold text-center">{selectedStore.name}</h2>
+          <button
+            className=" p-1 border-4 flex  rounded-full
+ border-cButtonStrokeBlue bg-white hover:border-blue-300 transition"
+            onClick={() => {
+              setindStoreId(selectedStore.businessId);
+              settypeOfStoreInformation(DisplayType.DISPLAY_STORE);
+            }}
+          >
+            Explore Store
+          </button>
+        </InfoWindow>
+      )}
       {isNonVisibleMarker ? (
         <NonVisibleMarker indStoreId={indStoreId} />
       ) : (

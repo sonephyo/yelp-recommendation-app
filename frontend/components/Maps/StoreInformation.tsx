@@ -54,7 +54,7 @@ const StoreInformation = ({
 
   useEffect(() => {
     const fetchIndBusiness = async (businessId: string) => {
-      console.log(businessId)
+      
       const singleBusinessInfo = await axios
         .get(`${backend_url}/get-business`, {
           params: { businessId: businessId },
@@ -80,12 +80,6 @@ const StoreInformation = ({
     }
     // setindStoreId("");
   }, [backend_url, indStoreId]);
-
-  useEffect(() => {
-    console.log(typeOfStoreInformation);
-    console.log("isresultpane open "+ isResultPaneOpen)
-    console.log(indStoreDisplayObject)
-  }, [isResultPaneOpen, typeOfStoreInformation]);
   
   return (
     <motion.div

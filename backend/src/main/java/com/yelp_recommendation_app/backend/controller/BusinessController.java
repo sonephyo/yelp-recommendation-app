@@ -1,15 +1,16 @@
 package com.yelp_recommendation_app.backend.controller;
 
 import com.yelp_recommendation_app.backend.Models.BusinessRawInfo;
-import com.yelp_recommendation_app.backend.dto.BusinessDto;
+import com.yelp_recommendation_app.backend.Models.BusinessTrainedRawModel;
+import com.yelp_recommendation_app.backend.dto.BusinessIDsRequest;
 import com.yelp_recommendation_app.backend.service.BusinessService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -21,17 +22,27 @@ public class BusinessController {
 
 
     @GetMapping("/get-all-businesses")
-    public List<BusinessDto> getAllBusinessNameLocation() {
-        return businessService.get1000BusinessInfo();
+    public List<BusinessTrainedRawModel> getAllBusinessNameLocation() {
+        return businessService.getTrainedBusinesses();
     }
 
     @GetMapping("/get-business")
     public ResponseEntity<Optional<BusinessRawInfo>> getRawBusiness(@RequestParam String businessId) {
-        System.out.println("businessId issssssss s" + businessId);
-        ResponseEntity<Optional<BusinessRawInfo>> data = ResponseEntity.ok(businessService.getSpecificBusiness(businessId));
-        BusinessRawInfo test = Objects.requireNonNull(data.getBody()).get();
-        System.out.println(test);
         return ResponseEntity.ok(businessService.getSpecificBusiness(businessId));
+    }
+
+
+    @GetMapping("/get-trained-business")
+    public ResponseEntity<Optional<BusinessTrainedRawModel>> getRawBusinessTrained(@RequestParam String businessId) {
+        return ResponseEntity.ok(businessService.getSpecificBusinessTrained(businessId));
+    }
+
+    @GetMapping("/get-businesses-of-ids")
+    public ResponseEntity<List<BusinessRawInfo>> getRawBusinessTrained(@RequestParam(value = "id[]") String[] businessIdsRequest) {
+        System.out.println(Arrays.toString(businessIdsRequest));
+        ResponseEntity<List<BusinessRawInfo>> data =  ResponseEntity.ok(businessService.getBusinessesOfIds(businessIdsRequest));
+
+        return data;
     }
 
     @GetMapping("/search-business")

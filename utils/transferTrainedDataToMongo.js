@@ -15,12 +15,6 @@ async function run() {
     const fileContent = fs.readFileSync("./data/BusinessRawJSON.json", "utf8");
     const data = JSON.parse(fileContent);
 
-    // Convert the object into an array of documents.
-    // Optionally, you can store the key as _id for each document.
-    // const businessesArray = Object.keys(data).map(key => {
-    //   const business = data[key];
-    //   return business;
-    // });
 
     const businessesArray = Object.keys(data)
       .filter((key) => data[key].neighboringBusiness) // Only include businesses with neighboringBusinesses

@@ -2,9 +2,11 @@ package com.yelp_recommendation_app.backend.service;
 
 
 import com.yelp_recommendation_app.backend.Models.BusinessRawInfo;
+import com.yelp_recommendation_app.backend.Models.BusinessTrainedRawModel;
 import com.yelp_recommendation_app.backend.dto.BusinessDto;
 import com.yelp_recommendation_app.backend.repository.BusinessNameLocationRepository;
 import com.yelp_recommendation_app.backend.repository.BusinessRawRepository;
+import com.yelp_recommendation_app.backend.repository.BusinessTrainedRawRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,7 @@ public class BusinessService {
 
     private final BusinessNameLocationRepository businessNameLocationRepository;
     private final BusinessRawRepository businessRawRepository;
+    private final BusinessTrainedRawRepository businessTrainedRawRepository;
 
     /**
      * @return all BusinessInfo Data (id, Location, Lat, Long)
@@ -31,10 +34,10 @@ public class BusinessService {
      * For displaying the stores on the Google Map
      * @return 1000 random businessInfo
      */
-    public List<BusinessDto> get1000BusinessInfo() {
-        List<BusinessDto> businessInfoList = businessNameLocationRepository.findAll();
+    public List<BusinessTrainedRawModel> getTrainedBusinesses() {
+        List<BusinessTrainedRawModel> businessInfoList = businessTrainedRawRepository.findAll();
         Collections.shuffle(businessInfoList);
-        return businessInfoList.subList(0, 1000);
+        return businessInfoList;
     }
 
 
@@ -44,8 +47,11 @@ public class BusinessService {
      * Note: the getAllBusinessesInfo need to be run before using the following method
      */
     public Optional<BusinessRawInfo> getSpecificBusiness(String businessId) {
-        System.out.println("Getting specific id: " + businessId);
         return businessRawRepository.findByBusinessId(businessId);
+    }
+
+    public Optional<BusinessTrainedRawModel> getSpecificBusinessTrained(String businessId) {
+        return businessTrainedRawRepository.findByBusinessId(businessId);
     }
 
     public List<BusinessRawInfo> getBusinessesStartingWith(String keyword) {
@@ -58,6 +64,11 @@ public class BusinessService {
                 return searchResultList;
             }
         } return null;
+    }
+
+    public List<BusinessRawInfo> getBusinessesOfIds(String[] businessIds) {
+        System.out.println( businessRawRepository.findAllByBusinessIdIn(List.of(businessIds)));
+        return businessRawRepository.findAllByBusinessIdIn(List.of(businessIds));
     }
 
 }

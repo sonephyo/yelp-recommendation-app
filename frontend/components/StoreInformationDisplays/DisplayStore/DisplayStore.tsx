@@ -18,7 +18,7 @@ const DisplayStore = ({
 
       <DisplayStoreInformation storeData={storeData}/>
 
-      <RecommendedStore />
+      <RecommendedStore storeData={storeData}/>
       
     </div>
   );

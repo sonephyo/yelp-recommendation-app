@@ -34,9 +34,7 @@ const Navigation = () => {
               />
             </button>
             <div className="hidden md:flex md:flex-row text-lg gap-8 my-1 text-center items-center">
-              <Link href="">Project Information</Link>
-              <Link href="">About Us</Link>
-              <Link href="">Support</Link>
+              <Link href="/about-us">About Us</Link>
               <div className="hidden lg:block">
                 <Cbutton classes="text-base">
                   <Link href={"/maps"}>Try it out</Link>
@@ -54,9 +52,7 @@ const Navigation = () => {
             }}
             transition={{ duration: 0.2 }}
           >
-            <Link href="">Project Information</Link>
-            <Link href="">About Us</Link>
-            <Link href="">Support</Link>
+            <Link href="/about-us">About Us</Link>
           </motion.div>
         </motion.div>
       </div>

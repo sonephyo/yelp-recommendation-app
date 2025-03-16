@@ -13,7 +13,7 @@ const OfferInfo = () => {
         <div className="card bg-gradient-to-br from-blue-300 to-blue-200 w-[80vw] max-w-80 ">
           <figure>
             <Image
-              src="/test/test1.webp"
+              src="/pics/selectBusiness.png"
               alt="Shoes"
               height="500"
               width="500"
@@ -40,7 +40,7 @@ const OfferInfo = () => {
         <div className="card bg-gradient-to-br from-blue-300 to-blue-200 w-[80vw] max-w-80 ">
           <figure>
             <Image
-              src="/test/test1.webp"
+              src="/pics/dynamicsearch.png"
               alt="Shoes"
               height="500"
               width="500"

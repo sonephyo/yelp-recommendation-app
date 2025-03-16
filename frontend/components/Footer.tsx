@@ -16,15 +16,15 @@ const Footer = () => {
           />
 
           <div className="flex flex-col">
-            <Link href="" className="">
+            <Link href="/about-us" className="">
               About Us
             </Link>
-            <Link href="" className="">
+            {/* <Link href="" className="">
               Project Information
             </Link>
             <Link href="" className="">
               Support
-            </Link>
+            </Link> */}
           </div>
         </div>
         {/* Developers */}
@@ -82,7 +82,7 @@ const Footer = () => {
       </div>
       <div className="flex flex-col items-center my-4 gap-2">
         <hr className="h-px w-[80vw]  bg-[#5980AB] border-0"></hr>
-        <p className=" text-center">&#169; 2024, Phone Pyae Sone Phyo, Saurav. All rights reserved.</p>
+        <p className=" text-center">&#169; 2025, Phone Pyae Sone Phyo, Saurav. All rights reserved.</p>
       </div>
     </div>
   );

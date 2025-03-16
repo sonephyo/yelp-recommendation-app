@@ -1,6 +1,7 @@
 package com.yelp_recommendation_app.backend.repository;
 
 import com.yelp_recommendation_app.backend.Models.BusinessRawInfo;
+import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -19,4 +20,6 @@ public interface BusinessRawRepository extends MongoRepository<BusinessRawInfo, 
     @Query("{ 'name': { $regex: ?0, $options: 'i' } }")
     Optional<List<BusinessRawInfo>> findAllByNameStartingWith(String name);
 
+    @Aggregation("{ $sample: { size: 20 } }")
+    List<BusinessRawInfo> findRandomBusinesses();
 }

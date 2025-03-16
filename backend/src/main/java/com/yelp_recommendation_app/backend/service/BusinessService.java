@@ -63,16 +63,15 @@ public class BusinessService {
                             .map(BusinessTrainedRawModel::getBusinessId)
                                     .toList();
             return businessRawRepository.findAllByBusinessIdIn(ids);
-//            if (searchResultList.size() >20 ) {
-//                return searchResultList.subList(0, 20);
-//            } else {
-//                return searchResultList;
-//            }
         } return null;
     }
 
     public List<BusinessRawInfo> getBusinessesOfIds(String[] businessIds) {
         return businessRawRepository.findAllByBusinessIdIn(List.of(businessIds));
+    }
+
+    public List<BusinessRawInfo> getRandomBusinesses() {
+        return businessRawRepository.findRandomBusinesses();
     }
 
 }

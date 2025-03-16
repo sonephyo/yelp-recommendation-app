@@ -7,6 +7,7 @@ import { DisplayType } from "@/public/enum/DisplayType";
 import { indStoreInformationDataType } from "@/public/dataType/StoreInformationDataType";
 import DisplayStore from "../StoreInformationDisplays/DisplayStore/DisplayStore";
 import SearchStore from "../StoreInformationDisplays/SearchStore/SearchStore";
+import ExploreStore from "../StoreInformationDisplays/ExploreStore/ExploreStore";
 
 type Store = {
   id: string;
@@ -54,7 +55,7 @@ const StoreInformation = ({
 
   useEffect(() => {
     const fetchIndBusiness = async (businessId: string) => {
-      console.log("businessId: " + businessId)
+      console.log("businessId: " + businessId);
       const singleBusinessInfo = await axios
         .get(`${backend_url}/get-business`, {
           params: { businessId: businessId },
@@ -79,7 +80,7 @@ const StoreInformation = ({
       });
     }
   }, [backend_url, indStoreId]);
-  
+
   return (
     <motion.div
       className={`w-screen top-[80vh]
@@ -121,13 +122,14 @@ const StoreInformation = ({
         )}
       </motion.button>
 
-
-
       {/* Stores information - Random */}
       {isResultPaneOpen &&
         typeOfStoreInformation == DisplayType.EXPLORE_STORE && (
           <div className=" overflow-x-hidden overflow-y-auto">
-            Testing Explore Store
+            <ExploreStore
+              setindStoreId={setindStoreId}
+              settypeOfStoreInformation={settypeOfStoreInformation}
+            />
           </div>
         )}
 
@@ -135,8 +137,9 @@ const StoreInformation = ({
 
       {isResultPaneOpen &&
         indStoreDisplayObject &&
-        typeOfStoreInformation === DisplayType.DISPLAY_STORE &&
-        (<DisplayStore storeData={indStoreDisplayObject} />)}
+        typeOfStoreInformation === DisplayType.DISPLAY_STORE && (
+          <DisplayStore storeData={indStoreDisplayObject} />
+        )}
 
       {/* Store information - result from the search box */}
       {searchResult &&

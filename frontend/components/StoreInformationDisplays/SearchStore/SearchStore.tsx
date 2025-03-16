@@ -52,7 +52,7 @@ const SearchStore = ({
 
 export default SearchStore;
 
-const IndStoreContainer = ({
+export const IndStoreContainer = ({
   item,
   children,
 }: {

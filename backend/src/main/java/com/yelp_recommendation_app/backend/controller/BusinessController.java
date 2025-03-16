@@ -48,4 +48,9 @@ public class BusinessController {
     public ResponseEntity<List<BusinessRawInfo>> searchBusiness(@RequestParam String keyword) {
         return ResponseEntity.ok(businessService.getBusinessesStartingWith(keyword));
     }
+
+    @GetMapping("/get-random-businesses")
+    public ResponseEntity<List<BusinessRawInfo>> getRandomBusiness() {
+        return ResponseEntity.ok(businessService.getRandomBusinesses());
+    }
 }

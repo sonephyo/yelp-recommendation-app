@@ -39,7 +39,6 @@ public class BusinessController {
 
     @GetMapping("/get-businesses-of-ids")
     public ResponseEntity<List<BusinessRawInfo>> getRawBusinessTrained(@RequestParam(value = "id[]") String[] businessIdsRequest) {
-        System.out.println(Arrays.toString(businessIdsRequest));
         ResponseEntity<List<BusinessRawInfo>> data =  ResponseEntity.ok(businessService.getBusinessesOfIds(businessIdsRequest));
 
         return data;

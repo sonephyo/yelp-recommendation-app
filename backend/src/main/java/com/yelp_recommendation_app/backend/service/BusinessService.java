@@ -67,7 +67,6 @@ public class BusinessService {
     }
 
     public List<BusinessRawInfo> getBusinessesOfIds(String[] businessIds) {
-        System.out.println( businessRawRepository.findAllByBusinessIdIn(List.of(businessIds)));
         return businessRawRepository.findAllByBusinessIdIn(List.of(businessIds));
     }
 

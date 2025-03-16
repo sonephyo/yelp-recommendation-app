@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
-
 const DisplayStoreImageContainer = () => {
+
   return (
     <div className=" flex flex-row gap-3">
       <button>

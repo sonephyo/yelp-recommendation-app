@@ -35,7 +35,7 @@ const Footer = () => {
               <p className=" font-semibold text-base">Phone Pyae Sone Phyo (Soney)</p>
               <Link href="">Website Portfolio</Link>
               <div className="flex flex-row items-center">
-                <Link href="">
+                <Link href="https://github.com/sonephyo">
                   <Image
                     src="svgs/github.svg"
                     alt="github"
@@ -43,7 +43,7 @@ const Footer = () => {
                     width="20"
                   />
                 </Link>
-                <Link href="">
+                <Link href="https://www.linkedin.com/in/soney7/">
                   <Image
                     src="svgs/linkedin.svg"
                     alt="linkedin"
@@ -64,14 +64,6 @@ const Footer = () => {
                     alt="github"
                     height="20"
                     width="20"
-                  />
-                </Link>
-                <Link href="">
-                  <Image
-                    src="svgs/linkedin.svg"
-                    alt="linkedin"
-                    height="30"
-                    width="30"
                   />
                 </Link>
               </div>

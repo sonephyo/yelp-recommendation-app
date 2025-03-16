@@ -16,7 +16,7 @@ export default function Home() {
 
 const AboutUs = () => {
   return (
-    <section className="bg-gray-100 py-16">
+    <section className="bg-gray-100 py-16 translate-y-[100px]">
       <div className="max-w-7xl mx-auto px-6">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">
           Meet the Developers

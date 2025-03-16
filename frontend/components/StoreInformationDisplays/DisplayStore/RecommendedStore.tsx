@@ -59,12 +59,19 @@ const RecommendedStore = ({
           axios
             .get(`${backend_url}/get-businesses-of-ids`, {
               params: {
-                "id": keysArray,
+                id: keysArray,
               },
               withCredentials: true,
             })
-            .then((res) => {
-              setsimilarStores(res.data);
+            .then((innerResponse) => {
+              const storesWithSimilarity = innerResponse.data.map(
+                (store: indStoreInformationDataType) => ({
+                  ...store,
+                  similarityScore:
+                    res.neighboringBusiness[store.businessId] || 0, // Default to 0 if not found
+                })
+              );
+              setsimilarStores(storesWithSimilarity);
             });
         }
       );
@@ -77,7 +84,22 @@ const RecommendedStore = ({
 
   return (
     <div className=" ">
-      <h3 className="text-base">Stores most similar to This store</h3>
+      <h3 className="text-xl md:text-3xl text-center">Top 20 stores similar to {storeData.name}</h3>
+      {similarStores &&
+        similarStores.map((data: indStoreInformationDataType, key: number) => (
+          <div key={key} className="bg-white shadow-md rounded-lg p-6 my-4">
+            <h1 className="text-2xl font-bold mb-4">{data.name}</h1>
+            <div className="flex flex-col lg:flex-row lg:space-x-6">
+              <p className="text-gray-700 mb-2 lg:mb-0">{data.address}</p>
+              <p className="text-gray-700 mb-2 lg:mb-0">{data.city}</p>
+              <p className="text-gray-700 mb-2 lg:mb-0">{data.state}</p>
+              <p className="text-gray-700 mb-2 lg:mb-0">
+                Overall rating: {data.stars}
+              </p>
+              <p className="text-gray-700">Similarity Score: {data.similarityScore}</p>
+            </div>
+          </div>
+        ))}
     </div>
   );
 };

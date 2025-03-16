@@ -11,6 +11,7 @@ export type indStoreInformationDataType = {
   stars: number;
   review_count: number;
   is_open: number;
+  similarityScore: number;
   attributes: {
     [key: string]: string;
   };

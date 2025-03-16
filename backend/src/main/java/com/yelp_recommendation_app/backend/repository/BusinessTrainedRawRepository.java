@@ -13,5 +13,5 @@ public interface BusinessTrainedRawRepository extends MongoRepository<BusinessTr
     Optional<BusinessTrainedRawModel> findByBusinessId(String businessId);
 
     @Query("{ 'name': { $regex: ?0, $options: 'i' } }")
-    Optional<List<BusinessRawInfo>> findAllByNameStartingWith(String name);
+    Optional<List<BusinessTrainedRawModel>> findAllByNameStartingWith(String name);
 }

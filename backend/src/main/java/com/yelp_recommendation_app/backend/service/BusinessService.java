@@ -54,10 +54,10 @@ public class BusinessService {
         return businessTrainedRawRepository.findByBusinessId(businessId);
     }
 
-    public List<BusinessRawInfo> getBusinessesStartingWith(String keyword) {
-        Optional<List<BusinessRawInfo>> searchResult =  businessRawRepository.findAllByNameStartingWith(keyword);
+    public List<BusinessTrainedRawModel> getBusinessesStartingWith(String keyword) {
+        Optional<List<BusinessTrainedRawModel>> searchResult =  businessTrainedRawRepository.findAllByNameStartingWith(keyword);
         if (searchResult.isPresent()) {
-            List<BusinessRawInfo> searchResultList = searchResult.get();
+            List<BusinessTrainedRawModel> searchResultList = searchResult.get();
             if (searchResultList.size() >20 ) {
                 return searchResultList.subList(0, 20);
             } else {

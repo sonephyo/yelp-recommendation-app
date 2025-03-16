@@ -77,7 +77,7 @@ const Maps = () => {
           />
         </div>
         <AnimatePresence>
-          {searchClicked && <SelectConnectingStores />}
+          {/* {searchClicked && <SelectConnectingStores />} */}
         </AnimatePresence>
       </div>
 

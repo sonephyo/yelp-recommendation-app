@@ -9,7 +9,7 @@ const OfferInfo = () => {
 
   return (
     <div className="flex flex-col items-center my-10">
-      <h2 className=" text-4xl font-bold italic mb-3 md:mb-10 ">What we offer</h2>
+      <h2 className=" text-4xl font-bold italic mb-3 md:mb-10 ">Features</h2>
       <div className="flex flex-col gap-16 md:flex-row">
         <div className="card bg-gradient-to-br from-blue-300 to-blue-200 w-[80vw] max-w-80 ">
           <figure>
@@ -22,7 +22,7 @@ const OfferInfo = () => {
           </figure>
           <div className="card-body">
             <p className=" text-lg leading-5 font-semibold">
-              Pick a store and we will recommend you the stores
+              Pick a store and we will recommend a store you will love
             </p>
             <p></p>
             <div className="card-actions justify-center">
@@ -50,7 +50,7 @@ const OfferInfo = () => {
           </figure>
           <div className="card-body">
             <p className=" text-lg leading-5 font-semibold">
-              Pick a store and we will recommend you the stores
+                Dynamic Searching for you to research your store
             </p>
             <p></p>
             <div className="card-actions justify-center">

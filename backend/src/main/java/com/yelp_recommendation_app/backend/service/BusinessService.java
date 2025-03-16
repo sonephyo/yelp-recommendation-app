@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -54,15 +55,19 @@ public class BusinessService {
         return businessTrainedRawRepository.findByBusinessId(businessId);
     }
 
-    public List<BusinessTrainedRawModel> getBusinessesStartingWith(String keyword) {
+    public List<BusinessRawInfo> getBusinessesStartingWith(String keyword) {
         Optional<List<BusinessTrainedRawModel>> searchResult =  businessTrainedRawRepository.findAllByNameStartingWith(keyword);
         if (searchResult.isPresent()) {
             List<BusinessTrainedRawModel> searchResultList = searchResult.get();
-            if (searchResultList.size() >20 ) {
-                return searchResultList.subList(0, 20);
-            } else {
-                return searchResultList;
-            }
+            List<String> ids = searchResultList.stream()
+                            .map(BusinessTrainedRawModel::getBusinessId)
+                                    .toList();
+            return businessRawRepository.findAllByBusinessIdIn(ids);
+//            if (searchResultList.size() >20 ) {
+//                return searchResultList.subList(0, 20);
+//            } else {
+//                return searchResultList;
+//            }
         } return null;
     }
 

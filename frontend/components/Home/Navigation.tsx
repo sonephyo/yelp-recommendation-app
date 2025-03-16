@@ -1,12 +1,12 @@
-'use client'
-import Image from 'next/image';
-import Link from 'next/link';
-import React, { useState } from 'react'
-import {motion, useCycle} from "framer-motion"
-import Cbutton from '../customComponents/Cbutton';
+"use client";
+import Image from "next/image";
+import Link from "next/link";
+import React, { useState } from "react";
+import { motion, useCycle } from "framer-motion";
+import Cbutton from "../customComponents/Cbutton";
 
 const Navigation = () => {
-  const [isOpen, toogleIsOpen] = useCycle(false, true)
+  const [isOpen, toogleIsOpen] = useCycle(false, true);
 
   return (
     <>
@@ -37,8 +37,10 @@ const Navigation = () => {
               <Link href="">Project Information</Link>
               <Link href="">About Us</Link>
               <Link href="">Support</Link>
-              <div className='hidden lg:block'>
-                <Cbutton text='Try It Out' classes='text-base'/>
+              <div className="hidden lg:block">
+                <Cbutton classes="text-base">
+                  <Link href={"/maps"}>Try it out</Link>
+                </Cbutton>
               </div>
             </div>
           </div>
@@ -60,6 +62,6 @@ const Navigation = () => {
       </div>
     </>
   );
-}
+};
 
-export default Navigation
+export default Navigation;

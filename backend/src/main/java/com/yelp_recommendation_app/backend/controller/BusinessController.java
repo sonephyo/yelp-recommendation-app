@@ -45,7 +45,7 @@ public class BusinessController {
     }
 
     @GetMapping("/search-business")
-    public ResponseEntity<List<BusinessTrainedRawModel>> searchBusiness(@RequestParam String keyword) {
+    public ResponseEntity<List<BusinessRawInfo>> searchBusiness(@RequestParam String keyword) {
         return ResponseEntity.ok(businessService.getBusinessesStartingWith(keyword));
     }
 }

@@ -60,8 +60,21 @@ const IndStoreContainer = ({
   children: React.ReactNode;
 }) => {
   return (
-    <div>
-      <p>{item.name}</p>
+    <div className="border rounded-lg p-3 shadow-sm bg-white flex flex-col md:flex-row md:items-center md:justify-between">
+      {/* Business Name */}
+      <p className="font-semibold text-sm md:text-base">{item.name}</p>
+
+      {/* Location & Rating (Stacked on small screens, Inline on large screens) */}
+      <div className="text-xs text-gray-600 flex flex-col md:flex-row md:items-center md:gap-3">
+        <p>
+          {item.address}, {item.city}, {item.state}
+        </p>
+        <p>
+          ⭐ {item.stars} ({item.review_count} reviews)
+        </p>
+      </div>
+
+      {/* Extra Details (Optional Children) */}
       {children}
     </div>
   );

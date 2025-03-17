@@ -1,17 +1,29 @@
-# Recommendation Store App
+# Yelp Recommendation Store App
 
-<small>Note: The program will be online asap when funding is recieved for Google Maps API.</small>
+<small>Note: The program will be deployed when funding is received for Google Maps API.</small>
 
 ## Overview
-The Recommendation Store App is a full stack application, designed with the idea of how users can explore and experience business stores (restaurants, utilites, etc). Unlike Google Maps, where it focuses on getting to destination, this app will allow users to select a store they want, and the system recommend a store that users will want to experience, based on the review. By categorizing based on different customer reviews, the app is able to provide more customer focused recommendation. We leverage the information provided generously by Yelp Company here, integraitng with Google Maps API to provide a value to the people who use the app.
+The Recommendation Store App is a full-stack application, designed with the idea of how users can explore and experience business stores (restaurants, utilities, etc). Unlike Google Maps, where it focuses on getting to the destination, this app will allow users to select a store they want, and the system recommend a store that users will want to experience, based on the review. By categorizing based on different customer reviews, the app is able to provide more customer focused recommendation. We leverage the information provided generously by Yelp Company here, integrating with Google Maps API to provide value to the people who use the app.
 
 ## Features
 - Similar Stores - Users can select the stores that are available on the map and based on the selected store, top 10 stores similar to selected store will be displayed.
 - Search For Store - Users can search the stores they have in mind, and choose the store from the result panel.
 
+## Video Demo
+
+### Quick Demo
+https://github.com/user-attachments/assets/68a9273f-c6fe-4aa1-8183-f705617d2332
+
+
+### In-Depth Explanation Video
+<em>click image below for redirect to youtube video</em>
+
+[![Yelp Recommendation Demo](https://img.youtube.com/vi/OP_JpvvaYeo/0.jpg)](https://www.youtube.com/watch?v=OP_JpvvaYeo)
+
+
 ## Technology Features
 - Scalable Integration - The website is built considering decision decision to make the app scalabe. (Scalable described here indicates that the app is ready to integrate more features)
-- Dockerized Components - Frontend, Backend, and database are integrated with docker to ensure reliability and portability.
+- Dockerized Components - Frontend, Backend, and database are integrated with Docker to ensure reliability and portability.
 
 
 ## Tech Stack
